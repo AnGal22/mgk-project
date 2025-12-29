@@ -1,0 +1,34 @@
+[{
+    "id": "1",
+    "name": "konzerva",
+    "info": "Metalnog materijala",
+    "image": "can.jpg"
+},
+
+{
+    "id": "2",
+    "name": "konzerva1",
+    "info": "Metalnog materijala",
+    "image": "can.jpg"
+},
+
+{
+    "id": "3",
+    "name": "konzerva2",
+    "info": "Metalnog materijala",
+    "image": "can.jpg"
+},
+
+{
+    "id": "4",
+    "name": "konzerva3",
+    "info": "Metalnog materijala",
+    "image": "can.jpg"
+},
+
+{
+    "id": "5",
+    "name": "konzerva4",
+    "info": "Metalnog materijala",
+    "image": "can.jpg"
+}]

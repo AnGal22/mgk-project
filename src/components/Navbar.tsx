@@ -11,7 +11,7 @@ const Navbar = () => {
         const scrollNavBar = () => {
             const currScroll=window.scrollY
 
-            if(currScroll > prevScroll || currScroll > 100){ //trenutni scroll mora biti veci od 100 piksela
+            if(currScroll > prevScroll && currScroll > 200){ //trenutni scroll mora biti veci od 100 piksela
                 setIsVisible(false)
             } else {
                 setIsVisible(true)

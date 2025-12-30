@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import '../index.css'
+import Links from "./Links.tsx"
 
 const Navbar = () => {
 
@@ -8,6 +9,7 @@ const Navbar = () => {
 
     useEffect(() => {
         let prevScroll =  window.scrollY
+        console.log(window.innerWidth)
         const scrollNavBar = () => {
             const currScroll=window.scrollY
 
@@ -33,20 +35,9 @@ const Navbar = () => {
     <nav className={`fixed w-full bg-white shadow-md transition-transform duration-300 z-50 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}>
         <div className={`flex flex-wrap justify-around items-center`}>
             <img src="logo.jpeg" alt="logo" className='w-35' />
-
-            <div className='flex flex-1 justify-around'>
-                <div>
-                    Home
-                </div>
-                <div>
-                    About
-                </div>
-                <div>
-                    Services
-                </div>
-                <div>
-                    Contact
-                </div>
+            <Links/>
+            <div className='flex sm:hidden'>
+                <img className='w-20' src="../public/burger_menu.png" alt="burger_menu" />
             </div>
         </div>
     </nav>

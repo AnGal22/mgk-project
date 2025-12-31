@@ -33,11 +33,11 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed w-full bg-white shadow-md transition-transform duration-300 z-50 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}>
-        <div className={`flex flex-wrap justify-around items-center`}>
+        <div className={`flex w-full  flex-wrap sm:justify-around items-center justify-between`}>
             <img src="logo.jpeg" alt="logo" className='w-35' />
             <Links/>
             <div className='flex sm:hidden'>
-                <img className='w-20' src="../public/burger_menu.png" alt="burger_menu" />
+                <img className='w-20 cursor-pointer' src="../public/burger_menu.png" alt="burger_menu" />
             </div>
         </div>
     </nav>

@@ -1,34 +1,29 @@
-[{
-    "id": "1",
-    "name": "konzerva",
-    "info": "Metalnog materijala",
-    "image": "can.jpg"
-},
-
-{
-    "id": "2",
-    "name": "konzerva1",
-    "info": "Metalnog materijala",
-    "image": "can.jpg"
-},
-
-{
-    "id": "3",
-    "name": "konzerva2",
-    "info": "Metalnog materijala",
-    "image": "can.jpg"
-},
-
-{
-    "id": "4",
-    "name": "konzerva3",
-    "info": "Metalnog materijala",
-    "image": "can.jpg"
-},
-
-{
-    "id": "5",
-    "name": "konzerva4",
-    "info": "Metalnog materijala",
-    "image": "can.jpg"
-}]
+[
+  {
+    "cat_id": 0,
+    "cat_name": "Metalne Konzerve",
+    "products": [
+      { "prod_id": 0, "name": "Classic Limenka", "info": "Standardna metalna konzerva", "image": "can.jpg" },
+      { "prod_id": 1, "name": "Heavy Duty", "info": "Za zahtjevne uvjete", "image": "can.jpg" },
+      { "prod_id": 2, "name": "Ultra Seal", "info": "Poboljsano brtvljenje", "image": "can.jpg" }
+    ]
+  },
+  {
+    "cat_id": 1,
+    "cat_name": "Easy Peel",
+    "products": [
+      { "prod_id": 0, "name": "Easy Peel Mini", "info": "Lako otvaranje, mala pakiranja", "image": "can.jpg" },
+      { "prod_id": 1, "name": "Quick Open", "info": "Otvara se bez alata", "image": "can.jpg" },
+      { "prod_id": 2, "name": "Lift Tab", "info": "Prakticni poklopac", "image": "can.jpg" }
+    ]
+  },
+  {
+    "cat_id": 2,
+    "cat_name": "Aloj",
+    "products": [
+      { "prod_id": 0, "name": "Alloy Flex", "info": "Fleksibilni aluminijski materijal", "image": "can.jpg" },
+      { "prod_id": 1, "name": "Alloy Pro", "info": "Povecana otpornost", "image": "can.jpg" },
+      { "prod_id": 2, "name": "Alloy Lite", "info": "Laksa varijanta", "image": "can.jpg" }
+    ]
+  }
+]

@@ -1,29 +1,74 @@
 [
   {
     "cat_id": 0,
-    "cat_name": "Metalne Konzerve",
+    "cat_name": { "hr": "Metalne konzerve", "en": "Metal cans" },
     "products": [
-      { "prod_id": 0, "name": "Classic Limenka", "info": "Standardna metalna konzerva", "image": "can.jpg" },
-      { "prod_id": 1, "name": "Heavy Duty", "info": "Za zahtjevne uvjete", "image": "can.jpg" },
-      { "prod_id": 2, "name": "Ultra Seal", "info": "Poboljsano brtvljenje", "image": "can.jpg" }
+      {
+        "prod_id": 0,
+        "name": { "hr": "Classic limenka", "en": "Classic can" },
+        "info": { "hr": "Standardna metalna konzerva", "en": "Standard metal can" },
+        "image": "can.jpg"
+      },
+      {
+        "prod_id": 1,
+        "name": { "hr": "Heavy Duty", "en": "Heavy Duty" },
+        "info": { "hr": "Za zahtjevne uvjete", "en": "For demanding conditions" },
+        "image": "can.jpg"
+      },
+      {
+        "prod_id": 2,
+        "name": { "hr": "Ultra Seal", "en": "Ultra Seal" },
+        "info": { "hr": "Poboljsano brtvljenje", "en": "Enhanced sealing" },
+        "image": "can.jpg"
+      }
     ]
   },
   {
     "cat_id": 1,
-    "cat_name": "Easy Peel",
+    "cat_name": { "hr": "Easy Peel", "en": "Easy Peel" },
     "products": [
-      { "prod_id": 0, "name": "Easy Peel Mini", "info": "Lako otvaranje, mala pakiranja", "image": "can.jpg" },
-      { "prod_id": 1, "name": "Quick Open", "info": "Otvara se bez alata", "image": "can.jpg" },
-      { "prod_id": 2, "name": "Lift Tab", "info": "Prakticni poklopac", "image": "can.jpg" }
+      {
+        "prod_id": 0,
+        "name": { "hr": "Easy Peel Mini", "en": "Easy Peel Mini" },
+        "info": { "hr": "Lako otvaranje, mala pakiranja", "en": "Easy open, small packs" },
+        "image": "can.jpg"
+      },
+      {
+        "prod_id": 1,
+        "name": { "hr": "Quick Open", "en": "Quick Open" },
+        "info": { "hr": "Otvara se bez alata", "en": "Opens without tools" },
+        "image": "can.jpg"
+      },
+      {
+        "prod_id": 2,
+        "name": { "hr": "Lift Tab", "en": "Lift Tab" },
+        "info": { "hr": "Prakticni poklopac", "en": "Practical lid" },
+        "image": "can.jpg"
+      }
     ]
   },
   {
     "cat_id": 2,
-    "cat_name": "Aloj",
+    "cat_name": { "hr": "Aloj", "en": "Alloy" },
     "products": [
-      { "prod_id": 0, "name": "Alloy Flex", "info": "Fleksibilni aluminijski materijal", "image": "can.jpg" },
-      { "prod_id": 1, "name": "Alloy Pro", "info": "Povecana otpornost", "image": "can.jpg" },
-      { "prod_id": 2, "name": "Alloy Lite", "info": "Laksa varijanta", "image": "can.jpg" }
+      {
+        "prod_id": 0,
+        "name": { "hr": "Alloy Flex", "en": "Alloy Flex" },
+        "info": { "hr": "Fleksibilni aluminijski materijal", "en": "Flexible aluminum material" },
+        "image": "can.jpg"
+      },
+      {
+        "prod_id": 1,
+        "name": { "hr": "Alloy Pro", "en": "Alloy Pro" },
+        "info": { "hr": "Povecana otpornost", "en": "Increased durability" },
+        "image": "can.jpg"
+      },
+      {
+        "prod_id": 2,
+        "name": { "hr": "Alloy Lite", "en": "Alloy Lite" },
+        "info": { "hr": "Laksa varijanta", "en": "Lighter variant" },
+        "image": "can.jpg"
+      }
     ]
   }
 ]

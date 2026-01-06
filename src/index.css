@@ -50,3 +50,26 @@
     animation-timeline: view();
     animation-range: entry 0 cover 50%;      
 }
+
+.section2-blur{
+    position: relative;
+    overflow: hidden;
+}
+
+.section2-blur::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.02);
+    mask-image: linear-gradient(to right, transparent 0%, black 35%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 35%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.section2-blur > *{
+    position: relative;
+    z-index: 1;
+}

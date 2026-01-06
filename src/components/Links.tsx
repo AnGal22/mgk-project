@@ -1,19 +1,38 @@
 import React from 'react'
 
-const Links = () => {
+type LinksProps = {
+  lang: 'hr' | 'en';
+}
+
+const Links = ({ lang }: LinksProps) => {
+  const labels = {
+    hr: {
+      home: 'Pocetna',
+      about: 'O nama',
+      services: 'Usluge',
+      contact: 'Kontakt'
+    },
+    en: {
+      home: 'Home',
+      about: 'About',
+      services: 'Services',
+      contact: 'Contact'
+    }
+  }
+
   return (
     <div className='hidden flex-1 justify-around sm:flex'>
-        <div className='cursor-pointer'>
-            Home
-        </div>
+        <button onClick={() => document.getElementById('odi')?.scrollIntoView({ behavior: 'smooth' })} className='cursor-pointer'>
+            {labels[lang].home}
+        </button>
         <div className='cursor-pointer'> 
-            About
+            {labels[lang].about}
         </div>
         <div className='cursor-pointer'>
-            Services
+            {labels[lang].services}
         </div>
         <div className='cursor-pointer'>
-            Contact
+            {labels[lang].contact}
         </div>
     </div>
   )

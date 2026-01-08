@@ -1,74 +1,111 @@
-[
-  {
-    "cat_id": 0,
-    "cat_name": { "hr": "Metalne konzerve", "en": "Metal cans" },
-    "products": [
+{
+  "drawn_round_cans_food": {
+    "name": {
+      "hr": "Vućene okrugle limenke za prehrambene proizvode",
+      "en": "Drawn Round Cans for Food Products"
+    },
+    "description": {
+      "hr": "MGK-pack d.d. proizvodi tehnološkim izvlačenjem cilindrične dvodijelne limenke nazivnog promjera 73 mm s ravnom bočnom stijenkom ili stepenicom. Limenke su namijenjene punjenju mesnih i ribljih sadržaja, a proizvode se iz pokositrenog elektrolitskog lima. Vanjska strana limenke može biti tiskana ili samo zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
+      "en": "For the purposes of conserving meat and fish products, and by using the drawn technology, MGK-pack d.d. produces cans that consist of two pieces, with diameter of 73 mm. The cans can have straight walls or be neck shaped and are produced of ECCS. The external side of the can may be either printed or just varnished. The inner side varnishing technology is determined according to the product that will be conserved in the can and is also adjusted according to the specific market demands."
+    },
+    "category": "food_cans",
+    "material": "Tinplate (ECCS)",
+    "images": [
       {
-        "prod_id": 0,
-        "name": { "hr": "Classic limenka", "en": "Classic can" },
-        "info": { "hr": "Standardna metalna konzerva", "en": "Standard metal can" },
-        "image": "can.jpg"
-      },
-      {
-        "prod_id": 1,
-        "name": { "hr": "Heavy Duty", "en": "Heavy Duty" },
-        "info": { "hr": "Za zahtjevne uvjete", "en": "For demanding conditions" },
-        "image": "can.jpg"
-      },
-      {
-        "prod_id": 2,
-        "name": { "hr": "Ultra Seal", "en": "Ultra Seal" },
-        "info": { "hr": "Poboljsano brtvljenje", "en": "Enhanced sealing" },
-        "image": "can.jpg"
+        "url": "https://example.com/images/drawn-round-can.jpg",
+        "alt": {
+          "hr": "Okrugle vučene limenke",
+          "en": "Drawn round cans"
+        }
       }
-    ]
+    ],
+    "specs": {
+      "diameter_mm": [73],
+      "height_mm": [25, 29, 32],
+      "capacity_ml": [90, 104, 105, 93],
+      "wall_type": ["ravna stijenka", "sa stepenicom"]
+    }
   },
-  {
-    "cat_id": 1,
-    "cat_name": { "hr": "Easy Peel", "en": "Easy Peel" },
-    "products": [
+
+  "drawn_rectangular_cans_1_4_club": {
+    "name": {
+      "hr": "Vućene pravokutne limenke 1/4 club",
+      "en": "Drawn Rectangular Cans 1/4 Club"
+    },
+    "description": {
+      "hr": "MGK-pack tehnologijom izvlačenja proizvodi dvodijelne limenke pravokutnog presjeka sukladno standardu ¼ club. Limenke su namijenjene punjenju ribljih sadržaja, a proizvode se iz pokositrenog elektrolitskog lima. Vanjska strana limenke može biti tiskana ili zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
+      "en": "MGK-pack d.d. produces two piece rectangular drawn cans in accordance with ¼ Club standard that is implemented for conserving fish products. Cans are made out of ECCS. External side of the can can be either multicolour printed or non-printed lacquer protected. Internal lacquering technology is defined in accordance with the filling and in accordance with the each specific market regulations."
+    },
+    "category": "food_cans",
+    "material": "Tinplate (ECCS)",
+    "images": [
       {
-        "prod_id": 0,
-        "name": { "hr": "Easy Peel Mini", "en": "Easy Peel Mini" },
-        "info": { "hr": "Lako otvaranje, mala pakiranja", "en": "Easy open, small packs" },
-        "image": "can.jpg"
-      },
-      {
-        "prod_id": 1,
-        "name": { "hr": "Quick Open", "en": "Quick Open" },
-        "info": { "hr": "Otvara se bez alata", "en": "Opens without tools" },
-        "image": "can.jpg"
-      },
-      {
-        "prod_id": 2,
-        "name": { "hr": "Lift Tab", "en": "Lift Tab" },
-        "info": { "hr": "Prakticni poklopac", "en": "Practical lid" },
-        "image": "can.jpg"
+        "url": "https://example.com/images/rectangular-1-4-club.jpg",
+        "alt": {
+          "hr": "Pravokutne limenke 1/4 club",
+          "en": "Rectangular cans 1/4 club"
+        }
       }
-    ]
+    ],
+    "specs": {
+      "dimensions_mm": ["104 x 60 x 27.4"],
+      "capacity_ml": [125, 110]
+    }
   },
-  {
-    "cat_id": 2,
-    "cat_name": { "hr": "Aloj", "en": "Alloy" },
-    "products": [
+
+  "three_piece_welded_food": {
+    "name": {
+      "hr": "Trodjelne varene limenke za prehrambene proizvode",
+      "en": "Three-Piece Welded Cans for Food Products"
+    },
+    "description": {
+      "hr": "U sklopu svog proizvodnog programa MGK-pack proizvodi trodijelne varene limenke kružnog presjeka promjera 73 i 99 mm u različitim visinama. Limenke su namijenjene punjenju mesnih sadržaja te konzerviranju voća i povrća. Limenke mogu biti kompletirane lako otvarajućim i/ili klasičnim poklopcima. Vanjska strana limenke može biti tiskana ili zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
+      "en": "The production programme of MGK-pack d.d. also covers the demands of the market segment that produces meat, vegetables and fruit products that need to be conserved. We have therefore developed a three-piece welded cans production, with 73 and 99 mm of diameter, in various heights. The cans are delivered with open top or easy open lids. The cans' outer shell may be delivered with printed or varnish-protected. The internal varnishing technology depends on the filling content and individual requirements of various markets in relation to quality and protection of the conserved substance."
+    },
+    "category": "food_cans",
+    "material": "Tinplate",
+    "images": [
       {
-        "prod_id": 0,
-        "name": { "hr": "Alloy Flex", "en": "Alloy Flex" },
-        "info": { "hr": "Fleksibilni aluminijski materijal", "en": "Flexible aluminum material" },
-        "image": "can.jpg"
-      },
-      {
-        "prod_id": 1,
-        "name": { "hr": "Alloy Pro", "en": "Alloy Pro" },
-        "info": { "hr": "Povecana otpornost", "en": "Increased durability" },
-        "image": "can.jpg"
-      },
-      {
-        "prod_id": 2,
-        "name": { "hr": "Alloy Lite", "en": "Alloy Lite" },
-        "info": { "hr": "Laksa varijanta", "en": "Lighter variant" },
-        "image": "can.jpg"
+        "url": "https://example.com/images/three-piece-food.jpg",
+        "alt": {
+          "hr": "Trodjelne varene limenke",
+          "en": "Three-piece welded cans"
+        }
       }
-    ]
+    ],
+    "specs": {
+      "diameter_mm": [73, 99],
+      "height_mm": [40, 58, 83, 105, 117],
+      "capacity_ml": [137, 204, 314, 405, 460],
+      "beaded": ["da", "ne"]
+    }
+  },
+
+  "three_piece_welded_powder_dairy": {
+    "name": {
+      "hr": "Trodjelne varene limenke za suhe i praškaste proizvode",
+      "en": "Three-Piece Welded Cans for Powder and Dairy Products"
+    },
+    "description": {
+      "hr": "U sklopu svog proizvodnog programa MGK-pack ima usvojenu tehnologiju varenih limenki za suhe i praškaste proizvode u sklopu koje može ponuditi široku paletu proizvoda, odnosno limenki različitih promjera i visina s više vrsta poklopaca. Limenke mogu biti kompletirane lako otvarajućim poklopcem od lima sa zaštitnim slojem kositra i kroma ili poklopcem s aluminijskom folijom. Na ovaj način kupac može izabrati najbolju opciju s obzirom na sadržaj punjenja. Vanjska strana limenke može biti tiskana ili zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
+      "en": "One of the central assets of MGK-pack cans for powder and dry products is the broad range of the products in offer, which provides for a vast variety of combinations between the diameter, height and lid type of the can. Various cans are available with Easy-Open Ends, both tinplate and aluminium or Peel-Off lids with aluminium foil. Having this variety of features in offer, the customers can select the best option that fits their products. Cans are printed and lacquered in accordance with the customers' demands."
+    },
+    "category": "dry_goods_cans",
+    "material": "Tinplate / Aluminium lids",
+    "images": [
+      {
+        "url": "https://example.com/images/powder-dairy-can.jpg",
+        "alt": {
+          "hr": "Limenke za praškaste proizvode",
+          "en": "Powder and dairy cans"
+        }
+      }
+    ],
+    "specs": {
+      "diameter_mm": [73, 84, 99],
+      "height_mm": [83, 110, 130, 140],
+      "capacity_ml": [314, 425, 760, 940, 1015],
+      "lid_type": ["easy-open", "peel-off"]
+    }
   }
-]
+}

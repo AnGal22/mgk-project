@@ -46,9 +46,9 @@
 }
 
 .animate-slideInLeftText{
-    animation: slideInLeft 4s ease-out 10s both;  
-    animation-timeline: view();
-    animation-range: entry 0 cover 20%;      
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 0.5s ease, transform 0.5s ease;      
 }
 
 .animate-slideInRight{
@@ -58,9 +58,19 @@
 }
 
 .animate-slideInRightText{
-    animation: slideInRight 3s ease-out 7s both;  
-    animation-timeline: view();
-    animation-range: entry 0 cover 40%;    
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.is-in-view.animate-slideInRightText{
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.is-in-view.animate-slideInLeftText{
+    opacity: 1;
+    transform: translateX(0px);
 }
 
 .section2-blur{

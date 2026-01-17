@@ -45,7 +45,7 @@ function App() {
     <div className="bg-[url(/bg1.jpg)]"> 
       <Navbar lang={lang}/>  
       <div
-        className="fixed top-20 right-0 z-50 h-[80vh] w-[80vw]"
+        className="fixed top-20 right-0 z-50 h-[80vh] "
         style={{
           transform: showItemNav ? 'translateX(0)' : 'translateX(100%)',
           opacity: showItemNav ? 1 : 0,

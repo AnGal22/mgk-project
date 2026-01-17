@@ -19,7 +19,14 @@
         }
       }
     ],
-    "specs": {
+        "icon": {
+      "url": "/pate_can_icon.png",
+      "alt": {
+        "hr": "Ikona limenke",
+        "en": "Can icon"
+      }
+    },
+"specs": {
       "diameter_mm": [73],
       "height_mm": [25, 29, 32],
       "capacity_ml": [90, 104, 105, 93],
@@ -47,7 +54,14 @@
         }
       }
     ],
-    "specs": {
+        "icon": {
+      "url": "/tin_cans_icon.png",
+      "alt": {
+        "hr": "Ikona limenke",
+        "en": "Can icon"
+      }
+    },
+"specs": {
       "dimensions_mm": ["104 x 60 x 27.4"],
       "capacity_ml": [125, 110]
     }
@@ -73,7 +87,14 @@
         }
       }
     ],
-    "specs": {
+        "icon": {
+      "url": "/foodproduct_can_icon.png",
+      "alt": {
+        "hr": "Ikona limenke",
+        "en": "Can icon"
+      }
+    },
+"specs": {
       "diameter_mm": [73, 99],
       "height_mm": [40, 58, 83, 105, 117],
       "capacity_ml": [137, 204, 314, 405, 460],
@@ -101,7 +122,14 @@
         }
       }
     ],
-    "specs": {
+        "icon": {
+      "url": "/powder_can_icon.png",
+      "alt": {
+        "hr": "Ikona limenke",
+        "en": "Can icon"
+      }
+    },
+"specs": {
       "diameter_mm": [73, 84, 99],
       "height_mm": [83, 110, 130, 140],
       "capacity_ml": [314, 425, 760, 940, 1015],

@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import SidePanel from './SidePanel'
 import categories from "../products.json"
 
-type SectionProps = { keyName: keyof typeof categories }
+type SectionProps = {
+  keyName: keyof typeof categories
+  onInViewChange?: (keyName: keyof typeof categories, inView: boolean) => void
+}
 
 
-const section = ({ keyName }:SectionProps) => {
+const section = ({ keyName, onInViewChange }:SectionProps) => {
   const rootRef = useRef<HTMLElement | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   useEffect(() => {
@@ -32,15 +35,36 @@ const section = ({ keyName }:SectionProps) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (!rootRef.current || !onInViewChange) {
+      return
+    }
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          onInViewChange(keyName, entry.isIntersecting)
+        })
+      },
+      { threshold: 0.2 }
+    )
+
+    sectionObserver.observe(rootRef.current)
+
+    return () => {
+      sectionObserver.disconnect()
+    }
+  }, [keyName, onInViewChange])
+
   return (
-    <section id='odi' ref={rootRef} className=' relative  min-h-screen w-320 bg-gray-800 text-white bg-[url(/pate.png)] bg-[position:160%_center] bg-no-repeat '>
+    <section id={keyName} ref={rootRef} data-section className=' relative  min-h-screen w-320 bg-gray-800 text-white bg-[url(/pate.png)] bg-[position:160%_center] bg-no-repeat '>
         <div className="absolute inset-0
   bg-[linear-gradient(90deg,#ffffff_60%,#ffffff_45%,rgba(255,255,255,0.5)_80%,rgba(255,255,255,0)_85%)]" />
         <h1 data-animate className='animate-slideInLeftText text-6xl font-extrabold tracking-tight
             text-transparent bg-clip-text
             bg-linear-to-r from-blue-400 via-sky-500 to-blue-700
             drop-shadow-[0_2px_8px_rgba(37,99,235,0.35)] absolute top-30 left-20'>
-            Vucene limenke za prehrambene proizvode
+            {categories[keyName].name.hr}
         </h1>
         <img data-animate className='animate-slideInRightText w-170 absolute top-50 right-150' src="pate_can.png" alt="" />
         <button className='absolute text-red-500' onClick={() => setIsPanelOpen(true)}>Specifikacije</button>

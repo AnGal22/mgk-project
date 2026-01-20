@@ -4,6 +4,10 @@
       "hr": "Vućene okrugle limenke za prehrambene proizvode",
       "en": "Drawn Round Cans for Food Products"
     },
+    "short_description": {
+      "hr": "Dvodijelne okrugle limenke za mesne i riblje proizvode.",
+      "en": "Two-piece round cans for meat and fish products."
+    },
     "description": {
       "hr": "MGK-pack d.d. proizvodi tehnološkim izvlačenjem cilindrične dvodijelne limenke nazivnog promjera 73 mm s ravnom bočnom stijenkom ili stepenicom. Limenke su namijenjene punjenju mesnih i ribljih sadržaja, a proizvode se iz pokositrenog elektrolitskog lima. Vanjska strana limenke može biti tiskana ili samo zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
       "en": "For the purposes of conserving meat and fish products, and by using the drawn technology, MGK-pack d.d. produces cans that consist of two pieces, with diameter of 73 mm. The cans can have straight walls or be neck shaped and are produced of ECCS. The external side of the can may be either printed or just varnished. The inner side varnishing technology is determined according to the product that will be conserved in the can and is also adjusted according to the specific market demands."
@@ -12,25 +16,37 @@
     "material": "Tinplate (ECCS)",
     "images": [
       {
-        "url": "https://example.com/images/drawn-round-can.jpg",
+        "url": "/pate_can.png",
         "alt": {
           "hr": "Okrugle vučene limenke",
           "en": "Drawn round cans"
         }
       }
     ],
+    "schema_image": {
+      "url": "/pate_can_schema.png",
+      "alt": {
+        "hr": "Shema okrugle limenke",
+        "en": "Round can schema"
+      }
+    },
         "icon": {
-      "url": "/pate_can_icon.png",
+      "url": "/tin_cans_icon.png",
       "alt": {
         "hr": "Ikona limenke",
         "en": "Can icon"
       }
     },
-"specs": {
-      "diameter_mm": [73],
-      "height_mm": [25, 29, 32],
+    "specs": {
+      "internal_diameter": ["ø 73 (300)", "ø 73 (300)", "ø 73/70 (300/212)", "ø 73/68 (300/211)"],
+      "height_mm": [25, 29, 32, 32],
       "capacity_ml": [90, 104, 105, 93],
-      "wall_type": ["ravna stijenka", "sa stepenicom"]
+      "description": [
+        "ravna stijenka / straight walled",
+        "ravna stijenka / straight walled",
+        "sa stepenicom / step side",
+        "sa stepenicom / okruglo dno / step side / round bottom"
+      ]
     }
   },
 
@@ -38,6 +54,10 @@
     "name": {
       "hr": "Vućene pravokutne limenke 1/4 club",
       "en": "Drawn Rectangular Cans 1/4 Club"
+    },
+    "short_description": {
+      "hr": "Pravokutne limenke za riblje proizvode u 1/4 club standardu.",
+      "en": "Rectangular cans for fish products in 1/4 club standard."
     },
     "description": {
       "hr": "MGK-pack tehnologijom izvlačenja proizvodi dvodijelne limenke pravokutnog presjeka sukladno standardu ¼ club. Limenke su namijenjene punjenju ribljih sadržaja, a proizvode se iz pokositrenog elektrolitskog lima. Vanjska strana limenke može biti tiskana ili zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
@@ -47,23 +67,31 @@
     "material": "Tinplate (ECCS)",
     "images": [
       {
-        "url": "https://example.com/images/rectangular-1-4-club.jpg",
+        "url": "/tin_cans.png",
         "alt": {
           "hr": "Pravokutne limenke 1/4 club",
           "en": "Rectangular cans 1/4 club"
         }
       }
     ],
+    "schema_image": {
+      "url": "/tin_cans_schema.png",
+      "alt": {
+        "hr": "Shema pravokutne limenke",
+        "en": "Rectangular can schema"
+      }
+    },
         "icon": {
-      "url": "/tin_cans_icon.png",
+      "url": "/pate_can_icon.png",
       "alt": {
         "hr": "Ikona limenke",
         "en": "Can icon"
       }
     },
-"specs": {
-      "dimensions_mm": ["104 x 60 x 27.4"],
-      "capacity_ml": [125, 110]
+    "specs": {
+      "dimensions_mm": ["104 x 60 x 27,4", "104 x 60 x xxx"],
+      "capacity_ml": [125, 110],
+      "description": ["-", "-"]
     }
   },
 
@@ -71,6 +99,10 @@
     "name": {
       "hr": "Trodjelne varene limenke za prehrambene proizvode",
       "en": "Three-Piece Welded Cans for Food Products"
+    },
+    "short_description": {
+      "hr": "Trodijelne varene limenke za meso, voce i povrce.",
+      "en": "Three-piece welded cans for meat, fruit, and vegetables."
     },
     "description": {
       "hr": "U sklopu svog proizvodnog programa MGK-pack proizvodi trodijelne varene limenke kružnog presjeka promjera 73 i 99 mm u različitim visinama. Limenke su namijenjene punjenju mesnih sadržaja te konzerviranju voća i povrća. Limenke mogu biti kompletirane lako otvarajućim i/ili klasičnim poklopcima. Vanjska strana limenke može biti tiskana ili zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
@@ -80,13 +112,20 @@
     "material": "Tinplate",
     "images": [
       {
-        "url": "https://example.com/images/three-piece-food.jpg",
+        "url": "/metallic_cans.png",
         "alt": {
           "hr": "Trodjelne varene limenke",
           "en": "Three-piece welded cans"
         }
       }
     ],
+    "schema_image": {
+      "url": "/metallic_cans_schema.png",
+      "alt": {
+        "hr": "Shema trodjelne limenke",
+        "en": "Three-piece can schema"
+      }
+    },
         "icon": {
       "url": "/foodproduct_can_icon.png",
       "alt": {
@@ -94,11 +133,43 @@
         "en": "Can icon"
       }
     },
-"specs": {
-      "diameter_mm": [73, 99],
-      "height_mm": [40, 58, 83, 105, 117],
-      "capacity_ml": [137, 204, 314, 405, 460],
-      "beaded": ["da", "ne"]
+    "specs": {
+      "internal_diameter": [
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 73 (300)",
+        "ø 99 (401)",
+        "ø 99 (401)",
+        "ø 99 (401)"
+      ],
+      "height_mm": [40, 41.5, 43, 44.5, 54, 56, 58, 72, 83, 105, 110, 117, 47, 63, 119],
+      "capacity_ml": [137, 144, 149, 155, 196, 204, 212, 270, 314, 405, 425, 460, 300, 425, 850],
+      "beaded": [
+        "ne / no",
+        "ne / no",
+        "ne / no",
+        "ne / no",
+        "ne / no",
+        "ne / no",
+        "ne / no",
+        "ne / no",
+        "da / yes",
+        "da / yes",
+        "da / yes",
+        "da / yes",
+        "ne / no",
+        "ne / no",
+        "da / yes"
+      ]
     }
   },
 
@@ -106,6 +177,10 @@
     "name": {
       "hr": "Trodjelne varene limenke za suhe i praškaste proizvode",
       "en": "Three-Piece Welded Cans for Powder and Dairy Products"
+    },
+    "short_description": {
+      "hr": "Trodijelne limenke za prah, mlijecne i suhe proizvode.",
+      "en": "Three-piece cans for powder, dairy, and dry products."
     },
     "description": {
       "hr": "U sklopu svog proizvodnog programa MGK-pack ima usvojenu tehnologiju varenih limenki za suhe i praškaste proizvode u sklopu koje može ponuditi široku paletu proizvoda, odnosno limenki različitih promjera i visina s više vrsta poklopaca. Limenke mogu biti kompletirane lako otvarajućim poklopcem od lima sa zaštitnim slojem kositra i kroma ili poklopcem s aluminijskom folijom. Na ovaj način kupac može izabrati najbolju opciju s obzirom na sadržaj punjenja. Vanjska strana limenke može biti tiskana ili zaštićena lakom. Tehnologija unutarnjeg lakiranja određuje se sukladno sadržaju punjenja i posebnim zahtjevima različitih tržišta za zaštitom konzerviranog sadržaja.",
@@ -115,13 +190,20 @@
     "material": "Tinplate / Aluminium lids",
     "images": [
       {
-        "url": "https://example.com/images/powder-dairy-can.jpg",
+        "url": "/silver_cans.png",
         "alt": {
           "hr": "Limenke za praškaste proizvode",
           "en": "Powder and dairy cans"
         }
       }
     ],
+    "schema_image": {
+      "url": "/silver_cans_schema.png",
+      "alt": {
+        "hr": "Shema limenke za pra­kaste proizvode",
+        "en": "Powder and dairy can schema"
+      }
+    },
         "icon": {
       "url": "/powder_can_icon.png",
       "alt": {
@@ -130,10 +212,17 @@
       }
     },
 "specs": {
-      "diameter_mm": [73, 84, 99],
-      "height_mm": [83, 110, 130, 140],
-      "capacity_ml": [314, 425, 760, 940, 1015],
-      "lid_type": ["easy-open", "peel-off"]
+      "internal_diameter": ["ø 73 (us 300)", "ø 73 (us 300)", "ø 84 (us 307)", "ø 99 (us 400)", "ø 99 (us 400)", "ø 99 (us 400)"],
+      "height_mm": [83, 110, 107, 107, 130, 140],
+      "capacity_ml": [314, 425, 760, 760, 940, 1015],
+      "description": [
+        "round can with aluminum tear-off or aluminum easy-open end",
+        "round can with aluminum tear-off or aluminum easy-open end",
+        "round can with tin plate or ECCS easy-open end",
+        "round can with aluminum tear-off or aluminum easy-open end",
+        "round can with aluminum tear-off or aluminum easy-open end",
+        "round can with aluminum tear-off or aluminum easy-open end"
+      ]
     }
   }
 }

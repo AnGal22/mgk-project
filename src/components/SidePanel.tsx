@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 type SidePanelProps = {
   isOpen: boolean
@@ -8,6 +8,19 @@ type SidePanelProps = {
 }
 
 const SidePanel = ({ isOpen, onClose, title, children }: SidePanelProps) => {
+  useEffect(() => {
+    if (!isOpen) {
+      return
+    }
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [isOpen])
+
   return (
     <div
       className={`fixed inset-0 z-50 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
@@ -36,7 +49,7 @@ const SidePanel = ({ isOpen, onClose, title, children }: SidePanelProps) => {
             X
           </button>
         </div>
-        <div className="p-6 text-gray-800">
+        <div className="h-[calc(100%-64px)] overflow-y-auto p-6 text-gray-800">
           {children}
         </div>
       </aside>

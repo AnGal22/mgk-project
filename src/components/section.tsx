@@ -66,23 +66,22 @@ const section = ({ keyName, onInViewChange }:SectionProps) => {
             drop-shadow-[0_2px_8px_rgba(37,99,235,0.35)] absolute top-30 left-20'>
             {categories[keyName].name.hr}
         </h1>
-        <img data-animate className='animate-slideInRightText w-170 absolute top-50 right-150' src="pate_can.png" alt="" />
-        <button className='absolute text-red-500' onClick={() => setIsPanelOpen(true)}>Specifikacije</button>
-        <h2 data-animate className='animate-slideInLeftText font-extrabold tracking-tight
-            text-transparent bg-clip-text
-            bg-linear-to-r from-gray-500 via-gray-600 to-gray-800
-            drop-shadow-[0_2px_8px_rgba(37,99,235,0.35)] absolute top-150 left-20'>
-                <h3 className='text-3xl'>About us:</h3>
-                <br />
-MGK-pack d.d. was founded back in 1947 in the city of Rijeka.<br />
-Thanks to the constant development and growth,<br />
- in the past sixty year the company has grown to the biggest metal emballage producer in Croatia,<br />
-reaching the annual plate processing capacity of more than 5 thousand tons.<br />
-
-MGK-pack d.d. in our times is the factory equipped with modern high-performance machinery<br />
- operated by professional staff that is able to efficiently respond to the most complex clients' requirements.<br />
-
-MGK-pack d.d. has been certified according to ISO 9001:2000 standard.</h2>
+        <img data-animate className='animate-slideInRightText w-170 absolute top-50 right-150' src={categories[keyName].images[0].url} alt={categories[keyName].images[0].alt.hr} />
+        <button
+          data-animate
+          className='absolute animate-slideInLeftText top-2/5 left-6/12 rounded-full bg-red-500/90 px-5 py-2 text-sm font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400/70'
+          onClick={() => setIsPanelOpen(true)}
+        >
+          Specifikacije
+        </button>
+        <div
+          data-animate
+          className='animate-slideInLeftText absolute top-157 left-20 max-w-[40rem] rounded-2xl bg-white/70 p-6 text-slate-800 shadow-lg backdrop-blur-md'
+        >
+          <p className="text-lg leading-relaxed">
+            {categories[keyName].short_description?.hr ?? categories[keyName].description.hr}
+          </p>
+        </div>
 
       <SidePanel
         isOpen={isPanelOpen}
@@ -90,7 +89,54 @@ MGK-pack d.d. has been certified according to ISO 9001:2000 standard.</h2>
         title={categories[keyName].name.hr}
         key={keyName}
       > 
-      <p>{categories[keyName].description.hr}</p>
+      <p className="max-w-prose text-sm leading-relaxed text-slate-700">
+        {categories[keyName].description.hr}
+      </p>
+      {categories[keyName].schema_image && (
+        <div className="mt-4">
+          <img
+            className={`w-full rounded-lg border border-slate-200 shadow-sm ${
+              keyName === 'drawn_rectangular_cans_1_4_club'
+                ? 'max-w-md'
+                : 'max-w-xs'
+            }`}
+            src={categories[keyName].schema_image.url}
+            alt={categories[keyName].schema_image.alt.hr}
+          />
+        </div>
+      )}
+      {categories[keyName].specs && (
+        <div className="mt-6 overflow-x-auto">
+          <table className="min-w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-500">
+                {Object.keys(categories[keyName].specs).map((key) => (
+                  <th key={key} className="px-3 py-2 font-semibold">
+                    {key.replace(/_/g, ' ')}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({
+                length: Math.max(
+                  ...Object.values(categories[keyName].specs).map((value) =>
+                    Array.isArray(value) ? value.length : 1
+                  )
+                ),
+              }).map((_, rowIndex) => (
+                <tr key={rowIndex} className="border-b border-slate-100">
+                  {Object.entries(categories[keyName].specs).map(([key, value]) => (
+                    <td key={key} className="px-3 py-2 text-slate-700">
+                      {Array.isArray(value) ? value[rowIndex] ?? '' : value}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       </SidePanel>
     </section>

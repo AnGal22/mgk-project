@@ -5,8 +5,9 @@ import Product from './components/Product.tsx'
 import Section from './components/section.tsx'
 import SidePanel from './components/SidePanel.tsx'
 import ItemNavBar from './components/ItemNavBar.tsx'
+import Cans from './components/cans.tsx'
 import categories from "./products.json"
-import { useCallback, useRef, useState } from 'react'
+import { Fragment, useCallback, useRef, useState } from 'react'
 function App() {
   
   
@@ -55,19 +56,19 @@ function App() {
       >
         <ItemNavBar />
       </div>
-      <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center">
-          <section className=' min-h-screen w-full  text-white flex items-center justify-center bg-[url(/home.png)] bg-no-repeat bg-center bg-cover'><h1 className='text-7xl'></h1></section>
-          <section className='section2-blur min-h-screen w-full text-white flex items-center justify-center bg-[url(/about.jpg)] bg-cover'>
+      <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
+          <section className=' min-h-screen w-full  text-white flex items-center justify-center bg-[url(/home.png)] bg-no-repeat bg-center bg-cover'>
             <video className='w-45 h-80 object-cover' src="loop.mp4" autoPlay muted loop playsInline></video>
-            <h1 className='text-7xl animate-slideInLeftText'>
-            </h1>
-          </section>
-            {Object.entries(categories).map(([key]) => (
-              <Section
-                key={key}
-                keyName={key as keyof typeof categories}
-                onInViewChange={handleSectionInViewChange}
-              /> //ovo promjeni, nesto cudno
+            </section>
+            
+            {Object.entries(categories).map(([key], index, entries) => (
+              <Fragment key={key}>
+                <Section
+                  keyName={key as keyof typeof categories}
+                  onInViewChange={handleSectionInViewChange}
+                />
+                {index < entries.length - 1 && <Cans />}
+              </Fragment>
             ))}
             
       </div>

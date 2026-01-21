@@ -21,6 +21,13 @@
           "hr": "Okrugle vučene limenke",
           "en": "Drawn round cans"
         }
+      },
+      {
+        "url": "/pate.png",
+        "alt": {
+          "hr": "Okrugle vucene limenke (dodatna slika)",
+          "en": "Drawn round cans (additional image)"
+        }
       }
     ],
     "schema_image": {
@@ -72,6 +79,13 @@
           "hr": "Pravokutne limenke 1/4 club",
           "en": "Rectangular cans 1/4 club"
         }
+      },
+      {
+        "url": "/tin.png",
+        "alt": {
+          "hr": "Pravokutne limenke 1/4 club (dodatna slika)",
+          "en": "Rectangular cans 1/4 club (additional image)"
+        }
       }
     ],
     "schema_image": {
@@ -116,6 +130,13 @@
         "alt": {
           "hr": "Trodjelne varene limenke",
           "en": "Three-piece welded cans"
+        }
+      },
+      {
+        "url": "/foodproduct.png",
+        "alt": {
+          "hr": "Trodjelne varene limenke (placeholder)",
+          "en": "Three-piece welded cans (placeholder)"
         }
       }
     ],
@@ -194,6 +215,13 @@
         "alt": {
           "hr": "Limenke za praškaste proizvode",
           "en": "Powder and dairy cans"
+        }
+      },
+      {
+        "url": "/powder.png",
+        "alt": {
+          "hr": "Limenke za praskaste proizvode (placeholder)",
+          "en": "Powder and dairy cans (placeholder)"
         }
       }
     ],

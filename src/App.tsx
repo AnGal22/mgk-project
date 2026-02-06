@@ -7,6 +7,7 @@ import SidePanel from './components/SidePanel.tsx'
 import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
 import categories from "./products.json"
+import info from "./info.json"
 import { Fragment, useCallback, useRef, useState } from 'react'
 function App() {
   
@@ -57,9 +58,44 @@ function App() {
         <ItemNavBar />
       </div>
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
-          <section className=' min-h-screen w-full  text-white flex items-center justify-center bg-[url(/home.png)] bg-no-repeat bg-center bg-cover'>
-            <video className='w-45 h-80 object-cover' src="loop.mp4" autoPlay muted loop playsInline></video>
-            </section>
+          <section className='hero-bg min-h-screen w-full text-white flex items-center justify-center'>
+            <div className="hero-grid w-full max-w-6xl px-6 py-16">
+              <div className="hero-text slide-in-left">
+                <p className="hero-eyebrow">MGK-pack d.d.</p>
+                <h1 className="hero-title">
+                  Industrijska ambalaza koja drzi ritam proizvodnje
+                </h1>
+                <h1 className="hero-desc-title">{info.title_desc}</h1>
+                <p className="hero-desc">{info.description}</p>
+                <div className="hero-metrics">
+                  <div>
+                    <p className="hero-metric-title">Kontrola kvalitete</p>
+                    <p className="hero-metric-sub">Stabilne serije, precizne tolerancije</p>
+                  </div>
+                  <div>
+                    <p className="hero-metric-title">Pouzdana isporuka</p>
+                    <p className="hero-metric-sub">Planirano, na vrijeme, bez zastoja</p>
+                  </div>
+                </div>
+                <div className="hero-actions">
+                  <button className="hero-cta primary">Zatrazi ponudu</button>
+                  <button className="hero-cta ghost">Pogledaj proizvode</button>
+                </div>
+              </div>
+              <div className="hero-media slide-in-right">
+                <div className="hero-video-frame">
+                  <video
+                    className="hero-video"
+                    src="loop.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  ></video>
+                </div>
+              </div>
+            </div>
+          </section>
             
             {Object.entries(categories).map(([key], index, entries) => (
               <Fragment key={key}>

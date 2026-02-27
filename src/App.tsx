@@ -82,18 +82,6 @@ function App() {
                   <button className="hero-cta ghost">Pogledaj proizvode</button>
                 </div>
               </div>
-              <div className="hero-media slide-in-right">
-                <div className="hero-video-frame">
-                  <video
-                    className="hero-video"
-                    src="loop.mp4"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  ></video>
-                </div>
-              </div>
             </div>
           </section>
             

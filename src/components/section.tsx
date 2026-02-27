@@ -76,28 +76,16 @@ const section = ({ keyName, onInViewChange }: SectionProps) => {
           >
             {categories[keyName].name.hr}
           </h1>
-          <p
-            data-animate
-            className="animate-slideInLeftText max-w-xl rounded-2xl bg-white/70 p-5 text-base leading-relaxed text-slate-800 md:text-lg"
-          >
-            {categories[keyName].short_description?.hr ?? categories[keyName].description.hr}
-          </p>
+          
           <button
             data-animate
-            className="animate-slideInLeftText inline-flex items-center rounded-full bg-red-500/90 px-5 py-2 text-sm font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400/70"
+            className=" animate-slideInLeftText inline-flex items-center rounded-full bg-red-500/90 px-5 py-2 text-sm font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400/70"
             onClick={() => setIsPanelOpen(true)}
           >
             Specifikacije
           </button>
         </div>
-        <div className="flex flex-1 items-center justify-center md:justify-end">
-          <img
-            data-animate
-            className="animate-slideInRightText w-full max-w-xs drop-shadow-[0_20px_50px_rgba(255,255,255,0.35)] md:max-w-lg"
-            src={categories[keyName].images[0].url}
-            alt={categories[keyName].images[0].alt.hr}
-          />
-        </div>
+        
         </div>
 
       <SidePanel

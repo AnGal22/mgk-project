@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.tsx'
 import Section from './components/section.tsx'
 import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
+import Contact from './components/Contact.tsx'
 import categories from "./products.json"
 import info from "./info.json"
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
@@ -125,6 +126,7 @@ function App() {
                 {index < entries.length - 1 && <Cans />}
               </Fragment>
             ))}
+            <Contact lang={lang} />
             
       </div>
       

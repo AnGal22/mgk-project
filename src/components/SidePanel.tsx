@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import { useEffect, type ReactNode } from 'react'
 
 type SidePanelProps = {
   isOpen: boolean
   onClose: () => void
   title?: string
-  children?: React.ReactNode
+  closeLabel?: string
+  children?: ReactNode
 }
 
-const SidePanel = ({ isOpen, onClose, title, children }: SidePanelProps) => {
+const SidePanel = ({ isOpen, onClose, title, closeLabel = 'Close panel', children }: SidePanelProps) => {
   useEffect(() => {
     if (!isOpen) {
       return
@@ -44,7 +45,7 @@ const SidePanel = ({ isOpen, onClose, title, children }: SidePanelProps) => {
           <button
             className="rounded-md px-3 py-1 text-gray-700 hover:bg-gray-100"
             onClick={onClose}
-            aria-label="Close panel"
+            aria-label={closeLabel}
           >
             X
           </button>

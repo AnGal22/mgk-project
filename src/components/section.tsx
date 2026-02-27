@@ -1,15 +1,43 @@
-﻿import React, { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState } from 'react'
 import SidePanel from './SidePanel'
 import categories from "../products.json"
 
 type SectionProps = {
   keyName: keyof typeof categories
+  lang: 'hr' | 'en'
   onInViewChange?: (keyName: keyof typeof categories, inView: boolean) => void
 }
 
-const section = ({ keyName, onInViewChange }: SectionProps) => {
+const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
   const rootRef = useRef<HTMLElement | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
+
+  const sectionText = {
+    hr: {
+      specs: 'Specifikacije',
+      closePanel: 'Zatvori panel',
+      specHeaders: {
+        internal_diameter: 'Unutarnji promjer',
+        height_mm: 'Visina (mm)',
+        capacity_ml: 'Kapacitet (ml)',
+        dimensions_mm: 'Dimenzije (mm)',
+        beaded: 'Perlirano',
+        description: 'Opis',
+      },
+    },
+    en: {
+      specs: 'Specifications',
+      closePanel: 'Close panel',
+      specHeaders: {
+        internal_diameter: 'Internal diameter',
+        height_mm: 'Height (mm)',
+        capacity_ml: 'Capacity (ml)',
+        dimensions_mm: 'Dimensions (mm)',
+        beaded: 'Beaded',
+        description: 'Description',
+      },
+    },
+  }
 
   useEffect(() => {
     if (!rootRef.current) {
@@ -24,7 +52,7 @@ const section = ({ keyName, onInViewChange }: SectionProps) => {
         })
       },
       {
-        threshold: 0.2,
+        threshold: 0.5,
         rootMargin: '13% 0px -13% 0px',
       }
     )
@@ -41,13 +69,18 @@ const section = ({ keyName, onInViewChange }: SectionProps) => {
       return
     }
 
+    const navShowRatio = 0.75
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          onInViewChange(keyName, entry.isIntersecting)
+          const inView = entry.isIntersecting && entry.intersectionRatio >= navShowRatio
+          onInViewChange(keyName, inView)
         })
       },
-      { threshold: 0.2 }
+      {
+        threshold: [0, navShowRatio, 1],
+        rootMargin: '0px 0px -5% 0px',
+      }
     )
 
     sectionObserver.observe(rootRef.current)
@@ -67,22 +100,22 @@ const section = ({ keyName, onInViewChange }: SectionProps) => {
       style={{ ['--section-bg' as never]: `url(${backgroundUrl})` }}
       className="relative min-h-screen w-full bg-[image:var(--section-bg)] bg-cover bg-center text-white"
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-20 md:flex-row md:items-center">
+      <div className="absolute inset-0 bg-gradient-to-r from-white/100 via-white/99 to-transparent" />
+      <div className="relative mr-auto flex w-full max-w-none flex-col gap-10 py-20 pr-6 pl-[clamp(8.5rem,14.5vw,13.75rem)] transition-[padding] duration-300 md:flex-row md:items-center md:pr-10 md:pl-[clamp(9rem,15vw,14.5rem)]">
         <div className="flex-1 space-y-6">
           <h1
             data-animate
-            className="animate-slideInLeftText text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-sky-500 to-blue-700 drop-shadow-[0_2px_8px_rgba(37,99,235,0.35)] md:text-6xl"
+            className="animate-slideInLeftText text-[clamp(2.2rem,4.5vw,5.25rem)] font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-sky-500 to-blue-700 drop-shadow-[0_2px_8px_rgba(37,99,235,0.35)]"
           >
-            {categories[keyName].name.hr}
+            {categories[keyName].name[lang]}
           </h1>
           
           <button
             data-animate
-            className=" animate-slideInLeftText inline-flex items-center rounded-full bg-red-500/90 px-5 py-2 text-sm font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400/70"
+            className=" animate-slideInLeftText inline-flex items-center rounded-full bg-red-500/90 px-[clamp(1.1rem,1.6vw,1.8rem)] py-[clamp(0.55rem,0.8vw,0.8rem)] text-[clamp(0.95rem,1.15vw,1.25rem)] font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400/70"
             onClick={() => setIsPanelOpen(true)}
           >
-            Specifikacije
+            {sectionText[lang].specs}
           </button>
         </div>
         
@@ -91,11 +124,12 @@ const section = ({ keyName, onInViewChange }: SectionProps) => {
       <SidePanel
         isOpen={isPanelOpen}
         onClose={() => setIsPanelOpen(false)}
-        title={categories[keyName].name.hr}
+        title={categories[keyName].name[lang]}
+        closeLabel={sectionText[lang].closePanel}
         key={keyName}
       >
         <p className="max-w-prose text-sm leading-relaxed text-slate-700">
-          {categories[keyName].description.hr}
+          {categories[keyName].description[lang]}
         </p>
         {categories[keyName].schema_image && (
           <div className="mt-4">
@@ -106,7 +140,7 @@ const section = ({ keyName, onInViewChange }: SectionProps) => {
                   : 'max-w-xs'
               }`}
               src={categories[keyName].schema_image.url}
-              alt={categories[keyName].schema_image.alt.hr}
+              alt={categories[keyName].schema_image.alt[lang]}
             />
           </div>
         )}
@@ -117,7 +151,7 @@ const section = ({ keyName, onInViewChange }: SectionProps) => {
                 <tr className="border-b border-slate-200 text-slate-500">
                   {Object.keys(categories[keyName].specs).map((key) => (
                     <th key={key} className="px-3 py-2 font-semibold">
-                      {key.replace(/_/g, ' ')}
+                      {sectionText[lang].specHeaders[key as keyof typeof sectionText.hr.specHeaders] ?? key.replace(/_/g, ' ')}
                     </th>
                   ))}
                 </tr>

@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 type ProductProps = {
   name: { hr: string; en: string };

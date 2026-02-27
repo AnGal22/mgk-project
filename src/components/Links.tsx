@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 type LinksProps = {
   lang: 'hr' | 'en';
@@ -9,13 +9,13 @@ const Links = ({ lang }: LinksProps) => {
     hr: {
       home: 'Pocetna',
       about: 'O nama',
-      services: 'Usluge',
+      services: 'Proizvodi',
       contact: 'Kontakt'
     },
     en: {
       home: 'Home',
       about: 'About',
-      services: 'Services',
+      services: 'Products',
       contact: 'Contact'
     }
   }

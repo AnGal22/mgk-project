@@ -163,7 +163,7 @@
     radial-gradient(700px 500px at 85% 70%, rgba(60, 90, 110, 0.35), transparent 65%),
     linear-gradient(180deg, #0b141b 0%, #0f1a23 40%, #101d28 100%);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hero-bg::after {

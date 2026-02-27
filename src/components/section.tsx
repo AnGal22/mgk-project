@@ -101,10 +101,10 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
       className="relative min-h-screen w-full bg-[image:var(--section-bg)] bg-cover bg-center text-white"
     >
       <div
-        className="absolute inset-0 bg-gradient-to-r from-white/75 via-white/10 to-transparent backdrop-blur-xl backdrop-saturate-150"
+        className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/60 to-transparent backdrop-blur-xl backdrop-saturate-150"
         style={{
           WebkitMaskImage: 'linear-gradient(to right, black 0%, black 62%, transparent 82%)',
-          maskImage: 'linear-gradient(to right, black 0%, black 62%, transparent 82%)',
+          maskImage: 'linear-gradient(to right, black 0%, black 42%, transparent 82%)',
         }}
       />
       <div className="relative mr-auto flex w-full max-w-none flex-col gap-10 py-20 pr-6 pl-[clamp(8.5rem,14.5vw,13.75rem)] transition-[padding] duration-300 md:flex-row md:items-center md:pr-10 md:pl-[clamp(9rem,15vw,14.5rem)]">

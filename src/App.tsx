@@ -11,6 +11,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 function App() {
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
   const [showItemNav, setShowItemNav] = useState(false)
+  const [heroCanVisible, setHeroCanVisible] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
 
   const uiText = {
@@ -74,6 +75,11 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const id = setTimeout(() => setHeroCanVisible(true), 1000)
+    return () => clearTimeout(id)
+  }, [])
+
   return (
     <div className="bg-[url(/bg1.jpg)]"> 
       <Navbar lang={lang}/>  
@@ -89,11 +95,11 @@ function App() {
         <ItemNavBar lang={lang} />
       </div>
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
-          <section id="home-hero" className='hero-bg min-h-screen w-full text-white flex items-center justify-center'>
-            <div className="hero-grid w-full max-w-6xl px-6 py-16">
-              <div className="hero-text slide-in-left">
-                <p className="hero-eyebrow">MGK-pack d.d.</p>
-                <h1 className="hero-title">
+          <section id="home-hero" className='hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2'>
+            <div className="hero-grid w-full max-w-6xl px-6 py-16 relative z-10">
+              <div className="hero-text slide-in-left relative z-10">
+                <p className="hero-title">MGK-pack d.d.</p>
+                <h1 className="hero-eyebrow">
                   {uiText[lang].heroTitle}
                 </h1>
                 <h1 className="hero-desc-title">{uiText[lang].aboutTitle}</h1>
@@ -114,6 +120,11 @@ function App() {
                 </div>
               </div>
             </div>
+            <img
+              src="home-can.png"
+              className={`fixed bottom-0 left-[69%] w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`}
+              alt="can"
+            />
           </section>
             
             {Object.entries(categories).map(([key], index, entries) => (

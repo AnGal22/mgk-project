@@ -12,6 +12,7 @@ function App() {
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
   const [showItemNav, setShowItemNav] = useState(false)
   const [heroCanVisible, setHeroCanVisible] = useState(false)
+  const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
 
   const uiText = {
@@ -77,7 +78,11 @@ function App() {
 
   useEffect(() => {
     const id = setTimeout(() => setHeroCanVisible(true), 1000)
-    return () => clearTimeout(id)
+    const id_pate = setTimeout(() => setHeroPateCanVisible(true), 1500)
+    return () =>{ 
+      clearTimeout(id)
+      clearTimeout(id_pate)
+    }
   }, [])
 
   return (
@@ -120,6 +125,11 @@ function App() {
                 </div>
               </div>
             </div>
+            <img
+              src="home-pate-can.png"
+              className={`w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}
+              alt="can"
+            />
             <img
               src="home-can.png"
               className={`fixed bottom-0 left-[69%] w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`}

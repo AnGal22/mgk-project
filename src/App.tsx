@@ -13,6 +13,7 @@ function App() {
   const [showItemNav, setShowItemNav] = useState(false)
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
+  const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
 
   const uiText = {
@@ -79,9 +80,11 @@ function App() {
   useEffect(() => {
     const id = setTimeout(() => setHeroCanVisible(true), 1000)
     const id_pate = setTimeout(() => setHeroPateCanVisible(true), 1500)
+    const id_tin = setTimeout(() => setHeroTinCanVisible(true), 1800)
     return () =>{ 
       clearTimeout(id)
       clearTimeout(id_pate)
+      clearTimeout(id_tin)
     }
   }, [])
 
@@ -125,6 +128,11 @@ function App() {
                 </div>
               </div>
             </div>
+            <img
+              src="home-tin-can.png"
+              className={`w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340  animate-slideInLeftText ${heroTinCanVisible ? 'is-in-view' : ''}`}
+              alt="can"
+            />
             <img
               src="home-pate-can.png"
               className={`w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}

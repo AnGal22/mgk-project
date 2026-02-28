@@ -22,25 +22,25 @@
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 12px;
-  color: #9fb3c4;
+  color: #3f6f96;
 }
 
 .hero-title {
   font-size: clamp(32px, 5vw, 56px);
   line-height: 1.05;
   font-weight: 700;
-  color: #e6eef5;
+  color: #13466b;
 }
 
 .hero-desc {
   font-size: 16px;
-  color: #b9c7d4;
+  color: #356287;
   max-width: 52ch;
 }
 
 .hero-desc-title {
   font-size: 26px;
-  color: #b9c7d4;
+  color: #23537b;
   max-width: 52ch;
 }
 
@@ -62,12 +62,12 @@
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #d0dde7;
+  color: #1d4f76;
 }
 
 .hero-metric-sub {
   font-size: 14px;
-  color: #9fb3c4;
+  color: #3d6b90;
 }
 
 .hero-actions {
@@ -86,9 +86,9 @@
 }
 
 .hero-cta.primary {
-  background: linear-gradient(135deg, #2a4e68, #3c6c88);
-  color: #f3f7fb;
-  box-shadow: 0 12px 30px rgba(20, 40, 55, 0.4);
+  background: linear-gradient(135deg, #5da6d8, #9ec8e8);
+  color: #0f3552;
+  box-shadow: 0 12px 30px rgba(53, 115, 158, 0.3);
 }
 
 .hero-cta.primary:hover {
@@ -96,9 +96,9 @@
 }
 
 .hero-cta.ghost {
-  border: 1px solid rgba(164, 191, 210, 0.4);
-  color: #cfe0ec;
-  background: rgba(12, 20, 28, 0.4);
+  border: 1px solid rgba(64, 119, 160, 0.35);
+  color: #1d527a;
+  background: rgba(219, 237, 249, 0.75);
 }
 
 .hero-media {
@@ -115,9 +115,9 @@
   aspect-ratio: 3 / 4;
   border-radius: 24px;
   padding: 12px;
-  background: linear-gradient(135deg, rgba(80, 110, 130, 0.25), rgba(20, 35, 48, 0.7));
-  box-shadow: 0 24px 60px rgba(5, 15, 22, 0.6);
-  border: 1px solid rgba(120, 150, 170, 0.35);
+  background: linear-gradient(135deg, rgba(147, 196, 229, 0.58), rgba(196, 224, 243, 0.8));
+  box-shadow: 0 24px 60px rgba(70, 128, 170, 0.28);
+  border: 1px solid rgba(81, 141, 183, 0.3);
 }
 
 .hero-video {
@@ -159,21 +159,11 @@
 }
 .hero-bg {
   background:
-    radial-gradient(600px 400px at 15% 25%, rgba(90, 120, 140, 0.35), transparent 60%),
-    radial-gradient(700px 500px at 85% 70%, rgba(60, 90, 110, 0.35), transparent 65%),
-    linear-gradient(180deg, #0b141b 0%, #0f1a23 40%, #101d28 100%);
+    radial-gradient(620px 420px at 15% 25%, rgba(132, 191, 231, 0.85), transparent 62%),
+    radial-gradient(760px 540px at 85% 72%, rgba(176, 214, 239, 0.75), transparent 66%),
+    linear-gradient(180deg, #e8f5ff 0%, #cde7f8 45%, #b9d8ee 100%);
   position: relative;
   overflow: visible;
 }
 
-.hero-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: 0.35;
-  pointer-events: none;
-}
+

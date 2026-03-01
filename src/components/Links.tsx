@@ -1,10 +1,17 @@
 
+import categories from "../products.json"
 
 type LinksProps = {
   lang: 'hr' | 'en';
 }
 
 const Links = ({ lang }: LinksProps) => {
+  const firstProductId = Object.keys(categories)[0]
+
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   const labels = {
     hr: {
       home: 'Pocetna',
@@ -22,18 +29,18 @@ const Links = ({ lang }: LinksProps) => {
 
   return (
     <div className='hidden flex-1 justify-around sm:flex'>
-        <button onClick={() => document.getElementById('odi')?.scrollIntoView({ behavior: 'smooth' })} className='cursor-pointer'>
+        <button onClick={() => scrollToSection('home-hero')} className='cursor-pointer'>
             {labels[lang].home}
         </button>
-        <div className='cursor-pointer'> 
+        <button onClick={() => scrollToSection('home-hero')} className='cursor-pointer'> 
             {labels[lang].about}
-        </div>
-        <div className='cursor-pointer'>
+        </button>
+        <button onClick={() => scrollToSection(firstProductId)} className='cursor-pointer'>
             {labels[lang].services}
-        </div>
-        <div className='cursor-pointer'>
+        </button>
+        <button onClick={() => scrollToSection('contact')} className='cursor-pointer'>
             {labels[lang].contact}
-        </div>
+        </button>
     </div>
   )
 }

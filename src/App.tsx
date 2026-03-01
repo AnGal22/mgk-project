@@ -130,7 +130,7 @@ function App() {
             </div>
             <img
               src="home-tin-can.png"
-              className={`w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340  animate-slideInLeftText ${heroTinCanVisible ? 'is-in-view' : ''}`}
+              className={`w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340  animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
               alt="can"
             />
             <img

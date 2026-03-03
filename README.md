@@ -1,6 +1,6 @@
 # MGK Project
 
-Marketing/presentation web app for **MGK-pack d.d.** built with **React + TypeScript + Vite + Tailwind CSS**.
+Marketing/presentation web app for **MGK-pack d.d.** built with **React + TypeScript + Vite + TailwindCSS**.
 
 The site presents the company, product categories, technical specifications, and contact information in **Croatian** and **English**.
 

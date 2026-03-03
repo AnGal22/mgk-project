@@ -113,4 +113,4 @@ Default Vite dev URL is typically:
 
 ## Purpose
 
-This project is structured as a product-catalog + company-presentation frontend for industrial metal packaging, with a strong visual style and bilingual content support.
+This project is structured as a product catalog + company-presentation frontend for industrial metal packaging, with a strong visual style and bilingual content support.

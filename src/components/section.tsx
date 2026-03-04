@@ -11,6 +11,7 @@ type SectionProps = {
 const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
   const rootRef = useRef<HTMLElement | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
+  const [shouldLoadBackground, setShouldLoadBackground] = useState(false)
 
   const sectionText = {
     hr: {
@@ -90,7 +91,36 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
     }
   }, [keyName, onInViewChange])
 
-  const backgroundUrl = categories[keyName].images?.[1]?.url ?? categories[keyName].images?.[0]?.url
+  useEffect(() => {
+    if (!rootRef.current) {
+      return
+    }
+
+    const preloadObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoadBackground(true)
+            preloadObserver.disconnect()
+          }
+        })
+      },
+      {
+        rootMargin: '300px 0px',
+        threshold: 0.01,
+      }
+    )
+
+    preloadObserver.observe(rootRef.current)
+
+    return () => {
+      preloadObserver.disconnect()
+    }
+  }, [])
+
+  const backgroundUrl = shouldLoadBackground
+    ? (categories[keyName].images?.[1]?.url ?? categories[keyName].images?.[0]?.url)
+    : undefined
 
   return (
     <section
@@ -147,6 +177,8 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
               }`}
               src={categories[keyName].schema_image.url}
               alt={categories[keyName].schema_image.alt[lang]}
+              loading="lazy"
+              decoding="async"
             />
           </div>
         )}

@@ -137,7 +137,7 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
           maskImage: 'linear-gradient(to right, black 0%, black 42%, transparent 82%)',
         }}
       />
-      <div className="relative mr-auto flex w-full max-w-none flex-col gap-10 py-20 pr-6 pl-[clamp(8.5rem,14.5vw,13.75rem)] transition-[padding] duration-300 md:flex-row md:items-center md:pr-10 md:pl-[clamp(9rem,15vw,14.5rem)]">
+      <div className="relative mr-auto flex w-full max-w-none flex-col gap-10 py-20 pr-4 pl-4 transition-[padding] duration-300 md:flex-row md:items-center md:pr-10 md:pl-[clamp(9rem,15vw,14.5rem)]">
         <div className="flex-1 space-y-6">
           <h1
             data-animate

@@ -104,7 +104,7 @@ function App() {
       </div>
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
           <section id="home-hero" className='hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2'>
-            <div className="hero-grid w-full max-w-6xl px-6 py-16 relative z-10">
+            <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-36 md:py-16">
               <div className="hero-text slide-in-left relative z-10">
                 <p className="hero-title">MGK-pack d.d.</p>
                 <h1 className="hero-eyebrow">
@@ -146,12 +146,39 @@ function App() {
             />
             <img
               src="home-can.webp"
-              className={`fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`}
+              className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`}
               alt="can"
               loading="eager"
               fetchPriority="high"
               decoding="async"
             />
+
+            <div className="absolute bottom-4 left-1/2 z-10 flex w-full max-w-xs -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden">
+              <img
+                src="home-pate-can.webp"
+                className={`w-24 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}
+                alt="can"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              <img
+                src="home-can.webp"
+                className={`w-28 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`}
+                alt="can"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              <img
+                src="home-tin-can.webp"
+                className={`w-20 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
+                alt="can"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </div>
           </section>
             
             {Object.entries(categories).map(([key], index, entries) => (

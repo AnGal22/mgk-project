@@ -153,10 +153,10 @@ function App() {
               decoding="async"
             />
 
-            <div className="absolute bottom-4 left-1/2 z-10 flex w-full max-w-xs -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden">
+            <div className="absolute bottom-4 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden">
               <img
                 src="home-pate-can.webp"
-                className={`w-24 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}
+                className={`w-32 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}
                 alt="can"
                 loading="eager"
                 fetchPriority="high"
@@ -164,7 +164,7 @@ function App() {
               />
               <img
                 src="home-can.webp"
-                className={`w-28 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`}
+                className={`w-36 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`}
                 alt="can"
                 loading="eager"
                 fetchPriority="high"
@@ -172,7 +172,7 @@ function App() {
               />
               <img
                 src="home-tin-can.webp"
-                className={`w-20 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
+                className={`w-28 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
                 alt="can"
                 loading="eager"
                 fetchPriority="high"

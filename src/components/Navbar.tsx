@@ -41,14 +41,20 @@ const Navbar = ({ lang }: NavbarProps) => {
             <img
               src="logo.webp"
               alt="logo"
-              className='w-[clamp(8rem,14vw,13rem)] origin-left scale-115'
+              className="w-[clamp(8rem,14vw,13rem)] origin-left scale-115 transition-transform duration-200 ease-out hover:scale-125"
               loading="eager"
               fetchPriority="high"
               decoding="async"
             />
             <Links lang={lang}/>
             <div className='flex sm:hidden'>
-                <img className='w-20 cursor-pointer' src="burger_menu.webp" alt="burger_menu" loading="lazy" decoding="async" />
+                <img
+                  className="w-20 cursor-pointer transition-transform duration-200 ease-out hover:scale-110"
+                  src="burger_menu.webp"
+                  alt="burger_menu"
+                  loading="lazy"
+                  decoding="async"
+                />
             </div>
         </div>
     </nav>

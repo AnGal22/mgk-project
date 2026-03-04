@@ -148,7 +148,7 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
           
           <button
             data-animate
-            className=" animate-slideInLeftText inline-flex items-center rounded-full bg-red-500/90 px-[clamp(1.1rem,1.6vw,1.8rem)] py-[clamp(0.55rem,0.8vw,0.8rem)] text-[clamp(0.95rem,1.15vw,1.25rem)] font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400/70"
+            className=" animate-slideInLeftText inline-flex items-center rounded-full bg-red-500/90 px-[clamp(1.1rem,1.6vw,1.8rem)] py-[clamp(0.55rem,0.8vw,0.8rem)] text-[clamp(0.95rem,1.15vw,1.25rem)] font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition-transform duration-200 ease-out hover:scale-110 hover:-translate-y-0.5 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400/70"
             onClick={() => setIsPanelOpen(true)}
           >
             {sectionText[lang].specs}

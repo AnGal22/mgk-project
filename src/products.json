@@ -16,14 +16,14 @@
     "material": "Tinplate (ECCS)",
     "images": [
       {
-        "url": "/pate_can.png",
+        "url": "/pate_can.webp",
         "alt": {
           "hr": "Okrugle vučene limenke",
           "en": "Drawn round cans"
         }
       },
       {
-        "url": "/pate.png",
+        "url": "/pate.webp",
         "alt": {
           "hr": "Okrugle vucene limenke (dodatna slika)",
           "en": "Drawn round cans (additional image)"
@@ -31,14 +31,14 @@
       }
     ],
     "schema_image": {
-      "url": "/pate_can_schema.png",
+      "url": "/pate_can_schema.webp",
       "alt": {
         "hr": "Shema okrugle limenke",
         "en": "Round can schema"
       }
     },
         "icon": {
-      "url": "/tin_cans_icon.png",
+      "url": "/tin_cans_icon.webp",
       "alt": {
         "hr": "Ikona limenke",
         "en": "Can icon"
@@ -74,14 +74,14 @@
     "material": "Tinplate (ECCS)",
     "images": [
       {
-        "url": "/tin_cans.png",
+        "url": "/tin_cans.webp",
         "alt": {
           "hr": "Pravokutne limenke 1/4 club",
           "en": "Rectangular cans 1/4 club"
         }
       },
       {
-        "url": "/tin.png",
+        "url": "/tin.webp",
         "alt": {
           "hr": "Pravokutne limenke 1/4 club (dodatna slika)",
           "en": "Rectangular cans 1/4 club (additional image)"
@@ -89,14 +89,14 @@
       }
     ],
     "schema_image": {
-      "url": "/tin_cans_schema.png",
+      "url": "/tin_cans_schema.webp",
       "alt": {
         "hr": "Shema pravokutne limenke",
         "en": "Rectangular can schema"
       }
     },
         "icon": {
-      "url": "/pate_can_icon.png",
+      "url": "/pate_can_icon.webp",
       "alt": {
         "hr": "Ikona limenke",
         "en": "Can icon"
@@ -126,14 +126,14 @@
     "material": "Tinplate",
     "images": [
       {
-        "url": "/metallic_cans.png",
+        "url": "/metallic_cans.webp",
         "alt": {
           "hr": "Trodjelne varene limenke",
           "en": "Three-piece welded cans"
         }
       },
       {
-        "url": "/foodproduct.png",
+        "url": "/foodproduct.webp",
         "alt": {
           "hr": "Trodjelne varene limenke (placeholder)",
           "en": "Three-piece welded cans (placeholder)"
@@ -141,14 +141,14 @@
       }
     ],
     "schema_image": {
-      "url": "/metallic_cans_schema.png",
+      "url": "/metallic_cans_schema.webp",
       "alt": {
         "hr": "Shema trodjelne limenke",
         "en": "Three-piece can schema"
       }
     },
         "icon": {
-      "url": "/foodproduct_can_icon.png",
+      "url": "/foodproduct_can_icon.webp",
       "alt": {
         "hr": "Ikona limenke",
         "en": "Can icon"
@@ -211,14 +211,14 @@
     "material": "Tinplate / Aluminium lids",
     "images": [
       {
-        "url": "/silver_cans.png",
+        "url": "/silver_cans.webp",
         "alt": {
           "hr": "Limenke za praškaste proizvode",
           "en": "Powder and dairy cans"
         }
       },
       {
-        "url": "/powder.png",
+        "url": "/powder.webp",
         "alt": {
           "hr": "Limenke za praskaste proizvode (placeholder)",
           "en": "Powder and dairy cans (placeholder)"
@@ -226,14 +226,14 @@
       }
     ],
     "schema_image": {
-      "url": "/silver_cans_schema.png",
+      "url": "/silver_cans_schema.webp",
       "alt": {
         "hr": "Shema limenke za pra­kaste proizvode",
         "en": "Powder and dairy can schema"
       }
     },
         "icon": {
-      "url": "/powder_can_icon.png",
+      "url": "/powder_can_icon.webp",
       "alt": {
         "hr": "Ikona limenke",
         "en": "Can icon"
@@ -254,3 +254,5 @@
     }
   }
 }
+
+

@@ -89,7 +89,7 @@ function App() {
   }, [])
 
   return (
-    <div className="bg-[url(/bg1.jpg)]"> 
+    <div className="bg-[url(/bg1.webp)]"> 
       <Navbar lang={lang}/>  
       <div
         className="fixed top-20 left-0 z-50 h-[80vh] "
@@ -129,19 +129,28 @@ function App() {
               </div>
             </div>
             <img
-              src="home-tin-can.png"
+              src="home-tin-can.webp"
               className={`w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340  animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
               alt="can"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
             <img
-              src="home-pate-can.png"
+              src="home-pate-can.webp"
               className={`w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}
               alt="can"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
             <img
-              src="home-can.png"
+              src="home-can.webp"
               className={`fixed bottom-0 left-[69%] w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`}
               alt="can"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
           </section>
             

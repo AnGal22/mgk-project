@@ -1,7 +1,7 @@
 {
   "drawn_round_cans_food": {
     "name": {
-      "hr": "Vućene okrugle limenke za prehrambene proizvode",
+      "hr": "Vučene okrugle limenke za prehrambene proizvode",
       "en": "Drawn Round Cans for Food Products"
     },
     "short_description": {
@@ -25,7 +25,7 @@
       {
         "url": "/pate.png",
         "alt": {
-          "hr": "Okrugle vucene limenke (dodatna slika)",
+          "hr": "Okrugle vučene limenke (dodatna slika)",
           "en": "Drawn round cans (additional image)"
         }
       }
@@ -59,7 +59,7 @@
 
   "drawn_rectangular_cans_1_4_club": {
     "name": {
-      "hr": "Vućene pravokutne limenke 1/4 club",
+      "hr": "Vučene pravokutne limenke 1/4 club",
       "en": "Drawn Rectangular Cans 1/4 Club"
     },
     "short_description": {

@@ -29,16 +29,16 @@ const Links = ({ lang }: LinksProps) => {
 
   return (
     <div className='hidden flex-1 justify-around sm:flex'>
-        <button onClick={() => scrollToSection('home-hero')} className='cursor-pointer'>
+        <button onClick={() => scrollToSection('home-hero')} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
             {labels[lang].home}
         </button>
-        <button onClick={() => scrollToSection('home-hero')} className='cursor-pointer'> 
+        <button onClick={() => scrollToSection('home-hero')} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110"> 
             {labels[lang].about}
         </button>
-        <button onClick={() => scrollToSection(firstProductId)} className='cursor-pointer'>
+        <button onClick={() => scrollToSection(firstProductId)} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
             {labels[lang].services}
         </button>
-        <button onClick={() => scrollToSection('contact')} className='cursor-pointer'>
+        <button onClick={() => scrollToSection('contact')} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
             {labels[lang].contact}
         </button>
     </div>

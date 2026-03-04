@@ -161,7 +161,7 @@ function App() {
       
       <div className="fixed bottom-6 right-6">
         <button
-          className="bg-white text-black px-4 py-2 rounded-full shadow-md"
+          className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110"
           onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}
         >
           {lang === 'hr' ? 'English' : 'Hrvatski'}

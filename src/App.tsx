@@ -57,6 +57,7 @@ function App() {
 
     const updateItemNavVisibility = () => {
       const firstSectionEl = document.getElementById(firstSectionId)
+      const contactEl = document.getElementById('contact')
       if (!firstSectionEl) {
         setShowItemNav(false)
         return
@@ -64,7 +65,14 @@ function App() {
 
       const firstSectionTop = firstSectionEl.getBoundingClientRect().top
       const triggerLine = window.innerHeight * showWhenFirstSectionTopIsAt
-      setShowItemNav(firstSectionTop <= triggerLine)
+
+      const contactInView = (() => {
+        if (!contactEl) return false
+        const rect = contactEl.getBoundingClientRect()
+        return rect.top < window.innerHeight * 0.9 && rect.bottom > window.innerHeight * 0.2
+      })()
+
+      setShowItemNav(firstSectionTop <= triggerLine && !contactInView)
     }
 
     updateItemNavVisibility()

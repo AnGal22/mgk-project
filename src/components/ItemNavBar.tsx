@@ -9,15 +9,15 @@ const ItemNavBar = ({ lang, mobile = false }: ItemNavBarProps) => {
   if (mobile) {
     return (
       <nav className="w-full rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-lg backdrop-blur-sm">
-        <div className="flex items-center justify-start gap-2 overflow-x-auto overscroll-x-contain whitespace-nowrap [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex items-center justify-between gap-1">
           {Object.entries(categories).map(([key]) => (
             <button
-              className="shrink-0 cursor-pointer rounded-xl p-1 transition-transform duration-200 ease-out hover:scale-105"
+              className="flex-1 cursor-pointer rounded-xl p-1 transition-transform duration-200 ease-out hover:scale-105"
               key={key}
               onClick={() => document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             >
               <img
-                className="h-auto w-14 object-contain"
+                className="mx-auto h-auto w-[clamp(1.9rem,8vw,2.4rem)] object-contain"
                 src={categories[key as keyof typeof categories].icon.url}
                 alt={categories[key as keyof typeof categories].icon.alt[lang]}
               />

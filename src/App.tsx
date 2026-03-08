@@ -57,6 +57,7 @@ function App() {
 
     const updateItemNavVisibility = () => {
       const firstSectionEl = document.getElementById(firstSectionId)
+      const contactEl = document.getElementById('contact')
       if (!firstSectionEl) {
         setShowItemNav(false)
         return
@@ -64,7 +65,14 @@ function App() {
 
       const firstSectionTop = firstSectionEl.getBoundingClientRect().top
       const triggerLine = window.innerHeight * showWhenFirstSectionTopIsAt
-      setShowItemNav(firstSectionTop <= triggerLine)
+
+      const contactInView = (() => {
+        if (!contactEl) return false
+        const rect = contactEl.getBoundingClientRect()
+        return rect.top < window.innerHeight * 0.9 && rect.bottom > window.innerHeight * 0.2
+      })()
+
+      setShowItemNav(firstSectionTop <= triggerLine && !contactInView)
     }
 
     updateItemNavVisibility()
@@ -98,9 +106,21 @@ function App() {
           opacity: showItemNav ? 1 : 0,
           transition: 'transform 400ms ease, opacity 400ms ease',
           pointerEvents: showItemNav ? 'auto' : 'none',
-        }}//moram skuzit zasto ovo nece raditi u tailwind css a u inline sasvim dobro
+        }}
       >
         <ItemNavBar lang={lang} />
+      </div>
+
+      <div
+        className="fixed right-3 left-3 z-50 md:hidden"
+        style={{
+          bottom: showItemNav ? '72px' : '-180px',
+          opacity: showItemNav ? 1 : 0,
+          transition: 'bottom 350ms ease, opacity 300ms ease',
+          pointerEvents: showItemNav ? 'auto' : 'none',
+        }}
+      >
+        <ItemNavBar lang={lang} mobile />
       </div>
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
           <section id="home-hero" className='hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2'>
@@ -130,7 +150,7 @@ function App() {
             </div>
             <img
               src="home-tin-can.webp"
-              className={`hidden lg:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340  animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
+              className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
               alt="can"
               loading="eager"
               fetchPriority="high"

@@ -49,7 +49,7 @@ const Links = ({ lang, mobile = false, onNavigate }: LinksProps) => {
   }
 
   return (
-    <div className='hidden flex-1 justify-around sm:flex'>
+    <div className='hidden flex-1 justify-around md:flex'>
       <button onClick={() => scrollToSection('home-hero')} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
         {labels[lang].home}
       </button>

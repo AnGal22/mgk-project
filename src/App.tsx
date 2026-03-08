@@ -142,7 +142,7 @@ function App() {
             </div>
             <img
               src="home-tin-can.webp"
-              className={`hidden lg:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340  animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
+              className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
               alt="can"
               loading="eager"
               fetchPriority="high"

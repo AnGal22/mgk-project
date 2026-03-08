@@ -98,9 +98,21 @@ function App() {
           opacity: showItemNav ? 1 : 0,
           transition: 'transform 400ms ease, opacity 400ms ease',
           pointerEvents: showItemNav ? 'auto' : 'none',
-        }}//moram skuzit zasto ovo nece raditi u tailwind css a u inline sasvim dobro
+        }}
       >
         <ItemNavBar lang={lang} />
+      </div>
+
+      <div
+        className="fixed right-3 left-3 z-50 md:hidden"
+        style={{
+          bottom: showItemNav ? '72px' : '-180px',
+          opacity: showItemNav ? 1 : 0,
+          transition: 'bottom 350ms ease, opacity 300ms ease',
+          pointerEvents: showItemNav ? 'auto' : 'none',
+        }}
+      >
+        <ItemNavBar lang={lang} mobile />
       </div>
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
           <section id="home-hero" className='hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2'>

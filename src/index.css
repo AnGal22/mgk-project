@@ -133,13 +133,14 @@ body {
   display: flex;
   width: max-content;
   will-change: transform;
-  transform: translateX(0%);
-  animation: cans-move-right 28s linear infinite;
+  transform: translate3d(0, 0, 0);
+  animation: cans-move-right 36s linear infinite;
   animation-fill-mode: both;
 }
 
 .can-row{
   display: flex;
+  flex: 0 0 auto;
 }
 
 .can-tile{
@@ -152,7 +153,7 @@ body {
 }
 
 @keyframes cans-move-right{
-  from { transform: translateX(0%); }
-  to   { transform: translateX(-50%); }
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-33.333333%, 0, 0); }
 }
 

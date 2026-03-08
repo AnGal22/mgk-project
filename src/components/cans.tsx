@@ -111,6 +111,11 @@ const Cans = () => {
             <CanTile key={`b-${index}`} />
           ))}
         </div>
+        <div className="can-row" aria-hidden="true">
+          {tiles.map((_, index) => (
+            <CanTile key={`c-${index}`} />
+          ))}
+        </div>
       </div>
     </div>
   )

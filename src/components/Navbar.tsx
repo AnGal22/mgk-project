@@ -63,7 +63,7 @@ const Navbar = ({ lang }: NavbarProps) => {
 
           <button
             type="button"
-            className="flex sm:hidden"
+            className="flex md:hidden"
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -80,7 +80,7 @@ const Navbar = ({ lang }: NavbarProps) => {
       </nav>
 
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] bg-black/40 sm:hidden" onClick={() => setMobileMenuOpen(false)}>
+        <div className="fixed inset-0 z-[60] bg-black/40 md:hidden" onClick={() => setMobileMenuOpen(false)}>
           <div className="absolute right-3 top-20 w-[min(88vw,22rem)] rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <Links lang={lang} mobile onNavigate={() => setMobileMenuOpen(false)} />
           </div>

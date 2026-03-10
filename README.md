@@ -90,7 +90,8 @@ Contains localized company intro:
 
 From `package.json`:
 
-- `npm run dev` — start local development server
+- `npm run dev` — start local frontend dev server (Vite)
+- `npm run dev:api` — start CMS API server (Express)
 - `npm run build` — TypeScript build + production bundle
 - `npm run preview` — preview production build
 - `npm run lint` — run ESLint
@@ -99,11 +100,23 @@ From `package.json`:
 
 ```bash
 npm install
+cp .env.example .env
+# set CMS_USERNAME / CMS_PASSWORD / CMS_JWT_SECRET in .env
+npm run dev:api
 npm run dev
 ```
 
-Default Vite dev URL is typically:
-- `http://localhost:5173`
+Default URLs:
+- Frontend: `http://localhost:5173`
+- CMS page: `http://localhost:5173/cms`
+- API: `http://localhost:3001`
+
+## CMS (employee login + products.json editing)
+
+- Employees open `/cms` and login with credentials from `.env`
+- After login, they can edit full JSON content and save
+- Save writes directly to `src/products.json`
+- Frontend reads product data via `/api/products` (with local JSON fallback if API is offline)
 
 ## Notes / Current Caveats
 

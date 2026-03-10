@@ -1,15 +1,20 @@
-
 import './App.css'
 import Navbar from './components/Navbar.tsx'
 import Section from './components/section.tsx'
 import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
 import Contact from './components/Contact.tsx'
-import categories from "./products.json"
-import info from "./info.json"
+import info from './info.json'
+import localProducts from './products.json'
+import CmsPanel from './components/CmsPanel.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import type { ProductsData } from './types/products.ts'
+import { fetchProducts } from './lib/api.ts'
+
 function App() {
+  const isCmsRoute = window.location.pathname.startsWith('/cms')
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
+  const [products, setProducts] = useState<ProductsData>(localProducts as ProductsData)
   const [showItemNav, setShowItemNav] = useState(false)
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
@@ -38,21 +43,32 @@ function App() {
       deliverySub: 'Planned, on time, without downtime',
       quoteCta: 'Request a quote',
       productsCta: 'View products',
-    }
+    },
   }
 
   const handleSectionInViewChange = useCallback((keyName: string, inView: boolean) => {
     const next = new Set(visibleSectionsRef.current)
-    if (inView) {
-      next.add(keyName)
-    } else {
-      next.delete(keyName)
-    }
+    if (inView) next.add(keyName)
+    else next.delete(keyName)
     visibleSectionsRef.current = next
   }, [])
 
   useEffect(() => {
-    const firstSectionId = Object.keys(categories)[0]
+    if (isCmsRoute) return
+
+    fetchProducts()
+      .then(setProducts)
+      .catch(() => {
+        // fallback stays localProducts
+      })
+  }, [isCmsRoute])
+
+  useEffect(() => {
+    if (isCmsRoute) return
+
+    const firstSectionId = Object.keys(products)[0]
+    if (!firstSectionId) return
+
     const showWhenFirstSectionTopIsAt = 0.25
 
     const updateItemNavVisibility = () => {
@@ -83,22 +99,28 @@ function App() {
       window.removeEventListener('scroll', updateItemNavVisibility)
       window.removeEventListener('resize', updateItemNavVisibility)
     }
-  }, [])
+  }, [products, isCmsRoute])
 
   useEffect(() => {
+    if (isCmsRoute) return
+
     const id = setTimeout(() => setHeroCanVisible(true), 1000)
-    const id_pate = setTimeout(() => setHeroPateCanVisible(true), 1500)
-    const id_tin = setTimeout(() => setHeroTinCanVisible(true), 1800)
-    return () =>{ 
+    const idPate = setTimeout(() => setHeroPateCanVisible(true), 1500)
+    const idTin = setTimeout(() => setHeroTinCanVisible(true), 1800)
+    return () => {
       clearTimeout(id)
-      clearTimeout(id_pate)
-      clearTimeout(id_tin)
+      clearTimeout(idPate)
+      clearTimeout(idTin)
     }
-  }, [])
+  }, [isCmsRoute])
+
+  if (isCmsRoute) {
+    return <CmsPanel />
+  }
 
   return (
-    <div className="bg-[url(/bg1.webp)]"> 
-      <Navbar lang={lang}/>  
+    <div className="bg-[url(/bg1.webp)]">
+      <Navbar lang={lang} products={products} />
       <div
         className="fixed top-20 left-0 z-50 hidden h-[80vh] lg:block"
         style={{
@@ -108,7 +130,7 @@ function App() {
           pointerEvents: showItemNav ? 'auto' : 'none',
         }}
       >
-        <ItemNavBar lang={lang} />
+        <ItemNavBar lang={lang} products={products} />
       </div>
 
       <div
@@ -120,110 +142,58 @@ function App() {
           pointerEvents: showItemNav ? 'auto' : 'none',
         }}
       >
-        <ItemNavBar lang={lang} mobile />
+        <ItemNavBar lang={lang} products={products} mobile />
       </div>
+
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
-          <section id="home-hero" className='hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2'>
-            <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-36 md:py-16">
-              <div className="hero-text slide-in-left relative z-10">
-                <p className="hero-title">MGK-pack d.d.</p>
-                <h1 className="hero-eyebrow">
-                  {uiText[lang].heroTitle}
-                </h1>
-                <h1 className="hero-desc-title">{uiText[lang].aboutTitle}</h1>
-                <p className="hero-desc">{uiText[lang].aboutDescription}</p>
-                <div className="hero-metrics">
-                  <div>
-                    <p className="hero-metric-title">{uiText[lang].qualityTitle}</p>
-                    <p className="hero-metric-sub">{uiText[lang].qualitySub}</p>
-                  </div>
-                  <div>
-                    <p className="hero-metric-title">{uiText[lang].deliveryTitle}</p>
-                    <p className="hero-metric-sub">{uiText[lang].deliverySub}</p>
-                  </div>
+        <section id="home-hero" className="hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2">
+          <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-36 md:py-16">
+            <div className="hero-text slide-in-left relative z-10">
+              <p className="hero-title">MGK-pack d.d.</p>
+              <h1 className="hero-eyebrow">{uiText[lang].heroTitle}</h1>
+              <h1 className="hero-desc-title">{uiText[lang].aboutTitle}</h1>
+              <p className="hero-desc">{uiText[lang].aboutDescription}</p>
+              <div className="hero-metrics">
+                <div>
+                  <p className="hero-metric-title">{uiText[lang].qualityTitle}</p>
+                  <p className="hero-metric-sub">{uiText[lang].qualitySub}</p>
                 </div>
-                <div className="hero-actions">
-                  <button className="hero-cta primary">{uiText[lang].quoteCta}</button>
-                  <button className="hero-cta ghost">{uiText[lang].productsCta}</button>
+                <div>
+                  <p className="hero-metric-title">{uiText[lang].deliveryTitle}</p>
+                  <p className="hero-metric-sub">{uiText[lang].deliverySub}</p>
                 </div>
               </div>
+              <div className="hero-actions">
+                <button className="hero-cta primary">{uiText[lang].quoteCta}</button>
+                <button className="hero-cta ghost">{uiText[lang].productsCta}</button>
+              </div>
             </div>
-            <img
-              src="home-tin-can.webp"
-              className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
-              alt="can"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-            <img
-              src="home-pate-can.webp"
-              className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}
-              alt="can"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
-            <img
-              src="home-can.webp"
-              className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`}
-              alt="can"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-            />
+          </div>
 
-            <div className="absolute bottom-4 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden">
-              <img
-                src="home-pate-can.webp"
-                className={`w-32 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`}
-                alt="can"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-              />
-              <img
-                src="home-can.webp"
-                className={`w-36 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`}
-                alt="can"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-              />
-              <img
-                src="home-tin-can.webp"
-                className={`w-28 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`}
-                alt="can"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-              />
-            </div>
-          </section>
-            
-            {Object.entries(categories).map(([key], index, entries) => (
-              <Fragment key={key}>
-                <Section
-                  keyName={key as keyof typeof categories}
-                  lang={lang}
-                  onInViewChange={handleSectionInViewChange}
-                />
-                {index < entries.length - 1 && <Cans />}
-              </Fragment>
-            ))}
-            <Contact lang={lang} />
-            
+          <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+
+          <div className="absolute bottom-4 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden">
+            <img src="home-pate-can.webp" className={`w-32 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-can.webp" className={`w-36 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-tin-can.webp" className={`w-28 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          </div>
+        </section>
+
+        {Object.entries(products).map(([key], index, entries) => (
+          <Fragment key={key}>
+            <Section keyName={key} products={products} lang={lang} onInViewChange={handleSectionInViewChange} />
+            {index < entries.length - 1 && <Cans />}
+          </Fragment>
+        ))}
+        <Contact lang={lang} />
       </div>
-      
+
       <div className="fixed bottom-6 right-6">
-        <button
-          className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110"
-          onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}
-        >
+        <button className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110" onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}>
           {lang === 'hr' ? 'English' : 'Hrvatski'}
         </button>
-      </div>
-      <div className="fixed bottom-6 left-6">
       </div>
     </div>
   )

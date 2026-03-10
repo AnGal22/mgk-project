@@ -1,17 +1,19 @@
 ﻿import { useEffect, useRef, useState } from 'react'
 import SidePanel from './SidePanel'
-import categories from "../products.json"
+import type { ProductsData } from '../types/products'
 
 type SectionProps = {
-  keyName: keyof typeof categories
+  keyName: string
+  products: ProductsData
   lang: 'hr' | 'en'
-  onInViewChange?: (keyName: keyof typeof categories, inView: boolean) => void
+  onInViewChange?: (keyName: string, inView: boolean) => void
 }
 
-const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
+const section = ({ keyName, products, lang, onInViewChange }: SectionProps) => {
   const rootRef = useRef<HTMLElement | null>(null)
   const [isPanelOpen, setIsPanelOpen] = useState(false)
   const [shouldLoadBackground, setShouldLoadBackground] = useState(false)
+  const product = products[keyName]
 
   const sectionText = {
     hr: {
@@ -41,9 +43,7 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
   }
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return
-    }
+    if (!rootRef.current) return
 
     const targets = rootRef.current.querySelectorAll('[data-animate]')
     const observer = new IntersectionObserver(
@@ -66,9 +66,7 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
   }, [])
 
   useEffect(() => {
-    if (!rootRef.current || !onInViewChange) {
-      return
-    }
+    if (!rootRef.current || !onInViewChange) return
 
     const navShowRatio = 0.75
     const sectionObserver = new IntersectionObserver(
@@ -92,9 +90,7 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
   }, [keyName, onInViewChange])
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return
-    }
+    if (!rootRef.current) return
 
     const preloadObserver = new IntersectionObserver(
       (entries) => {
@@ -113,13 +109,11 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
 
     preloadObserver.observe(rootRef.current)
 
-    return () => {
-      preloadObserver.disconnect()
-    }
+    return () => preloadObserver.disconnect()
   }, [])
 
   const backgroundUrl = shouldLoadBackground
-    ? (categories[keyName].images?.[1]?.url ?? categories[keyName].images?.[0]?.url)
+    ? (product.images?.[1]?.url ?? product.images?.[0]?.url)
     : undefined
 
   return (
@@ -143,9 +137,9 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
             data-animate
             className="animate-slideInLeftText text-[clamp(2.2rem,4.5vw,5.25rem)] font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-sky-500 to-blue-700 drop-shadow-[0_2px_8px_rgba(37,99,235,0.35)]"
           >
-            {categories[keyName].name[lang]}
+            {product.name[lang]}
           </h1>
-          
+
           <button
             className="relative z-20 inline-flex items-center rounded-full bg-red-500 px-5 py-3 text-base font-semibold uppercase tracking-wider text-white shadow-lg shadow-red-500/30 transition-transform duration-200 ease-out hover:scale-110 hover:-translate-y-0.5 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400/70 md:px-[clamp(1.1rem,1.6vw,1.8rem)] md:py-[clamp(0.55rem,0.8vw,0.8rem)] md:text-[clamp(0.95rem,1.15vw,1.25rem)]"
             onClick={() => setIsPanelOpen(true)}
@@ -153,40 +147,35 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
             {sectionText[lang].specs}
           </button>
         </div>
-        
-        </div>
+      </div>
 
       <SidePanel
         isOpen={isPanelOpen}
         onClose={() => setIsPanelOpen(false)}
-        title={categories[keyName].name[lang]}
+        title={product.name[lang]}
         closeLabel={sectionText[lang].closePanel}
         key={keyName}
       >
-        <p className="max-w-prose text-sm leading-relaxed text-slate-700">
-          {categories[keyName].description[lang]}
-        </p>
-        {categories[keyName].schema_image && (
+        <p className="max-w-prose text-sm leading-relaxed text-slate-700">{product.description[lang]}</p>
+        {product.schema_image && (
           <div className="mt-4">
             <img
               className={`w-full rounded-lg border border-slate-200 shadow-sm ${
-                keyName === 'drawn_rectangular_cans_1_4_club'
-                  ? 'max-w-md'
-                  : 'max-w-xs'
+                keyName === 'drawn_rectangular_cans_1_4_club' ? 'max-w-md' : 'max-w-xs'
               }`}
-              src={categories[keyName].schema_image.url}
-              alt={categories[keyName].schema_image.alt[lang]}
+              src={product.schema_image.url}
+              alt={product.schema_image.alt[lang]}
               loading="lazy"
               decoding="async"
             />
           </div>
         )}
-        {categories[keyName].specs && (
+        {product.specs && (
           <div className="mt-6 overflow-x-auto">
             <table className="min-w-full border-collapse text-left text-sm">
               <thead>
                 <tr className="border-b border-slate-200 text-slate-500">
-                  {Object.keys(categories[keyName].specs).map((key) => (
+                  {Object.keys(product.specs).map((key) => (
                     <th key={key} className="px-3 py-2 font-semibold">
                       {sectionText[lang].specHeaders[key as keyof typeof sectionText.hr.specHeaders] ?? key.replace(/_/g, ' ')}
                     </th>
@@ -196,13 +185,11 @@ const section = ({ keyName, lang, onInViewChange }: SectionProps) => {
               <tbody>
                 {Array.from({
                   length: Math.max(
-                    ...Object.values(categories[keyName].specs).map((value) =>
-                      Array.isArray(value) ? value.length : 1
-                    )
+                    ...Object.values(product.specs).map((value) => (Array.isArray(value) ? value.length : 1))
                   ),
                 }).map((_, rowIndex) => (
                   <tr key={rowIndex} className="border-b border-slate-100">
-                    {Object.entries(categories[keyName].specs).map(([key, value]) => (
+                    {Object.entries(product.specs).map(([key, value]) => (
                       <td key={key} className="px-3 py-2 text-slate-700">
                         {Array.isArray(value) ? value[rowIndex] ?? '' : value}
                       </td>

@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 
 import '../index.css'
 import Links from './Links.tsx'
+import type { ProductsData } from '../types/products.ts'
 
 type NavbarProps = {
   lang: 'hr' | 'en';
+  products: ProductsData;
 }
 
-const Navbar = ({ lang }: NavbarProps) => {
+const Navbar = ({ lang, products }: NavbarProps) => {
   const [isVisible, setIsVisible] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -59,7 +61,7 @@ const Navbar = ({ lang }: NavbarProps) => {
             decoding="async"
           />
 
-          <Links lang={lang} />
+          <Links lang={lang} products={products} />
 
           <button
             type="button"
@@ -82,7 +84,7 @@ const Navbar = ({ lang }: NavbarProps) => {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-black/40 md:hidden" onClick={() => setMobileMenuOpen(false)}>
           <div className="absolute right-3 top-20 w-[min(88vw,22rem)] rounded-2xl border border-slate-200 bg-white p-2 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <Links lang={lang} mobile onNavigate={() => setMobileMenuOpen(false)} />
+            <Links lang={lang} products={products} mobile onNavigate={() => setMobileMenuOpen(false)} />
           </div>
         </div>
       )}

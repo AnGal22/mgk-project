@@ -1,13 +1,14 @@
-import categories from "../products.json"
+import type { ProductsData } from '../types/products'
 
 type LinksProps = {
   lang: 'hr' | 'en';
+  products: ProductsData;
   mobile?: boolean;
   onNavigate?: () => void;
 }
 
-const Links = ({ lang, mobile = false, onNavigate }: LinksProps) => {
-  const firstProductId = Object.keys(categories)[0]
+const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
+  const firstProductId = Object.keys(products)[0]
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -38,7 +39,7 @@ const Links = ({ lang, mobile = false, onNavigate }: LinksProps) => {
         <button onClick={() => scrollToSection('home-hero')} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
           {labels[lang].about}
         </button>
-        <button onClick={() => scrollToSection(firstProductId)} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
+        <button onClick={() => firstProductId && scrollToSection(firstProductId)} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
           {labels[lang].services}
         </button>
         <button onClick={() => scrollToSection('contact')} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
@@ -56,7 +57,7 @@ const Links = ({ lang, mobile = false, onNavigate }: LinksProps) => {
       <button onClick={() => scrollToSection('home-hero')} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
         {labels[lang].about}
       </button>
-      <button onClick={() => scrollToSection(firstProductId)} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
+      <button onClick={() => firstProductId && scrollToSection(firstProductId)} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
         {labels[lang].services}
       </button>
       <button onClick={() => scrollToSection('contact')} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">

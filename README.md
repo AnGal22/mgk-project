@@ -21,14 +21,18 @@ The site presents the company, product categories, technical specifications, and
 - **Product sections generated from JSON** (data-driven rendering)
 - **Slide-out specification panel** for each product category
 - **Contact section** with localized labels
+- **CMS at `/cms`** (employee login + JSON editor)
 
 ## Project Structure
 
 ```text
 mgk-project/
+├─ api/                     # Vercel Functions (auth + products API)
 ├─ public/                  # Static assets (images, icons, video)
+├─ server/                  # Local Express API for dev
 ├─ src/
 │  ├─ components/
+│  │  ├─ CmsPanel.tsx       # CMS login + JSON editor
 │  │  ├─ Navbar.tsx         # Top navbar (scroll-aware visibility)
 │  │  ├─ Links.tsx          # Main nav links
 │  │  ├─ ItemNavBar.tsx     # Left-side icon navigation by category
@@ -36,9 +40,10 @@ mgk-project/
 │  │  ├─ SidePanel.tsx      # Slide-out details panel
 │  │  ├─ cans.tsx           # Decorative separator component
 │  │  ├─ Contact.tsx        # Contact/info footer section
-│  │  ├─ ProductNav.tsx     # Product navigation helper (if used)
 │  │  └─ Product.tsx        # Product card component (generic)
-│  ├─ App.tsx               # Main page composition and section orchestration
+│  ├─ lib/api.ts            # Frontend API client
+│  ├─ types/products.ts     # Product data types
+│  ├─ App.tsx               # Main page + CMS route switch
 │  ├─ App.css               # Component-level styling/animations
 │  ├─ index.css             # Global styles
 │  ├─ products.json         # Product categories/specs/content (HR/EN)
@@ -51,46 +56,10 @@ mgk-project/
 └─ eslint.config.js
 ```
 
-## Data Model
-
-### `src/products.json`
-Contains category entries such as:
-- `drawn_round_cans_food`
-- `drawn_rectangular_cans_1_4_club`
-- `three_piece_welded_food`
-- `three_piece_welded_powder_dairy`
-
-Each entry includes:
-- localized `name`, `short_description`, `description`
-- `images[]`
-- `schema_image`
-- `icon`
-- `specs` (array columns rendered into a table)
-
-### `src/info.json`
-Contains localized company intro:
-- `title_desc.hr/en`
-- `description.hr/en`
-
-## Rendering Flow (High Level)
-
-1. `App.tsx` initializes language (`hr` default) and hero animation flags.
-2. Product category keys are loaded from `products.json`.
-3. For each key, a `Section` component is rendered.
-4. `Section` uses IntersectionObserver:
-   - to trigger visual in-view animations
-   - to report visibility back to `App` for left navigation behavior
-5. Clicking **Specifikacije / Specifications** opens `SidePanel` with:
-   - long description
-   - schema image
-   - dynamically generated specs table
-6. `Contact.tsx` renders localized contact fields.
-
 ## Scripts
 
-From `package.json`:
-
-- `npm run dev` — start local development server
+- `npm run dev` — start local frontend dev server (Vite)
+- `npm run dev:api` — start local CMS API server (Express)
 - `npm run build` — TypeScript build + production bundle
 - `npm run preview` — preview production build
 - `npm run lint` — run ESLint
@@ -99,17 +68,39 @@ From `package.json`:
 
 ```bash
 npm install
+cp .env.example .env
+# set CMS_USERNAME / CMS_PASSWORD / CMS_JWT_SECRET in .env
+npm run dev:api
 npm run dev
 ```
 
-Default Vite dev URL is typically:
-- `http://localhost:5173`
+Default URLs:
+- Frontend: `http://localhost:5173`
+- CMS page: `http://localhost:5173/cms`
+- Local API: `http://localhost:3001`
 
-## Notes / Current Caveats
+## CMS (employee login + products.json editing)
 
-- `Contact.tsx` currently uses placeholder details for some fields (address/phone/certificates hint).
-- Component filename `section.tsx` is lowercase; this works, but standard React convention is PascalCase (e.g. `Section.tsx`).
-- There are minor mixed-language comments and some temporary dev comments that can be cleaned for production readability.
+- Employees open `/cms` and login with credentials from `.env` (or Vercel env vars)
+- After login, they can edit full JSON content and save
+- Frontend reads product data via `/api/products` (with local JSON fallback if API is offline)
+- In local dev (Express API), save writes to `src/products.json`
+- On Vercel, save persists in **Vercel Blob** at `cms/products.json`
+
+## Deploy to Vercel (single provider)
+
+1. Import repo in Vercel
+2. Add environment variables:
+   - `CMS_USERNAME`
+   - `CMS_PASSWORD`
+   - `CMS_JWT_SECRET`
+   - `BLOB_READ_WRITE_TOKEN` (from Vercel Blob store)
+3. Deploy
+4. Open `/cms`, login, edit/save products
+
+Notes:
+- API routes are in `api/*` and run as Vercel Functions
+- No separate backend host is needed on Vercel
 
 ## Purpose
 

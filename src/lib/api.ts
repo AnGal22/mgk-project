@@ -49,6 +49,24 @@ export async function saveProducts(data: ProductsData) {
   return handleResponse<{ ok: true }>(response)
 }
 
+export async function uploadCmsImage(file: File) {
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(String(reader.result || ''))
+    reader.onerror = () => reject(new Error('Ne mogu učitati file'))
+    reader.readAsDataURL(file)
+  })
+
+  const response = await fetch('/api/upload-image', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ fileName: file.name, dataUrl }),
+  })
+
+  return handleResponse<{ url: string }>(response)
+}
+
 export async function logoutCms() {
   const response = await fetch('/api/auth/logout', {
     method: 'POST',

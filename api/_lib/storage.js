@@ -12,6 +12,10 @@ function getLocalPath() {
   return path.join(process.cwd(), 'src', 'products.json')
 }
 
+function sanitizeFileName(name) {
+  return name.toLowerCase().replace(/[^a-z0-9._-]/g, '-').replace(/-+/g, '-')
+}
+
 async function readFromBlob() {
   const result = await list({ prefix: BLOB_PATH, limit: 1 })
   const exact = result.blobs.find((b) => b.pathname === BLOB_PATH) || result.blobs[0]
@@ -34,6 +38,25 @@ async function writeToBlob(data) {
     addRandomSuffix: false,
     contentType: 'application/json; charset=utf-8',
   })
+}
+
+export async function writeImageAsset({ fileName, contentType, buffer }) {
+  const cleanName = sanitizeFileName(fileName)
+
+  if (hasBlob()) {
+    const blob = await put(`cms/uploads/${cleanName}`, buffer, {
+      access: 'public',
+      addRandomSuffix: true,
+      contentType,
+    })
+    return blob.url
+  }
+
+  const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
+  await fs.mkdir(uploadsDir, { recursive: true })
+  const targetPath = path.join(uploadsDir, cleanName)
+  await fs.writeFile(targetPath, buffer)
+  return `/uploads/${cleanName}`
 }
 
 export async function readProducts() {

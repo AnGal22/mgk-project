@@ -1,15 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { FormEvent } from 'react'
-import { fetchProducts, getCmsSession, loginCms, logoutCms, saveProducts } from '../lib/api'
-import type { ProductsData } from '../types/products'
+import type { ChangeEvent, DragEvent, FormEvent } from 'react'
+import { fetchProducts, getCmsSession, loginCms, logoutCms, saveProducts, uploadCmsImage } from '../lib/api'
+import type { ProductCategory, ProductsData } from '../types/products'
 
 const CmsPanel = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [jsonValue, setJsonValue] = useState('{}')
+  const [products, setProducts] = useState<ProductsData>({})
+  const [selectedKey, setSelectedKey] = useState('')
   const [status, setStatus] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     const initialize = async () => {
@@ -21,8 +23,10 @@ const CmsPanel = () => {
         }
 
         setIsAuthenticated(true)
-        const products = await fetchProducts()
-        setJsonValue(JSON.stringify(products, null, 2))
+        const data = await fetchProducts()
+        const firstKey = Object.keys(data)[0] || ''
+        setProducts(data)
+        setSelectedKey(firstKey)
       } catch (error) {
         setStatus(error instanceof Error ? error.message : 'Greška pri učitavanju CMS-a')
       } finally {
@@ -39,8 +43,10 @@ const CmsPanel = () => {
 
     try {
       await loginCms({ username, password })
-      const products = await fetchProducts()
-      setJsonValue(JSON.stringify(products, null, 2))
+      const data = await fetchProducts()
+      const firstKey = Object.keys(data)[0] || ''
+      setProducts(data)
+      setSelectedKey(firstKey)
       setIsAuthenticated(true)
       setPassword('')
       setStatus('Uspješno prijavljen.')
@@ -49,24 +55,89 @@ const CmsPanel = () => {
     }
   }
 
-  const parsedProducts = useMemo(() => {
+  const selectedProduct = useMemo(() => {
+    if (!selectedKey) return null
+    return products[selectedKey] || null
+  }, [products, selectedKey])
+
+  const updateSelected = (updater: (current: ProductCategory) => ProductCategory) => {
+    if (!selectedKey || !selectedProduct) return
+    setProducts((current) => ({
+      ...current,
+      [selectedKey]: updater(current[selectedKey]),
+    }))
+  }
+
+  const onTextChange = (field: 'name' | 'short_description' | 'description', lang: 'hr' | 'en', value: string) => {
+    updateSelected((product) => {
+      if (field === 'short_description') {
+        const currentShort = product.short_description ?? { hr: '', en: '' }
+        return {
+          ...product,
+          short_description: {
+            ...currentShort,
+            [lang]: value,
+          },
+        }
+      }
+
+      return {
+        ...product,
+        [field]: {
+          ...product[field],
+          [lang]: value,
+        },
+      }
+    })
+  }
+
+  const onImageUrlChange = (value: string) => {
+    updateSelected((product) => {
+      const images = [...product.images]
+      if (!images[0]) {
+        images[0] = { url: '', alt: { hr: '', en: '' } }
+      }
+      images[0] = {
+        ...images[0],
+        url: value,
+      }
+      return { ...product, images }
+    })
+  }
+
+  const handleFileUpload = async (file: File) => {
+    setIsUploading(true)
+    setStatus('Uploadam sliku...')
+
     try {
-      return JSON.parse(jsonValue) as ProductsData
-    } catch {
-      return null
+      const { url } = await uploadCmsImage(file)
+      onImageUrlChange(url)
+      setStatus('Slika uploadana i povezana s proizvodom ✅')
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Greška pri uploadu slike')
+    } finally {
+      setIsUploading(false)
     }
-  }, [jsonValue])
+  }
+
+  const onDropImage = async (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    const file = event.dataTransfer.files?.[0]
+    if (!file) return
+    await handleFileUpload(file)
+  }
+
+  const onPickImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+    await handleFileUpload(file)
+  }
 
   const onSave = async () => {
-    if (!parsedProducts) {
-      setStatus('JSON nije validan. Ispravi greške prije spremanja.')
-      return
-    }
-
     setStatus('Spremam...')
     try {
-      await saveProducts(parsedProducts)
-      setStatus('Spremljeno u src/products.json ✅')
+      await saveProducts(products)
+      setStatus('Spremljeno ✅')
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Greška pri spremanju')
     }
@@ -109,28 +180,101 @@ const CmsPanel = () => {
     )
   }
 
+  const productEntries = Object.entries(products)
+
   return (
-    <main className="mx-auto mt-8 w-full max-w-6xl p-4">
+    <main className="mx-auto mt-6 w-full max-w-7xl p-4">
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">MGK CMS – products.json editor</h1>
-        <button className="rounded-lg border border-slate-300 px-3 py-2" onClick={onLogout}>
-          Logout
-        </button>
+        <h1 className="text-2xl font-bold">MGK CMS – urednik proizvoda</h1>
+        <div className="flex gap-2">
+          <button className="rounded-lg bg-emerald-600 px-4 py-2 font-semibold text-white hover:bg-emerald-700" onClick={onSave}>
+            Spremi
+          </button>
+          <button className="rounded-lg border border-slate-300 px-3 py-2" onClick={onLogout}>
+            Logout
+          </button>
+        </div>
       </div>
 
-      <textarea
-        className="min-h-[70vh] w-full rounded-xl border border-slate-300 p-4 font-mono text-sm"
-        value={jsonValue}
-        onChange={(event) => setJsonValue(event.target.value)}
-      />
+      <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
+        <aside className="rounded-xl border border-slate-200 bg-white p-3">
+          <p className="mb-2 text-sm font-semibold text-slate-500">PROIZVODI</p>
+          <div className="space-y-2">
+            {productEntries.map(([key, product], index) => (
+              <button
+                key={key}
+                className={`w-full rounded-lg border p-3 text-left ${selectedKey === key ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white'}`}
+                onClick={() => setSelectedKey(key)}
+              >
+                <p className="text-xs font-semibold text-slate-500">Konzerva {index + 1}</p>
+                <p className="font-medium text-slate-800">{product.name.hr || key}</p>
+              </button>
+            ))}
+          </div>
+        </aside>
 
-      <div className="mt-3 flex items-center gap-3">
-        <button className="rounded-lg bg-emerald-600 px-4 py-2 font-semibold text-white hover:bg-emerald-700" onClick={onSave}>
-          Save products.json
-        </button>
-        <span className={parsedProducts ? 'text-emerald-700' : 'text-red-600'}>
-          {parsedProducts ? 'Valid JSON' : 'Invalid JSON'}
-        </span>
+        <section className="rounded-xl border border-slate-200 bg-white p-4">
+          {!selectedProduct ? (
+            <p className="text-slate-500">Odaberi proizvod s lijeve strane.</p>
+          ) : (
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Uređivanje: {selectedProduct.name.hr || selectedKey}</h2>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <label className="text-sm">
+                  <span className="mb-1 block font-medium">Ime (HR)</span>
+                  <input className="w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.name.hr} onChange={(e) => onTextChange('name', 'hr', e.target.value)} />
+                </label>
+                <label className="text-sm">
+                  <span className="mb-1 block font-medium">Ime (EN)</span>
+                  <input className="w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.name.en} onChange={(e) => onTextChange('name', 'en', e.target.value)} />
+                </label>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <label className="text-sm">
+                  <span className="mb-1 block font-medium">Kratki opis (HR)</span>
+                  <textarea className="min-h-24 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.short_description?.hr ?? ''} onChange={(e) => onTextChange('short_description', 'hr', e.target.value)} />
+                </label>
+                <label className="text-sm">
+                  <span className="mb-1 block font-medium">Kratki opis (EN)</span>
+                  <textarea className="min-h-24 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.short_description?.en ?? ''} onChange={(e) => onTextChange('short_description', 'en', e.target.value)} />
+                </label>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                <label className="text-sm">
+                  <span className="mb-1 block font-medium">Opis (HR)</span>
+                  <textarea className="min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.description.hr} onChange={(e) => onTextChange('description', 'hr', e.target.value)} />
+                </label>
+                <label className="text-sm">
+                  <span className="mb-1 block font-medium">Opis (EN)</span>
+                  <textarea className="min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.description.en} onChange={(e) => onTextChange('description', 'en', e.target.value)} />
+                </label>
+              </div>
+
+              <div className="rounded-lg border border-dashed border-slate-300 p-4" onDragOver={(e) => e.preventDefault()} onDrop={(e) => void onDropImage(e)}>
+                <p className="font-medium">Slika proizvoda</p>
+                <p className="text-sm text-slate-500">Drag & drop sliku ovdje ili odaberi file. Putanja će se automatski popuniti.</p>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <input type="file" accept="image/*" onChange={(e) => void onPickImage(e)} />
+                  {isUploading && <span className="text-sm text-blue-600">Upload u tijeku...</span>}
+                </div>
+                <label className="mt-3 block text-sm">
+                  <span className="mb-1 block font-medium">URL slike</span>
+                  <input
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2"
+                    value={selectedProduct.images?.[0]?.url ?? ''}
+                    onChange={(e) => onImageUrlChange(e.target.value)}
+                  />
+                </label>
+                {selectedProduct.images?.[0]?.url && (
+                  <img src={selectedProduct.images[0].url} alt="preview" className="mt-3 max-h-40 rounded-lg border border-slate-200" />
+                )}
+              </div>
+            </div>
+          )}
+        </section>
       </div>
 
       {status && <p className="mt-3 text-sm text-slate-700">{status}</p>}

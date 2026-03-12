@@ -13,7 +13,17 @@ function getLocalPath() {
 }
 
 function sanitizeFileName(name) {
-  return name.toLowerCase().replace(/[^a-z0-9._-]/g, '-').replace(/-+/g, '-')
+  const cleaned = name
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^[.-]+|[.-]+$/g, '')
+
+  if (!cleaned || /^[.-]+$/.test(cleaned)) {
+    return `file-${Date.now()}`
+  }
+
+  return cleaned
 }
 
 async function readFromBlob() {
@@ -54,9 +64,14 @@ export async function writeImageAsset({ fileName, contentType, buffer }) {
 
   const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
   await fs.mkdir(uploadsDir, { recursive: true })
-  const targetPath = path.join(uploadsDir, cleanName)
+
+  const ext = path.extname(cleanName)
+  const base = path.basename(cleanName, ext)
+  const uniqueName = `${base}-${Date.now()}${ext}`
+  const targetPath = path.join(uploadsDir, uniqueName)
+
   await fs.writeFile(targetPath, buffer)
-  return `/uploads/${cleanName}`
+  return `/uploads/${uniqueName}`
 }
 
 export async function readProducts() {

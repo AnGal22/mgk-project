@@ -9,7 +9,10 @@ const createEmptyProduct = (): ProductCategory => ({
   description: { hr: '', en: '' },
   category: '',
   material: '',
-  images: [{ url: '', alt: { hr: '', en: '' } }],
+  images: [
+    { url: '', alt: { hr: '', en: '' } },
+    { url: '', alt: { hr: '', en: '' } },
+  ],
   icon: { url: '', alt: { hr: '', en: '' } },
   specs: {},
 })
@@ -224,8 +227,8 @@ const CmsPanel = () => {
       <main className="mx-auto mt-24 w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
         <h1 className="mb-4 text-2xl font-bold">MGK CMS Login</h1>
         <form onSubmit={onLogin} className="space-y-3">
-          <input className="w-full rounded-lg border border-slate-300 px-3 py-2" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)} />
-          <input type="password" className="w-full rounded-lg border border-slate-300 px-3 py-2" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
+          <input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)} />
+          <input type="password" className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
           <button className="w-full rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" type="submit">Login</button>
         </form>
         {status && <p className="mt-3 text-sm text-slate-600 whitespace-pre-line">{status}</p>}
@@ -236,7 +239,7 @@ const CmsPanel = () => {
   const productEntries = Object.entries(products)
 
   return (
-    <main className="mx-auto mt-6 w-full max-w-7xl p-4">
+    <main className="mx-auto mt-6 w-full max-w-7xl overflow-x-hidden p-3 sm:p-4">
       <div className="mb-4 rounded-2xl border border-slate-200 bg-gradient-to-r from-slate-50 to-white p-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -256,7 +259,7 @@ const CmsPanel = () => {
 
           <div className="mb-3 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
             <input
-              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+              className="min-w-0 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
               placeholder="Novi key (npr. konzerva_5)"
               value={newKey}
               onChange={(e) => setNewKey(e.target.value)}
@@ -275,7 +278,7 @@ const CmsPanel = () => {
           </div>
         </aside>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
           {!selectedProduct ? (
             <p className="text-slate-500">Odaberi proizvod s lijeve strane.</p>
           ) : (
@@ -289,8 +292,8 @@ const CmsPanel = () => {
               </div>
 
               <div className="grid gap-3 md:grid-cols-2">
-                <label className="text-sm"><span className="mb-1 block font-medium">Ime (HR) *</span><input className="w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.name.hr} onChange={(e) => onTextChange('name', 'hr', e.target.value)} /></label>
-                <label className="text-sm"><span className="mb-1 block font-medium">Ime (EN) *</span><input className="w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.name.en} onChange={(e) => onTextChange('name', 'en', e.target.value)} /></label>
+                <label className="text-sm"><span className="mb-1 block font-medium">Ime (HR) *</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.name.hr} onChange={(e) => onTextChange('name', 'hr', e.target.value)} /></label>
+                <label className="text-sm"><span className="mb-1 block font-medium">Ime (EN) *</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.name.en} onChange={(e) => onTextChange('name', 'en', e.target.value)} /></label>
               </div>
 
               <div className="grid gap-3 md:grid-cols-2">
@@ -312,21 +315,21 @@ const CmsPanel = () => {
                 </div>
                 <label className="mt-3 block text-sm">
                   <span className="mb-1 block font-medium">URL background slike (images[1])</span>
-                  <input className="w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.images?.[1]?.url ?? ''} onChange={(e) => onImageUrlChange(e.target.value, 1)} />
+                  <input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.images?.[1]?.url ?? ''} onChange={(e) => onImageUrlChange(e.target.value, 1)} />
                 </label>
                 {selectedProduct.images?.[1]?.url && <img src={selectedProduct.images[1].url} alt="background preview" className="mt-3 max-h-40 rounded-lg border border-slate-200" />}
               </div>
 
               <label className="block text-sm">
                 <span className="mb-1 block font-medium">Slika limenke (opcionalno, images[0])</span>
-                <input className="w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.images?.[0]?.url ?? ''} onChange={(e) => onImageUrlChange(e.target.value, 0)} />
+                <input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.images?.[0]?.url ?? ''} onChange={(e) => onImageUrlChange(e.target.value, 0)} />
               </label>
             </div>
           )}
         </section>
       </div>
 
-      {status && <p className="mt-3 whitespace-pre-line text-sm text-slate-700">{status}</p>}
+      {status && <p className="mt-3 whitespace-pre-line break-words text-sm text-slate-700">{status}</p>}
     </main>
   )
 }

@@ -237,21 +237,26 @@ const CmsPanel = () => {
 
   return (
     <main className="mx-auto mt-6 w-full max-w-7xl p-4">
-      <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">MGK CMS – urednik proizvoda</h1>
-        <div className="flex gap-2">
-          <button className="rounded-lg bg-emerald-600 px-4 py-2 font-semibold text-white hover:bg-emerald-700" onClick={onSave}>Spremi</button>
-          <button className="rounded-lg border border-slate-300 px-3 py-2" onClick={onLogout}>Logout</button>
+      <div className="mb-4 rounded-2xl border border-slate-200 bg-gradient-to-r from-slate-50 to-white p-4 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">MGK CMS</h1>
+            <p className="text-sm text-slate-600">Jednostavno uređivanje proizvoda za zaposlenike (bez JSON-a)</p>
+          </div>
+          <div className="flex gap-2">
+            <button className="rounded-lg bg-emerald-600 px-4 py-2 font-semibold text-white hover:bg-emerald-700" onClick={onSave}>Spremi promjene</button>
+            <button className="rounded-lg border border-slate-300 bg-white px-3 py-2" onClick={onLogout}>Logout</button>
+          </div>
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[300px_1fr]">
-        <aside className="rounded-xl border border-slate-200 bg-white p-3">
-          <p className="mb-2 text-sm font-semibold text-slate-500">PROIZVODI</p>
+      <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
+        <aside className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm lg:sticky lg:top-4 lg:h-[calc(100vh-3rem)] lg:overflow-auto">
+          <p className="mb-2 text-xs font-semibold tracking-wide text-slate-500">PROIZVODI</p>
 
-          <div className="mb-3 space-y-2 rounded-lg border border-slate-200 p-2">
+          <div className="mb-3 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
             <input
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
               placeholder="Novi key (npr. konzerva_5)"
               value={newKey}
               onChange={(e) => setNewKey(e.target.value)}
@@ -261,22 +266,26 @@ const CmsPanel = () => {
 
           <div className="space-y-2">
             {productEntries.map(([key, product], index) => (
-              <button key={key} className={`w-full rounded-lg border p-3 text-left ${selectedKey === key ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white'}`} onClick={() => setSelectedKey(key)}>
-                <p className="text-xs font-semibold text-slate-500">Konzerva {index + 1}</p>
+              <button key={key} className={`w-full rounded-xl border p-3 text-left transition ${selectedKey === key ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'}`} onClick={() => setSelectedKey(key)}>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Konzerva {index + 1}</p>
                 <p className="font-medium text-slate-800">{product.name.hr || key}</p>
+                <p className="mt-1 truncate text-xs text-slate-500">{key}</p>
               </button>
             ))}
           </div>
         </aside>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-4">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           {!selectedProduct ? (
             <p className="text-slate-500">Odaberi proizvod s lijeve strane.</p>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center justify-between gap-2">
-                <h2 className="text-xl font-semibold">Uređivanje: {selectedProduct.name.hr || selectedKey}</h2>
-                <button className="rounded-lg border border-red-300 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50" onClick={onRemoveProduct}>Obriši proizvod</button>
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-slate-500">Uređivanje proizvoda</p>
+                  <h2 className="text-xl font-semibold text-slate-900">{selectedProduct.name.hr || selectedKey}</h2>
+                </div>
+                <button className="rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50" onClick={onRemoveProduct}>Obriši proizvod</button>
               </div>
 
               <div className="grid gap-3 md:grid-cols-2">

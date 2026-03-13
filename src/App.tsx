@@ -11,6 +11,8 @@ import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ProductsData } from './types/products.ts'
 import { fetchProducts } from './lib/api.ts'
 
+type StatItem = { target: number; suffix?: string; label: string }
+
 function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
@@ -20,6 +22,9 @@ function App() {
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
+  const statsRef = useRef<HTMLElement | null>(null)
+  const [statsInView, setStatsInView] = useState(false)
+  const [animatedStats, setAnimatedStats] = useState<number[]>([0, 0, 0, 0])
 
   const uiText = {
     hr: {
@@ -34,11 +39,11 @@ function App() {
       productsCta: 'Pogledaj proizvode',
       statsTitle: 'Brojevi koji govore za nas',
       stats: [
-        { value: '30+', label: 'Godina iskustva' },
-        { value: '40+', label: 'Tržišta izvoza' },
-        { value: '120M+', label: 'Komada godišnje' },
-        { value: '3', label: 'Proizvodna pogona' },
-      ],
+        { target: 30, suffix: '+', label: 'Godina iskustva' },
+        { target: 40, suffix: '+', label: 'Tržišta izvoza' },
+        { target: 120, suffix: 'M+', label: 'Komada godišnje' },
+        { target: 3, label: 'Proizvodna pogona' },
+      ] as StatItem[],
     },
     en: {
       heroTitle: 'Industrial packaging that keeps production moving',
@@ -52,11 +57,11 @@ function App() {
       productsCta: 'View products',
       statsTitle: 'Numbers that build trust',
       stats: [
-        { value: '30+', label: 'Years of experience' },
-        { value: '40+', label: 'Export markets' },
-        { value: '120M+', label: 'Units yearly' },
-        { value: '3', label: 'Production plants' },
-      ],
+        { target: 30, suffix: '+', label: 'Years of experience' },
+        { target: 40, suffix: '+', label: 'Export markets' },
+        { target: 120, suffix: 'M+', label: 'Units yearly' },
+        { target: 3, label: 'Production plants' },
+      ] as StatItem[],
     },
   }
 
@@ -128,6 +133,40 @@ function App() {
     }
   }, [isCmsRoute])
 
+  useEffect(() => {
+    if (isCmsRoute || !statsRef.current) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setStatsInView(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.35 }
+    )
+
+    observer.observe(statsRef.current)
+    return () => observer.disconnect()
+  }, [isCmsRoute])
+
+  useEffect(() => {
+    if (!statsInView) return
+
+    const stats = uiText[lang].stats
+    const duration = 1400
+    const start = performance.now()
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setAnimatedStats(stats.map((stat) => Math.round(stat.target * eased)))
+      if (progress < 1) requestAnimationFrame(tick)
+    }
+
+    requestAnimationFrame(tick)
+  }, [statsInView, lang])
+
   if (isCmsRoute) {
     return <CmsPanel />
   }
@@ -195,13 +234,16 @@ function App() {
           </div>
         </section>
 
-        <section className="relative z-10 w-full max-w-6xl px-4 pb-10 md:px-6">
+        <section ref={statsRef} className="relative z-10 w-full max-w-6xl px-4 pb-10 md:px-6">
           <div className="rounded-2xl border border-white/20 bg-white/90 p-5 shadow-xl backdrop-blur md:p-7">
             <h2 className="mb-4 text-xl font-bold text-slate-900 md:text-2xl">{uiText[lang].statsTitle}</h2>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {uiText[lang].stats.map((stat) => (
+              {uiText[lang].stats.map((stat, index) => (
                 <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-                  <p className="text-2xl font-extrabold text-blue-700 md:text-3xl">{stat.value}</p>
+                  <p className="text-2xl font-extrabold text-blue-700 md:text-3xl">
+                    {animatedStats[index] ?? 0}
+                    {stat.suffix ?? ''}
+                  </p>
                   <p className="mt-1 text-xs font-medium text-slate-600 md:text-sm">{stat.label}</p>
                 </div>
               ))}

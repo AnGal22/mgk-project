@@ -32,6 +32,13 @@ function App() {
       deliverySub: 'Planirano, na vrijeme, bez zastoja',
       quoteCta: 'Zatrazi ponudu',
       productsCta: 'Pogledaj proizvode',
+      statsTitle: 'Brojevi koji govore za nas',
+      stats: [
+        { value: '30+', label: 'Godina iskustva' },
+        { value: '40+', label: 'Tržišta izvoza' },
+        { value: '120M+', label: 'Komada godišnje' },
+        { value: '3', label: 'Proizvodna pogona' },
+      ],
     },
     en: {
       heroTitle: 'Industrial packaging that keeps production moving',
@@ -43,6 +50,13 @@ function App() {
       deliverySub: 'Planned, on time, without downtime',
       quoteCta: 'Request a quote',
       productsCta: 'View products',
+      statsTitle: 'Numbers that build trust',
+      stats: [
+        { value: '30+', label: 'Years of experience' },
+        { value: '40+', label: 'Export markets' },
+        { value: '120M+', label: 'Units yearly' },
+        { value: '3', label: 'Production plants' },
+      ],
     },
   }
 
@@ -178,6 +192,20 @@ function App() {
             <img src="home-pate-can.webp" className={`w-32 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
             <img src="home-can.webp" className={`w-36 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
             <img src="home-tin-can.webp" className={`w-28 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          </div>
+        </section>
+
+        <section className="relative z-10 w-full max-w-6xl px-4 pb-10 md:px-6">
+          <div className="rounded-2xl border border-white/20 bg-white/90 p-5 shadow-xl backdrop-blur md:p-7">
+            <h2 className="mb-4 text-xl font-bold text-slate-900 md:text-2xl">{uiText[lang].statsTitle}</h2>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              {uiText[lang].stats.map((stat) => (
+                <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                  <p className="text-2xl font-extrabold text-blue-700 md:text-3xl">{stat.value}</p>
+                  <p className="mt-1 text-xs font-medium text-slate-600 md:text-sm">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

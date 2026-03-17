@@ -5,6 +5,18 @@ export type CmsCredentials = {
   password: string
 }
 
+export type SiteInfo = {
+  title_desc: { hr: string; en: string }
+  description: { hr: string; en: string }
+  contact: {
+    address: string
+    phone: string
+    location: string
+    email: string
+    certificates: string
+  }
+}
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const body = await response.json().catch(() => ({}))
@@ -17,6 +29,11 @@ async function handleResponse<T>(response: Response): Promise<T> {
 export async function fetchProducts(): Promise<ProductsData> {
   const response = await fetch('/api/products')
   return handleResponse<ProductsData>(response)
+}
+
+export async function fetchSiteInfo(): Promise<SiteInfo> {
+  const response = await fetch('/api/info')
+  return handleResponse<SiteInfo>(response)
 }
 
 export async function loginCms(credentials: CmsCredentials) {
@@ -40,6 +57,17 @@ export async function getCmsSession() {
 
 export async function saveProducts(data: ProductsData) {
   const response = await fetch('/api/products', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(data),
+  })
+
+  return handleResponse<{ ok: true }>(response)
+}
+
+export async function saveSiteInfo(data: SiteInfo) {
+  const response = await fetch('/api/info', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',

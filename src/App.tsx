@@ -9,7 +9,7 @@ import localProducts from './products.json'
 import CmsPanel from './components/CmsPanel.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ProductsData } from './types/products.ts'
-import { fetchProducts } from './lib/api.ts'
+import { fetchProducts, fetchSiteInfo, type SiteInfo } from './lib/api.ts'
 
 type StatItem = { target: number; suffix?: string; label: string }
 
@@ -17,20 +17,21 @@ function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
   const [products, setProducts] = useState<ProductsData>(localProducts as ProductsData)
+  const [siteInfo, setSiteInfo] = useState<SiteInfo>(info as SiteInfo)
   const [showItemNav, setShowItemNav] = useState(false)
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
-  const visibleSectionsRef = useRef<Set<string>>(new Set())
-  const statsRef = useRef<HTMLElement | null>(null)
   const [statsInView, setStatsInView] = useState(false)
   const [animatedStats, setAnimatedStats] = useState<number[]>([0, 0, 0, 0])
+  const visibleSectionsRef = useRef<Set<string>>(new Set())
+  const statsRef = useRef<HTMLElement | null>(null)
 
   const uiText = {
     hr: {
       heroTitle: 'Industrijska ambalaza koja drzi ritam proizvodnje',
-      aboutTitle: info.title_desc.hr,
-      aboutDescription: info.description.hr,
+      aboutTitle: siteInfo.title_desc.hr,
+      aboutDescription: siteInfo.description.hr,
       qualityTitle: 'Kontrola kvalitete',
       qualitySub: 'Stabilne serije, precizne tolerancije',
       deliveryTitle: 'Pouzdana isporuka',
@@ -47,8 +48,8 @@ function App() {
     },
     en: {
       heroTitle: 'Industrial packaging that keeps production moving',
-      aboutTitle: info.title_desc.en,
-      aboutDescription: info.description.en,
+      aboutTitle: siteInfo.title_desc.en,
+      aboutDescription: siteInfo.description.en,
       qualityTitle: 'Quality control',
       qualitySub: 'Stable production runs, precise tolerances',
       deliveryTitle: 'Reliable delivery',
@@ -75,11 +76,8 @@ function App() {
   useEffect(() => {
     if (isCmsRoute) return
 
-    fetchProducts()
-      .then(setProducts)
-      .catch(() => {
-        // fallback stays localProducts
-      })
+    fetchProducts().then(setProducts).catch(() => {})
+    fetchSiteInfo().then(setSiteInfo).catch(() => {})
   }, [isCmsRoute])
 
   useEffect(() => {
@@ -123,9 +121,9 @@ function App() {
   useEffect(() => {
     if (isCmsRoute) return
 
-    const id = setTimeout(() => setHeroCanVisible(true), 1000)
-    const idPate = setTimeout(() => setHeroPateCanVisible(true), 1500)
-    const idTin = setTimeout(() => setHeroTinCanVisible(true), 1800)
+    const id = setTimeout(() => setHeroCanVisible(true), 300)
+    const idPate = setTimeout(() => setHeroPateCanVisible(true), 650)
+    const idTin = setTimeout(() => setHeroTinCanVisible(true), 900)
     return () => {
       clearTimeout(id)
       clearTimeout(idPate)
@@ -153,9 +151,9 @@ function App() {
   useEffect(() => {
     if (!statsInView) return
 
-    const stats = uiText[lang].stats
     const duration = 1400
     const start = performance.now()
+    const stats = uiText[lang].stats
 
     const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1)
@@ -199,8 +197,8 @@ function App() {
       </div>
 
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
-        <section id="home-hero" className="hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2">
-          <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-36 md:py-16">
+        <section id="home-hero" className="hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
+          <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-44 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
               <p className="hero-title">MGK-pack d.d.</p>
               <h1 className="hero-eyebrow">{uiText[lang].heroTitle}</h1>
@@ -216,10 +214,6 @@ function App() {
                   <p className="hero-metric-sub">{uiText[lang].deliverySub}</p>
                 </div>
               </div>
-              <div className="hero-actions">
-                <button className="hero-cta primary">{uiText[lang].quoteCta}</button>
-                <button className="hero-cta ghost">{uiText[lang].productsCta}</button>
-              </div>
             </div>
           </div>
 
@@ -234,8 +228,8 @@ function App() {
           </div>
         </section>
 
-        <section ref={statsRef} className="relative z-10 w-full max-w-6xl px-4 pb-10 md:px-6">
-          <div className="rounded-2xl border border-white/20 bg-white/90 p-5 shadow-xl backdrop-blur md:p-7">
+        <section ref={statsRef} className="relative z-10 -mt-24 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
+          <div className="rounded-2xl border border-white/30 bg-white/92 p-5 shadow-2xl backdrop-blur md:p-7">
             <h2 className="mb-4 text-xl font-bold text-slate-900 md:text-2xl">{uiText[lang].statsTitle}</h2>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               {uiText[lang].stats.map((stat, index) => (
@@ -257,7 +251,7 @@ function App() {
             {index < entries.length - 1 && <Cans />}
           </Fragment>
         ))}
-        <Contact lang={lang} />
+        <Contact lang={lang} info={siteInfo.contact} />
       </div>
 
       <div className="fixed bottom-6 right-6">

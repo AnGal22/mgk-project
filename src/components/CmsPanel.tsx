@@ -352,6 +352,9 @@ const CmsPanel = () => {
                       <span className="mb-1 block font-medium">URL background slike (images[1])</span>
                       <input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.images?.[1]?.url ?? ''} onChange={(e) => onImageUrlChange(e.target.value, 1)} />
                     </label>
+                    {selectedProduct.images?.[1]?.url && (
+                      <img src={selectedProduct.images[1].url} alt="background preview" className="mt-3 max-h-40 w-full rounded-lg border border-slate-200 object-cover" />
+                    )}
                   </div>
 
                   <div className="rounded-lg border border-dashed border-slate-300 p-4" onDragOver={(e) => e.preventDefault()} onDrop={(e) => void onDropImage(e, 'icon')}>

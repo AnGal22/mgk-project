@@ -19,7 +19,13 @@ function App() {
   const [products, setProducts] = useState<ProductsData>(localProducts as ProductsData)
   const [siteInfo, setSiteInfo] = useState<SiteInfo>(info as SiteInfo)
   const [showItemNav, setShowItemNav] = useState(false)
+  const [heroCanVisible, setHeroCanVisible] = useState(false)
+  const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
+  const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
+  const [statsInView, setStatsInView] = useState(false)
+  const [animatedStats, setAnimatedStats] = useState<number[]>([0, 0, 0, 0])
   const visibleSectionsRef = useRef<Set<string>>(new Set())
+  const statsRef = useRef<HTMLElement | null>(null)
 
   const uiText = {
     hr: {
@@ -112,6 +118,53 @@ function App() {
     }
   }, [products, isCmsRoute])
 
+  useEffect(() => {
+    if (isCmsRoute) return
+
+    const id = setTimeout(() => setHeroCanVisible(true), 300)
+    const idPate = setTimeout(() => setHeroPateCanVisible(true), 650)
+    const idTin = setTimeout(() => setHeroTinCanVisible(true), 900)
+    return () => {
+      clearTimeout(id)
+      clearTimeout(idPate)
+      clearTimeout(idTin)
+    }
+  }, [isCmsRoute])
+
+  useEffect(() => {
+    if (isCmsRoute || !statsRef.current) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setStatsInView(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.35 }
+    )
+
+    observer.observe(statsRef.current)
+    return () => observer.disconnect()
+  }, [isCmsRoute])
+
+  useEffect(() => {
+    if (!statsInView) return
+
+    const duration = 1400
+    const start = performance.now()
+    const stats = uiText[lang].stats
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setAnimatedStats(stats.map((stat) => Math.round(stat.target * eased)))
+      if (progress < 1) requestAnimationFrame(tick)
+    }
+
+    requestAnimationFrame(tick)
+  }, [statsInView, lang])
+
   if (isCmsRoute) {
     return <CmsPanel />
   }
@@ -144,8 +197,8 @@ function App() {
       </div>
 
       <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
-        <section id="home-hero" className="hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2">
-          <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-36 md:py-16">
+        <section id="home-hero" className="hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
+          <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-44 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
               <p className="hero-title">MGK-pack d.d.</p>
               <h1 className="hero-eyebrow">{uiText[lang].heroTitle}</h1>
@@ -163,16 +216,26 @@ function App() {
               </div>
             </div>
           </div>
+
+          <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+
+          <div className="absolute bottom-4 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden">
+            <img src="home-pate-can.webp" className={`w-32 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-can.webp" className={`w-36 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-tin-can.webp" className={`w-28 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          </div>
         </section>
 
-        <section className="relative z-10 w-full max-w-6xl px-4 pb-10 md:px-6">
-          <div className="rounded-2xl border border-white/20 bg-white/90 p-5 shadow-xl backdrop-blur md:p-7">
+        <section ref={statsRef} className="relative z-10 -mt-24 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
+          <div className="rounded-2xl border border-white/30 bg-white/92 p-5 shadow-2xl backdrop-blur md:p-7">
             <h2 className="mb-4 text-xl font-bold text-slate-900 md:text-2xl">{uiText[lang].statsTitle}</h2>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {uiText[lang].stats.map((stat) => (
+              {uiText[lang].stats.map((stat, index) => (
                 <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm">
                   <p className="text-2xl font-extrabold text-blue-700 md:text-3xl">
-                    {stat.target}
+                    {animatedStats[index] ?? 0}
                     {stat.suffix ?? ''}
                   </p>
                   <p className="mt-1 text-xs font-medium text-slate-600 md:text-sm">{stat.label}</p>

@@ -1,16 +1,12 @@
-import { put } from '@vercel/blob'
-import fs from 'node:fs/promises'
-import path from 'node:path'
+import { Resend } from 'resend'
 
-function hasBlob() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN)
-}
+const resendApiKey = process.env.RESEND_API_KEY
+const inquiryToEmail = process.env.INQUIRY_TO_EMAIL
+const inquiryFromEmail = process.env.INQUIRY_FROM_EMAIL
 
-function sanitizePart(value) {
-  return String(value || '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+function getResend() {
+  if (!resendApiKey) return null
+  return new Resend(resendApiKey)
 }
 
 export default async function handler(req, res) {
@@ -23,6 +19,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Company, name, email i message su obavezni' })
   }
 
+  if (!inquiryToEmail || !inquiryFromEmail) {
+    return res.status(500).json({ error: 'Inquiry mail env varijable nisu postavljene' })
+  }
+
   const payload = {
     company: String(company).trim(),
     name: String(name).trim(),
@@ -33,20 +33,37 @@ export default async function handler(req, res) {
   }
 
   try {
-    const stamp = Date.now()
-    const fileName = `${stamp}-${sanitizePart(payload.company || payload.name || 'inquiry')}.json`
-
-    if (hasBlob()) {
-      await put(`cms/inquiries/${fileName}`, JSON.stringify(payload, null, 2), {
-        access: 'public',
-        addRandomSuffix: false,
-        contentType: 'application/json; charset=utf-8',
-      })
-    } else {
-      const targetDir = path.join(process.cwd(), 'data', 'inquiries')
-      await fs.mkdir(targetDir, { recursive: true })
-      await fs.writeFile(path.join(targetDir, fileName), `${JSON.stringify(payload, null, 2)}\n`, 'utf8')
+    const resend = getResend()
+    if (!resend) {
+      return res.status(500).json({ error: 'RESEND_API_KEY nije postavljen' })
     }
+
+    await resend.emails.send({
+      from: inquiryFromEmail,
+      to: inquiryToEmail,
+      replyTo: payload.email,
+      subject: `Novi upit s weba – ${payload.company}`,
+      text: [
+        `Vrijeme: ${payload.createdAt}`,
+        `Tvrtka: ${payload.company}`,
+        `Ime: ${payload.name}`,
+        `Email: ${payload.email}`,
+        `Telefon: ${payload.phone || '-'}`,
+        '',
+        'Poruka:',
+        payload.message,
+      ].join('\n'),
+      html: `
+        <h2>Novi upit s web stranice</h2>
+        <p><strong>Vrijeme:</strong> ${payload.createdAt}</p>
+        <p><strong>Tvrtka:</strong> ${payload.company}</p>
+        <p><strong>Ime:</strong> ${payload.name}</p>
+        <p><strong>Email:</strong> ${payload.email}</p>
+        <p><strong>Telefon:</strong> ${payload.phone || '-'}</p>
+        <p><strong>Poruka:</strong></p>
+        <p>${payload.message.replace(/\n/g, '<br/>')}</p>
+      `,
+    })
 
     return res.status(200).json({ ok: true })
   } catch {

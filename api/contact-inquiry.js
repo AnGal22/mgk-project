@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+import { getSupabaseAdmin } from './_lib/supabase.js'
 
 const resendApiKey = process.env.RESEND_API_KEY
 const inquiryToEmail = process.env.INQUIRY_TO_EMAIL
@@ -29,10 +30,18 @@ export default async function handler(req, res) {
     email: String(email).trim(),
     phone: String(phone || '').trim(),
     message: String(message).trim(),
-    createdAt: new Date().toISOString(),
+    created_at: new Date().toISOString(),
   }
 
   try {
+    const supabase = getSupabaseAdmin()
+    if (supabase) {
+      const { error } = await supabase.from('contact_inquiries').insert(payload)
+      if (error) {
+        throw error
+      }
+    }
+
     const resend = getResend()
     if (!resend) {
       return res.status(500).json({ error: 'RESEND_API_KEY nije postavljen' })
@@ -44,7 +53,7 @@ export default async function handler(req, res) {
       replyTo: payload.email,
       subject: `Novi upit s weba – ${payload.company}`,
       text: [
-        `Vrijeme: ${payload.createdAt}`,
+        `Vrijeme: ${payload.created_at}`,
         `Tvrtka: ${payload.company}`,
         `Ime: ${payload.name}`,
         `Email: ${payload.email}`,
@@ -55,7 +64,7 @@ export default async function handler(req, res) {
       ].join('\n'),
       html: `
         <h2>Novi upit s web stranice</h2>
-        <p><strong>Vrijeme:</strong> ${payload.createdAt}</p>
+        <p><strong>Vrijeme:</strong> ${payload.created_at}</p>
         <p><strong>Tvrtka:</strong> ${payload.company}</p>
         <p><strong>Ime:</strong> ${payload.name}</p>
         <p><strong>Email:</strong> ${payload.email}</p>
@@ -65,7 +74,7 @@ export default async function handler(req, res) {
       `,
     })
 
-    return res.status(200).json({ ok: true })
+    return res.status(200).json({ ok: true, storedInSupabase: Boolean(supabase) })
   } catch {
     return res.status(500).json({ error: 'Greška pri slanju upita' })
   }

@@ -5,6 +5,7 @@ import express from 'express'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import jwt from 'jsonwebtoken'
+import { Resend } from 'resend'
 import { fileURLToPath } from 'node:url'
 
 dotenv.config()
@@ -21,6 +22,9 @@ const port = Number(process.env.CMS_PORT || 3001)
 const cmsUsername = process.env.CMS_USERNAME || 'employee'
 const cmsPassword = process.env.CMS_PASSWORD || 'mgk123'
 const jwtSecret = process.env.CMS_JWT_SECRET || 'change-this-secret'
+const resendApiKey = process.env.RESEND_API_KEY
+const inquiryToEmail = process.env.INQUIRY_TO_EMAIL
+const inquiryFromEmail = process.env.INQUIRY_FROM_EMAIL
 const allowedImageTypes = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
 const maxUploadBytes = 5 * 1024 * 1024
 
@@ -175,6 +179,40 @@ app.post('/api/upload-image', requireAuth, async (req, res) => {
     return res.json({ url: `/uploads/${uniqueName}` })
   } catch {
     return res.status(500).json({ error: 'Greška pri uploadu slike' })
+  }
+})
+
+app.post('/api/contact-inquiry', async (req, res) => {
+  const { company, name, email, phone, message } = req.body ?? {}
+  if (!company || !name || !email || !message) {
+    return res.status(400).json({ error: 'Company, name, email i message su obavezni' })
+  }
+
+  if (!resendApiKey || !inquiryToEmail || !inquiryFromEmail) {
+    return res.status(500).json({ error: 'Resend env varijable nisu postavljene' })
+  }
+
+  try {
+    const resend = new Resend(resendApiKey)
+    await resend.emails.send({
+      from: inquiryFromEmail,
+      to: inquiryToEmail,
+      replyTo: String(email).trim(),
+      subject: `Novi upit s weba – ${String(company).trim()}`,
+      text: [
+        `Tvrtka: ${String(company).trim()}`,
+        `Ime: ${String(name).trim()}`,
+        `Email: ${String(email).trim()}`,
+        `Telefon: ${String(phone || '').trim() || '-'}`,
+        '',
+        'Poruka:',
+        String(message).trim(),
+      ].join('\n'),
+    })
+
+    return res.json({ ok: true })
+  } catch {
+    return res.status(500).json({ error: 'Greška pri slanju upita' })
   }
 })
 

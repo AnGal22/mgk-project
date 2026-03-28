@@ -74,10 +74,10 @@ async function writeImageAssetToSupabase({ cleanName, contentType, buffer }) {
 
 export async function writeImageAsset({ fileName, contentType, buffer }) {
   const cleanName = sanitizeFileName(fileName)
+  const supabase = getSupabaseAdmin()
 
-  const supabaseUrl = await writeImageAssetToSupabase({ cleanName, contentType, buffer }).catch(() => null)
-  if (supabaseUrl) {
-    return supabaseUrl
+  if (supabase) {
+    return writeImageAssetToSupabase({ cleanName, contentType, buffer })
   }
 
   if (hasBlob()) {

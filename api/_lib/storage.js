@@ -1,9 +1,11 @@
 import { list, put } from '@vercel/blob'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { getSupabaseAdmin } from './supabase.js'
 
 const PRODUCTS_BLOB_PATH = 'cms/products.json'
 const INFO_BLOB_PATH = 'cms/info.json'
+const SUPABASE_UPLOADS_BUCKET = process.env.SUPABASE_UPLOADS_BUCKET || 'cms-assets'
 
 function hasBlob() {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN)
@@ -49,8 +51,34 @@ async function writeJsonToBlob(blobPath, data) {
   })
 }
 
+async function writeImageAssetToSupabase({ cleanName, contentType, buffer }) {
+  const supabase = getSupabaseAdmin()
+  if (!supabase) return null
+
+  const ext = path.extname(cleanName)
+  const base = path.basename(cleanName, ext)
+  const filePath = `uploads/${base}-${Date.now()}${ext}`
+
+  const { error } = await supabase.storage.from(SUPABASE_UPLOADS_BUCKET).upload(filePath, buffer, {
+    contentType,
+    upsert: false,
+  })
+
+  if (error) {
+    throw error
+  }
+
+  const { data } = supabase.storage.from(SUPABASE_UPLOADS_BUCKET).getPublicUrl(filePath)
+  return data.publicUrl
+}
+
 export async function writeImageAsset({ fileName, contentType, buffer }) {
   const cleanName = sanitizeFileName(fileName)
+
+  const supabaseUrl = await writeImageAssetToSupabase({ cleanName, contentType, buffer }).catch(() => null)
+  if (supabaseUrl) {
+    return supabaseUrl
+  }
 
   if (hasBlob()) {
     const blob = await put(`cms/uploads/${cleanName}`, buffer, {

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent, FormEvent } from 'react'
 import { fetchProducts, fetchSiteInfo, getCmsSession, loginCms, logoutCms, saveProducts, saveSiteInfo, uploadCmsImage } from '../lib/api'
 import type { SiteInfo } from '../lib/api'
@@ -42,6 +42,8 @@ const CmsPanel = () => {
   const [infoStatus, setInfoStatus] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [isUploading, setIsUploading] = useState(false)
+  const backgroundInputRef = useRef<HTMLInputElement | null>(null)
+  const iconInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     const initialize = async () => {
@@ -198,7 +200,7 @@ const CmsPanel = () => {
 
   const handleFileUpload = async (file: File, target: 'background' | 'icon') => {
     setIsUploading(true)
-    setStatus('Uploadam sliku...')
+    setStatus(`Uploadam ${target === 'background' ? 'background sliku' : 'ikonu'}: ${file.name}`)
 
     try {
       const { url } = await uploadCmsImage(file)
@@ -224,9 +226,11 @@ const CmsPanel = () => {
   }
 
   const onPickImage = async (event: ChangeEvent<HTMLInputElement>, target: 'background' | 'icon') => {
-    const file = event.target.files?.[0]
+    const input = event.currentTarget
+    const file = input.files?.[0]
     if (!file) return
     await handleFileUpload(file, target)
+    input.value = ''
   }
 
   const updateContactField = (field: keyof SiteInfo['contact'], value: string) => {
@@ -356,7 +360,10 @@ const CmsPanel = () => {
                     <p className="font-medium">Background slika sectiona *</p>
                     <p className="text-sm text-slate-500">Drag & drop za glavnu pozadinsku sliku proizvoda.</p>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
-                      <input type="file" accept="image/*" onChange={(e) => void onPickImage(e, 'background')} />
+                      <input ref={backgroundInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => void onPickImage(e, 'background')} />
+                      <button type="button" className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium hover:bg-slate-50" onClick={() => backgroundInputRef.current?.click()}>
+                        Odaberi background sliku
+                      </button>
                       {isUploading && <span className="text-sm text-blue-600">Upload u tijeku...</span>}
                     </div>
                     <label className="mt-3 block text-sm">
@@ -372,7 +379,10 @@ const CmsPanel = () => {
                     <p className="font-medium">Ikona item bara *</p>
                     <p className="text-sm text-slate-500">Ova ikona se prikazuje u bočnom / mobilnom item baru.</p>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
-                      <input type="file" accept="image/*" onChange={(e) => void onPickImage(e, 'icon')} />
+                      <input ref={iconInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => void onPickImage(e, 'icon')} />
+                      <button type="button" className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium hover:bg-slate-50" onClick={() => iconInputRef.current?.click()}>
+                        Odaberi ikonu
+                      </button>
                     </div>
                     <label className="mt-3 block text-sm">
                       <span className="mb-1 block font-medium">URL ikone</span>

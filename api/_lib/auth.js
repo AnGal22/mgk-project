@@ -1,9 +1,13 @@
-import jwt from 'jsonwebtoken'
+import { createClient } from '@supabase/supabase-js'
 
 const COOKIE_NAME = 'cms_token'
 
-export function getJwtSecret() {
-  return process.env.CMS_JWT_SECRET || 'change-this-secret'
+function getSupabaseUrl() {
+  return process.env.SUPABASE_URL
+}
+
+function getSupabaseAnonKey() {
+  return process.env.SUPABASE_ANON_KEY
 }
 
 export function parseCookies(req) {
@@ -22,26 +26,51 @@ export function parseCookies(req) {
   )
 }
 
-export function signAuthToken(payload) {
-  return jwt.sign(payload, getJwtSecret(), { expiresIn: '8h' })
+function getSupabaseAuthClient() {
+  const url = getSupabaseUrl()
+  const anonKey = getSupabaseAnonKey()
+  if (!url || !anonKey) return null
+
+  return createClient(url, anonKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  })
 }
 
-export function verifyAuthFromRequest(req) {
+export async function signInCmsUser(email, password) {
+  const supabase = getSupabaseAuthClient()
+  if (!supabase) {
+    throw new Error('Missing SUPABASE_URL or SUPABASE_ANON_KEY for auth')
+  }
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+  if (error || !data.session?.access_token) {
+    throw error || new Error('Sign in failed')
+  }
+
+  return data.session.access_token
+}
+
+export async function verifyAuthFromRequest(req) {
+  const supabase = getSupabaseAuthClient()
+  if (!supabase) return null
+
   const cookies = parseCookies(req)
   const token = cookies[COOKIE_NAME]
   if (!token) return null
 
-  try {
-    return jwt.verify(token, getJwtSecret())
-  } catch {
-    return null
-  }
+  const { data, error } = await supabase.auth.getUser(token)
+  if (error || !data.user) return null
+  return data.user
 }
 
 export function setAuthCookie(res, token) {
+  const secure = process.env.NODE_ENV === 'production'
   res.setHeader(
     'Set-Cookie',
-    `${COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${8 * 60 * 60}`
+    `${COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${8 * 60 * 60}${secure ? '; Secure' : ''}`
   )
 }
 

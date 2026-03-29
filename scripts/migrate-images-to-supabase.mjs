@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createClient } from '@supabase/supabase-js'
@@ -48,14 +49,27 @@ function isAlreadySupabase(url) {
 async function migrateUrl(url, fallbackName) {
   if (!url || isAlreadySupabase(url)) return url
 
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status}`)
+  let buffer
+  let contentType = 'application/octet-stream'
+
+  if (typeof url === 'string' && url.startsWith('/')) {
+    const diskPath = path.join(rootDir, 'public', url.replace(/^\//, ''))
+    buffer = await fs.readFile(diskPath)
+    const extname = path.extname(diskPath).toLowerCase()
+    if (extname === '.png') contentType = 'image/png'
+    else if (extname === '.webp') contentType = 'image/webp'
+    else if (extname === '.gif') contentType = 'image/gif'
+    else if (extname === '.jpg' || extname === '.jpeg') contentType = 'image/jpeg'
+  } else {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.status}`)
+    }
+    const arrayBuffer = await response.arrayBuffer()
+    buffer = Buffer.from(arrayBuffer)
+    contentType = response.headers.get('content-type') || contentType
   }
 
-  const arrayBuffer = await response.arrayBuffer()
-  const buffer = Buffer.from(arrayBuffer)
-  const contentType = response.headers.get('content-type') || 'application/octet-stream'
   const fileName = extractFileName(url, fallbackName)
   const ext = path.extname(fileName)
   const base = path.basename(fileName, ext)

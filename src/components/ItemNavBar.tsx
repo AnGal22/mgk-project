@@ -32,8 +32,8 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
     )
   }
 
-  const navWidth = itemCount > 5 ? 'w-[clamp(6rem,10vw,9rem)]' : 'w-[clamp(8rem,14vw,13rem)]'
-  const iconWidth = itemCount > 6 ? 'w-[clamp(4.5rem,7vw,6.5rem)]' : itemCount > 4 ? 'w-[clamp(5.2rem,8vw,8rem)]' : 'w-[clamp(7rem,12vw,11.5rem)]'
+  const navWidth = itemCount > 5 ? 'w-[clamp(6.75rem,11vw,9.75rem)]' : 'w-[clamp(8rem,14vw,13rem)]'
+  const iconWidth = itemCount > 6 ? 'w-[clamp(5.1rem,7.8vw,7.1rem)]' : itemCount > 4 ? 'w-[clamp(5.8rem,8.8vw,8.6rem)]' : 'w-[clamp(7rem,12vw,11.5rem)]'
   const justifyClass = itemCount > 5 ? 'justify-start gap-2 overflow-y-auto py-2' : 'justify-evenly'
 
   return (

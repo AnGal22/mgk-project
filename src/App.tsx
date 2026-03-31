@@ -4,6 +4,7 @@ import Section from './components/section.tsx'
 import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
 import Contact from './components/Contact.tsx'
+import ContactPage from './components/ContactPage.tsx'
 import info from './info.json'
 import localProducts from './products.json'
 import CmsPanel from './components/CmsPanel.tsx'
@@ -15,6 +16,7 @@ type StatItem = { target: number; suffix?: string; label: string }
 
 function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
+  const isContactRoute = window.location.pathname === '/contact'
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
   const [products, setProducts] = useState<ProductsData>(localProducts as ProductsData)
   const [siteInfo, setSiteInfo] = useState<SiteInfo>(info as SiteInfo)
@@ -167,6 +169,20 @@ function App() {
 
   if (isCmsRoute) {
     return <CmsPanel />
+  }
+
+  if (isContactRoute) {
+    return (
+      <div className="min-h-screen bg-slate-950">
+        <Navbar lang={lang} products={products} />
+        <ContactPage lang={lang} info={siteInfo.contact} />
+        <div className="fixed bottom-6 right-6">
+          <button className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110" onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}>
+            {lang === 'hr' ? 'English' : 'Hrvatski'}
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (

@@ -11,7 +11,16 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
   const firstProductId = Object.keys(products)[0]
 
   const scrollToSection = (id: string) => {
+    if (window.location.pathname === '/contact') {
+      window.location.href = `/${id === 'home-hero' ? '' : `#${id}`}`
+      return
+    }
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    onNavigate?.()
+  }
+
+  const goToContactPage = () => {
+    window.location.href = '/contact'
     onNavigate?.()
   }
 
@@ -42,7 +51,7 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
         <button onClick={() => firstProductId && scrollToSection(firstProductId)} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
           {labels[lang].services}
         </button>
-        <button onClick={() => scrollToSection('contact')} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
+        <button onClick={goToContactPage} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
           {labels[lang].contact}
         </button>
       </div>
@@ -60,7 +69,7 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
       <button onClick={() => firstProductId && scrollToSection(firstProductId)} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
         {labels[lang].services}
       </button>
-      <button onClick={() => scrollToSection('contact')} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
+      <button onClick={goToContactPage} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
         {labels[lang].contact}
       </button>
     </div>

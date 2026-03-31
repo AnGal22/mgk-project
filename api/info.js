@@ -37,13 +37,27 @@ function mapSiteInfoToRow(data) {
   }
 }
 
+function hasMeaningfulSiteInfo(row) {
+  return Boolean(
+    row?.title_desc_hr?.trim() ||
+      row?.title_desc_en?.trim() ||
+      row?.description_hr?.trim() ||
+      row?.description_en?.trim() ||
+      row?.contact_address?.trim() ||
+      row?.contact_phone?.trim() ||
+      row?.contact_location?.trim() ||
+      row?.contact_email?.trim() ||
+      row?.contact_certificates?.trim()
+  )
+}
+
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const supabase = getSupabaseAdmin()
       if (supabase) {
         const { data, error } = await supabase.from('site_info').select('*').eq('id', 1).single()
-        if (!error && data) {
+        if (!error && data && hasMeaningfulSiteInfo(data)) {
           return res.status(200).json(mapRowToSiteInfo(data))
         }
       }

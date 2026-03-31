@@ -501,11 +501,22 @@ const CmsPanel = () => {
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h2 className="text-xl font-semibold text-slate-900">Kontakt informacije</h2>
-                <p className="mt-1 text-sm text-slate-500">Podaci koji se prikazuju u contact sekciji stranice.</p>
+                <h2 className="text-xl font-semibold text-slate-900">Site info / O nama</h2>
+                <p className="mt-1 text-sm text-slate-500">Hero “O nama” sadržaj i kontakt podaci koji se prikazuju na stranici.</p>
               </div>
-              <button className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700" onClick={onSaveSiteInfo}>Spremi kontakt info</button>
+              <button className="rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700" onClick={onSaveSiteInfo}>Spremi site info</button>
             </div>
+
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              <label className="text-sm"><span className="mb-1 block font-medium">O nama naslov (HR)</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.title_desc.hr} onChange={(e) => setSiteInfo((current) => ({ ...current, title_desc: { ...current.title_desc, hr: e.target.value } }))} /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">O nama naslov (EN)</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.title_desc.en} onChange={(e) => setSiteInfo((current) => ({ ...current, title_desc: { ...current.title_desc, en: e.target.value } }))} /></label>
+            </div>
+
+            <div className="mt-3 grid gap-3 md:grid-cols-2">
+              <label className="text-sm"><span className="mb-1 block font-medium">O nama opis (HR)</span><textarea className="min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.description.hr} onChange={(e) => setSiteInfo((current) => ({ ...current, description: { ...current.description, hr: e.target.value } }))} /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">O nama opis (EN)</span><textarea className="min-h-32 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.description.en} onChange={(e) => setSiteInfo((current) => ({ ...current, description: { ...current.description, en: e.target.value } }))} /></label>
+            </div>
+
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               <label className="text-sm"><span className="mb-1 block font-medium">Adresa</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.address} onChange={(e) => updateContactField('address', e.target.value)} /></label>
               <label className="text-sm"><span className="mb-1 block font-medium">Mobitel</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.phone} onChange={(e) => updateContactField('phone', e.target.value)} /></label>

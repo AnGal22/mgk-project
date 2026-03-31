@@ -53,7 +53,7 @@ const Navbar = ({ lang, products }: NavbarProps) => {
       <nav className={`fixed w-full bg-white/20 backdrop-blur-md shadow-md transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="flex w-full flex-wrap items-center justify-between px-3 py-1 sm:justify-around">
           <img
-            src="logo.png"
+            src="logo-kukuljanovo.png"
             alt="MGK Pack logo"
             className="w-[clamp(8.5rem,16vw,14rem)] origin-left transition-transform duration-200 ease-out hover:scale-105"
             loading="eager"

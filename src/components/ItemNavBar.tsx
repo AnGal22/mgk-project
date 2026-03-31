@@ -33,7 +33,7 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
   }
 
   const navWidth = itemCount > 5 ? 'w-[clamp(6.75rem,11vw,9.75rem)]' : 'w-[clamp(8rem,14vw,13rem)]'
-  const iconWidth = itemCount > 7 ? 'w-[clamp(4.2rem,6.2vw,5.8rem)]' : itemCount > 5 ? 'w-[clamp(4.8rem,7vw,6.5rem)]' : itemCount > 4 ? 'w-[clamp(5.8rem,8.8vw,8.6rem)]' : 'w-[clamp(7rem,12vw,11.5rem)]'
+  const iconWidth = itemCount > 7 ? 'w-[clamp(4.7rem,6.8vw,6.2rem)]' : itemCount > 5 ? 'w-[clamp(5.3rem,7.6vw,7rem)]' : itemCount > 4 ? 'w-[clamp(5.8rem,8.8vw,8.6rem)]' : 'w-[clamp(7rem,12vw,11.5rem)]'
   const justifyClass = itemCount > 5 ? 'justify-between gap-2 py-2' : 'justify-evenly'
 
   return (

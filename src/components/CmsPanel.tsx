@@ -15,6 +15,7 @@ const createEmptyProduct = (): ProductCategory => ({
     { url: '', alt: { hr: '', en: '' } },
   ],
   icon: { url: '', alt: { hr: '', en: '' } },
+  schema_image: { url: '', alt: { hr: '', en: '' } },
   specs: {},
 })
 
@@ -44,6 +45,7 @@ const CmsPanel = () => {
   const [isUploading, setIsUploading] = useState(false)
   const backgroundInputRef = useRef<HTMLInputElement | null>(null)
   const iconInputRef = useRef<HTMLInputElement | null>(null)
+  const schemaInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     const initialize = async () => {
@@ -166,6 +168,53 @@ const CmsPanel = () => {
     }))
   }
 
+  const onSchemaUrlChange = (value: string) => {
+    updateSelected((product) => ({
+      ...product,
+      schema_image: {
+        ...(product.schema_image ?? { url: '', alt: { hr: '', en: '' } }),
+        url: value,
+      },
+    }))
+  }
+
+  const onSpecsColumnChange = (columnKey: string, value: string) => {
+    updateSelected((product) => ({
+      ...product,
+      specs: {
+        ...product.specs,
+        [columnKey]: value
+          .split('\n')
+          .map((line) => line.trim())
+          .filter(Boolean),
+      },
+    }))
+  }
+
+  const onAddSpecsColumn = () => {
+    const columnKey = window.prompt('Upiši key stupca specifikacije (npr. height_mm)')?.trim()
+    if (!columnKey) return
+
+    updateSelected((product) => ({
+      ...product,
+      specs: {
+        ...product.specs,
+        [columnKey]: product.specs[columnKey] ?? [],
+      },
+    }))
+  }
+
+  const onRemoveSpecsColumn = (columnKey: string) => {
+    updateSelected((product) => {
+      const nextSpecs = { ...product.specs }
+      delete nextSpecs[columnKey]
+      return {
+        ...product,
+        specs: nextSpecs,
+      }
+    })
+  }
+
   const onAddProduct = () => {
     const cleanKey = newKey.trim().toLowerCase().replace(/\s+/g, '_')
     if (!cleanKey) {
@@ -198,18 +247,22 @@ const CmsPanel = () => {
     setStatus(`Obrisan proizvod: ${selectedKey}`)
   }
 
-  const handleFileUpload = async (file: File, target: 'background' | 'icon') => {
+  const handleFileUpload = async (file: File, target: 'background' | 'icon' | 'schema') => {
     setIsUploading(true)
-    setStatus(`Uploadam ${target === 'background' ? 'background sliku' : 'ikonu'}: ${file.name}`)
+    const targetLabel = target === 'background' ? 'background sliku' : target === 'icon' ? 'ikonu' : 'schema sliku'
+    setStatus(`Uploadam ${targetLabel}: ${file.name}`)
 
     try {
       const { url } = await uploadCmsImage(file)
       if (target === 'background') {
         onImageUrlChange(url, 1)
         setStatus('Background slika uploadana ✅')
-      } else {
+      } else if (target === 'icon') {
         onIconUrlChange(url)
         setStatus('Ikona uploadana ✅')
+      } else {
+        onSchemaUrlChange(url)
+        setStatus('Schema slika uploadana ✅')
       }
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Greška pri uploadu slike')
@@ -218,14 +271,14 @@ const CmsPanel = () => {
     }
   }
 
-  const onDropImage = async (event: DragEvent<HTMLDivElement>, target: 'background' | 'icon') => {
+  const onDropImage = async (event: DragEvent<HTMLDivElement>, target: 'background' | 'icon' | 'schema') => {
     event.preventDefault()
     const file = event.dataTransfer.files?.[0]
     if (!file) return
     await handleFileUpload(file, target)
   }
 
-  const onPickImage = async (event: ChangeEvent<HTMLInputElement>, target: 'background' | 'icon') => {
+  const onPickImage = async (event: ChangeEvent<HTMLInputElement>, target: 'background' | 'icon' | 'schema') => {
     const input = event.currentTarget
     const file = input.files?.[0]
     if (!file) return
@@ -396,6 +449,51 @@ const CmsPanel = () => {
                   <span className="mb-1 block font-medium">Slika limenke (opcionalno, images[0])</span>
                   <input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.images?.[0]?.url ?? ''} onChange={(e) => onImageUrlChange(e.target.value, 0)} />
                 </label>
+
+                <div className="rounded-lg border border-dashed border-slate-300 p-4" onDragOver={(e) => e.preventDefault()} onDrop={(e) => void onDropImage(e, 'schema')}>
+                  <p className="font-medium">Schema / specifikacijska slika</p>
+                  <p className="text-sm text-slate-500">Slika koja se prikazuje unutar specification panela.</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <input ref={schemaInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => void onPickImage(e, 'schema')} />
+                    <button type="button" className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium hover:bg-slate-50" onClick={() => schemaInputRef.current?.click()}>
+                      Odaberi schema sliku
+                    </button>
+                  </div>
+                  <label className="mt-3 block text-sm">
+                    <span className="mb-1 block font-medium">URL schema slike</span>
+                    <input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={selectedProduct.schema_image?.url ?? ''} onChange={(e) => onSchemaUrlChange(e.target.value)} />
+                  </label>
+                  {selectedProduct.schema_image?.url && <img src={selectedProduct.schema_image.url} alt="schema preview" className="mt-3 max-h-48 rounded-lg border border-slate-200" />}
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <h3 className="text-lg font-semibold text-slate-900">Specifikacijska tablica</h3>
+                      <p className="text-sm text-slate-500">Svaki red u textboxu predstavlja jedan red tablice za taj stupac.</p>
+                    </div>
+                    <button type="button" className="rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800" onClick={onAddSpecsColumn}>
+                      + Dodaj stupac
+                    </button>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {Object.entries(selectedProduct.specs ?? {}).map(([columnKey, value]) => (
+                      <div key={columnKey} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+                        <div className="mb-2 flex items-center justify-between gap-2">
+                          <p className="text-sm font-semibold text-slate-800">{columnKey}</p>
+                          <button type="button" className="text-xs font-medium text-red-600 hover:text-red-700" onClick={() => onRemoveSpecsColumn(columnKey)}>
+                            Obriši
+                          </button>
+                        </div>
+                        <textarea
+                          className="min-h-36 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                          value={Array.isArray(value) ? value.map((item) => String(item)).join('\n') : String(value ?? '')}
+                          onChange={(e) => onSpecsColumnChange(columnKey, e.target.value)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
           </div>

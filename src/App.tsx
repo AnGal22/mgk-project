@@ -212,9 +212,9 @@ function App() {
         <ItemNavBar lang={lang} products={products} mobile />
       </div>
 
-      <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center ">
-        <section id="home-hero" className="hero-bg min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
-          <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-44 md:pb-28 md:py-16">
+      <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center">
+        <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
+          <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
               <p className="hero-title">MGK-pack d.d.</p>
               <h1 className="hero-eyebrow">{uiText[lang].heroTitle}</h1>
@@ -237,14 +237,14 @@ function App() {
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
 
-          <div className="absolute bottom-4 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden">
-            <img src="home-pate-can.webp" className={`w-32 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="home-can.webp" className={`w-36 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="home-tin-can.webp" className={`w-28 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          <div className="absolute bottom-22 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden pointer-events-none">
+            <img src="home-pate-can.webp" className={`w-28 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-can.webp" className={`w-32 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-tin-can.webp" className={`w-24 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           </div>
         </section>
 
-        <section ref={statsRef} className="relative z-10 -mt-24 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
+        <section ref={statsRef} className="relative z-10 -mt-10 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
           <div className="rounded-2xl border border-white/30 bg-white/92 p-5 shadow-2xl backdrop-blur md:p-7">
             <h2 className="mb-4 text-xl font-bold text-slate-900 md:text-2xl">{uiText[lang].statsTitle}</h2>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">

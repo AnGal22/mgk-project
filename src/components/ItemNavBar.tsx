@@ -13,7 +13,7 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
   if (mobile) {
     return (
       <nav className="w-full rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-lg backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-1 overflow-x-auto">
+        <div className="flex items-center justify-between gap-1">
           {entries.map(([key, product]) => (
             <button
               className="min-w-[3rem] flex-1 cursor-pointer rounded-xl p-1 transition-transform duration-200 ease-out hover:scale-105"
@@ -33,8 +33,8 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
   }
 
   const navWidth = itemCount > 5 ? 'w-[clamp(6.75rem,11vw,9.75rem)]' : 'w-[clamp(8rem,14vw,13rem)]'
-  const iconWidth = itemCount > 6 ? 'w-[clamp(5.1rem,7.8vw,7.1rem)]' : itemCount > 4 ? 'w-[clamp(5.8rem,8.8vw,8.6rem)]' : 'w-[clamp(7rem,12vw,11.5rem)]'
-  const justifyClass = itemCount > 5 ? 'justify-start gap-2 overflow-y-auto py-2' : 'justify-evenly'
+  const iconWidth = itemCount > 7 ? 'w-[clamp(4.2rem,6.2vw,5.8rem)]' : itemCount > 5 ? 'w-[clamp(4.8rem,7vw,6.5rem)]' : itemCount > 4 ? 'w-[clamp(5.8rem,8.8vw,8.6rem)]' : 'w-[clamp(7rem,12vw,11.5rem)]'
+  const justifyClass = itemCount > 5 ? 'justify-between gap-2 py-2' : 'justify-evenly'
 
   return (
     <nav className={`h-full ${navWidth}`}>

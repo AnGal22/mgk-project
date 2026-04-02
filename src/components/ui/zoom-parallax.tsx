@@ -20,6 +20,8 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
   const progress = useMotionValue(0)
   const [activeLock, setActiveLock] = useState(false)
   const touchStartY = useRef<number | null>(null)
+  const lockedScrollY = useRef<number | null>(null)
+  const rafId = useRef<number | null>(null)
 
   const scale4 = useTransform(progress, [0, 1], [1, 4])
   const scale5 = useTransform(progress, [0, 1], [1, 5])
@@ -33,20 +35,18 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
   useEffect(() => {
     const updateLockState = () => {
       const el = sectionRef.current
-      if (!el) return
+      if (!el || activeLock) return
 
       const rect = el.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      const reachedSection = rect.top <= viewportHeight * 0.08
-      const beforeFooter = rect.bottom >= viewportHeight * 0.72
+      const reachedSection = rect.top <= viewportHeight * 0.12
+      const beforeFooter = rect.bottom >= viewportHeight * 0.78
       const current = progress.get()
 
       if (reachedSection && beforeFooter && current < 1) {
+        lockedScrollY.current = window.scrollY
         setActiveLock(true)
-        return
       }
-
-      setActiveLock(false)
     }
 
     const onScroll = () => updateLockState()
@@ -60,30 +60,63 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onResize)
     }
-  }, [progress])
+  }, [activeLock, progress])
 
   useEffect(() => {
     if (!activeLock) {
       document.body.style.overflow = ''
+      if (rafId.current != null) {
+        cancelAnimationFrame(rafId.current)
+        rafId.current = null
+      }
       return
     }
 
     document.body.style.overflow = 'hidden'
+
+    const holdScrollPosition = () => {
+      if (lockedScrollY.current != null && Math.abs(window.scrollY - lockedScrollY.current) > 0) {
+        window.scrollTo(0, lockedScrollY.current)
+      }
+      rafId.current = window.requestAnimationFrame(holdScrollPosition)
+    }
+
+    holdScrollPosition()
+
+    const releaseLock = () => {
+      setActiveLock(false)
+      document.body.style.overflow = ''
+      if (rafId.current != null) {
+        cancelAnimationFrame(rafId.current)
+        rafId.current = null
+      }
+      if (lockedScrollY.current != null) {
+        window.scrollTo(0, lockedScrollY.current + Math.round(window.innerHeight * 0.18))
+      }
+    }
 
     const applyDelta = (deltaY: number) => {
       const current = progress.get()
       const next = clamp(current + deltaY * 0.00055, 0, 1)
       progress.set(next)
 
-      if ((next >= 1 && deltaY > 0) || (next <= 0 && deltaY < 0)) {
-        setActiveLock(false)
-        document.body.style.overflow = ''
+      if (next >= 1 && deltaY > 0) {
+        releaseLock()
       }
     }
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault()
+      event.stopPropagation()
       applyDelta(event.deltaY)
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      const forwardKeys = ['ArrowDown', 'PageDown', ' ', 'End']
+      if (!forwardKeys.includes(event.key)) return
+      event.preventDefault()
+      event.stopPropagation()
+      applyDelta(event.key === 'End' ? 500 : 120)
     }
 
     const onTouchStart = (event: TouchEvent) => {
@@ -96,6 +129,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
       const deltaY = touchStartY.current - currentY
       touchStartY.current = currentY
       event.preventDefault()
+      event.stopPropagation()
       applyDelta(deltaY)
     }
 
@@ -103,17 +137,23 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
       touchStartY.current = null
     }
 
-    window.addEventListener('wheel', onWheel, { passive: false })
-    window.addEventListener('touchstart', onTouchStart, { passive: false })
-    window.addEventListener('touchmove', onTouchMove, { passive: false })
-    window.addEventListener('touchend', onTouchEnd)
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true })
+    window.addEventListener('keydown', onKeyDown, { capture: true })
+    window.addEventListener('touchstart', onTouchStart, { passive: false, capture: true })
+    window.addEventListener('touchmove', onTouchMove, { passive: false, capture: true })
+    window.addEventListener('touchend', onTouchEnd, { capture: true })
 
     return () => {
       document.body.style.overflow = ''
-      window.removeEventListener('wheel', onWheel)
-      window.removeEventListener('touchstart', onTouchStart)
-      window.removeEventListener('touchmove', onTouchMove)
-      window.removeEventListener('touchend', onTouchEnd)
+      if (rafId.current != null) {
+        cancelAnimationFrame(rafId.current)
+        rafId.current = null
+      }
+      window.removeEventListener('wheel', onWheel, { capture: true } as EventListenerOptions)
+      window.removeEventListener('keydown', onKeyDown, { capture: true } as EventListenerOptions)
+      window.removeEventListener('touchstart', onTouchStart, { capture: true } as EventListenerOptions)
+      window.removeEventListener('touchmove', onTouchMove, { capture: true } as EventListenerOptions)
+      window.removeEventListener('touchend', onTouchEnd, { capture: true } as EventListenerOptions)
     }
   }, [activeLock, progress])
 

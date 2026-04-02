@@ -33,6 +33,7 @@ function App() {
   const [heroWineCapVisible, setHeroWineCapVisible] = useState(false)
   const [statsInView, setStatsInView] = useState(false)
   const [animatedStats, setAnimatedStats] = useState<number[]>([0, 0, 0, 0])
+  const [isZoomParallaxLocked, setIsZoomParallaxLocked] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
   const statsRef = useRef<HTMLElement | null>(null)
 
@@ -201,6 +202,16 @@ function App() {
     requestAnimationFrame(tick)
   }, [statsInView, lang])
 
+  useEffect(() => {
+    const onZoomParallaxLock = (event: Event) => {
+      const customEvent = event as CustomEvent<{ locked?: boolean }>
+      setIsZoomParallaxLocked(Boolean(customEvent.detail?.locked))
+    }
+
+    window.addEventListener('zoom-parallax-lock', onZoomParallaxLock as EventListener)
+    return () => window.removeEventListener('zoom-parallax-lock', onZoomParallaxLock as EventListener)
+  }, [])
+
   if (isCmsRoute) {
     return <CmsPanel />
   }
@@ -225,14 +236,14 @@ function App() {
 
   return (
     <div className="bg-[url(/bg1.webp)]">
-      <Navbar lang={lang} products={products} />
+      {!isZoomParallaxLocked && <Navbar lang={lang} products={products} />}
       <div
         className="fixed top-20 left-0 z-50 hidden h-[80vh] lg:block"
         style={{
-          transform: showItemNav ? 'translateX(0)' : 'translateX(-100%)',
-          opacity: showItemNav ? 1 : 0,
+          transform: showItemNav && !isZoomParallaxLocked ? 'translateX(0)' : 'translateX(-100%)',
+          opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,
           transition: 'transform 400ms ease, opacity 400ms ease',
-          pointerEvents: showItemNav ? 'auto' : 'none',
+          pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
         }}
       >
         <ItemNavBar lang={lang} products={products} />
@@ -241,10 +252,10 @@ function App() {
       <div
         className="fixed right-3 left-3 z-50 md:hidden"
         style={{
-          bottom: showItemNav ? '72px' : '-180px',
-          opacity: showItemNav ? 1 : 0,
+          bottom: showItemNav && !isZoomParallaxLocked ? '72px' : '-180px',
+          opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,
           transition: 'bottom 350ms ease, opacity 300ms ease',
-          pointerEvents: showItemNav ? 'auto' : 'none',
+          pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
         }}
       >
         <ItemNavBar lang={lang} products={products} mobile />

@@ -39,8 +39,8 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 
       const rect = el.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      const reachedSection = rect.top <= viewportHeight * 0.12
-      const beforeFooter = rect.bottom >= viewportHeight * 0.78
+      const reachedSection = rect.top <= viewportHeight * 0.03
+      const beforeFooter = rect.bottom >= viewportHeight * 0.9
       const current = progress.get()
 
       if (reachedSection && beforeFooter && current < 1) {
@@ -64,6 +64,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 
   useEffect(() => {
     if (!activeLock) {
+      window.dispatchEvent(new CustomEvent('zoom-parallax-lock', { detail: { locked: false } }))
       document.body.style.overflow = ''
       if (rafId.current != null) {
         cancelAnimationFrame(rafId.current)
@@ -72,6 +73,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
       return
     }
 
+    window.dispatchEvent(new CustomEvent('zoom-parallax-lock', { detail: { locked: true } }))
     document.body.style.overflow = 'hidden'
 
     const holdScrollPosition = () => {

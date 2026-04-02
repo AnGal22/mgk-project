@@ -139,17 +139,21 @@ function App() {
   }, [products, isCmsRoute])
 
   useEffect(() => {
-    if (isCmsRoute) return
+    if (isCmsRoute || isAppLoading) return
 
-    const id = setTimeout(() => setHeroCanVisible(true), 300)
-    const idPate = setTimeout(() => setHeroPateCanVisible(true), 650)
-    const idTin = setTimeout(() => setHeroTinCanVisible(true), 900)
+    setHeroCanVisible(false)
+    setHeroPateCanVisible(false)
+    setHeroTinCanVisible(false)
+
+    const id = setTimeout(() => setHeroCanVisible(true), 500)
+    const idPate = setTimeout(() => setHeroPateCanVisible(true), 900)
+    const idTin = setTimeout(() => setHeroTinCanVisible(true), 1250)
     return () => {
       clearTimeout(id)
       clearTimeout(idPate)
       clearTimeout(idTin)
     }
-  }, [isCmsRoute])
+  }, [isCmsRoute, isAppLoading])
 
   useEffect(() => {
     if (isCmsRoute || !statsRef.current) return

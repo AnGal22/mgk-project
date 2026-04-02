@@ -35,12 +35,12 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
     hr: {
       eyebrow: 'Vizualni test',
       title: 'Zoom parallax u MGK paleti',
-      body: 'Probni showcase iste komponente, ali obojen i obavijen našim hladnijim plavo-čeličnim tonovima umjesto generičnog demo izgleda.',
+      body: 'Sad je složen s jednom glavnom focal slikom i blažim pratećim frameovima, tako da pogled ostaje zaključan na centralnom kadru umjesto da sve samo divlje zooma.',
     },
     en: {
       eyebrow: 'Visual test',
       title: 'Zoom parallax in MGK palette',
-      body: 'A trial showcase of the same component, but wrapped in our cooler blue-steel palette instead of a generic demo look.',
+      body: 'It now uses one main focal image with softer supporting frames, so the eye stays locked on the center composition instead of a chaotic zoom stack.',
     },
   }[lang]
 

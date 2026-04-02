@@ -21,6 +21,14 @@ const lithographyImages = [
     src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
     alt: 'Forest trees and sunlight',
   },
+  {
+    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Warm print texture inspiration',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Soft industrial landscape inspiration',
+  },
 ]
 
 const LithographySection = ({ lang }: LithographySectionProps) => {

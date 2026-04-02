@@ -5,11 +5,22 @@ type LithographySectionProps = {
 }
 
 const lithographyImages = [
-  { src: '/home-can.webp', alt: 'Lithography can visual 1' },
-  { src: '/home-pate-can.webp', alt: 'Lithography can visual 2' },
-  { src: '/home-tin-can.webp', alt: 'Lithography can visual 3' },
-  { src: '/powder.webp', alt: 'Lithography print sample 4' },
-  { src: '/silver_cans.webp', alt: 'Lithography print sample 5' },
+  {
+    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Mountain landscape',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=800&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Minimalist design elements',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Ocean waves and beach',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Forest trees and sunlight',
+  },
 ]
 
 const LithographySection = ({ lang }: LithographySectionProps) => {

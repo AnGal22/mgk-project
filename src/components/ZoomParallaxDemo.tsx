@@ -92,8 +92,12 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-[#356287] md:text-lg">{copy.body}</p>
         </div>
       </div>
-      <ZoomParallax images={images} />
-      <div className="h-[24vh] bg-[linear-gradient(180deg,rgba(183,213,234,0)_0%,rgba(205,231,248,0.65)_45%,#e8f5ff_100%)]" />
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-linear-to-b from-[#b7d5ea] via-[#b7d5ea]/50 to-transparent" />
+        <ZoomParallax images={images} />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-[#e8f5ff] via-[#d9ebf8]/80 to-transparent" />
+      </div>
+      <div className="h-[8vh] bg-[linear-gradient(180deg,#e8f5ff_0%,rgba(232,245,255,0.96)_100%)]" />
     </section>
   )
 }

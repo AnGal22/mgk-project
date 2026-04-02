@@ -1,8 +1,5 @@
 'use client'
 
-import React from 'react'
-import Lenis from '@studio-freight/lenis'
-
 import { ZoomParallax } from '@/components/ui/zoom-parallax'
 import { cn } from '@/lib/utils'
 
@@ -11,26 +8,6 @@ type ZoomParallaxDemoProps = {
 }
 
 export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
-  React.useEffect(() => {
-    const lenis = new Lenis({
-      smoothWheel: true,
-    })
-
-    let frameId = 0
-
-    function raf(time: number) {
-      lenis.raf(time)
-      frameId = requestAnimationFrame(raf)
-    }
-
-    frameId = requestAnimationFrame(raf)
-
-    return () => {
-      cancelAnimationFrame(frameId)
-      lenis.destroy()
-    }
-  }, [])
-
   const copy = {
     hr: {
       eyebrow: 'Vizualni test',

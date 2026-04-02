@@ -5,6 +5,7 @@ import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
 import Contact from './components/Contact.tsx'
 import ContactPage from './components/ContactPage.tsx'
+import LithographySection from './components/LithographySection.tsx'
 import CmsPanel from './components/CmsPanel.tsx'
 import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
@@ -295,6 +296,7 @@ function App() {
             {index < entries.length - 1 && <Cans />}
           </Fragment>
         ))}
+        <LithographySection lang={lang} />
         <Contact lang={lang} info={siteInfo.contact} />
       </div>
 

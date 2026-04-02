@@ -12,12 +12,12 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
     hr: {
       eyebrow: 'Vizualni test',
       title: 'Zoom parallax u MGK paleti',
-      body: 'Probni showcase iste komponente, ali obojen i obavijen našim hladnijim plavo-čeličnim tonovima umjesto generičnog demo izgleda.',
+      body: 'Sekcija je sad složena kao pravi pinned scroll scene: centralna slika ostaje u fokusu dok se scroll troši na animaciju unutar bloka prije nego te pusti dalje na footer.',
     },
     en: {
       eyebrow: 'Visual test',
       title: 'Zoom parallax in MGK palette',
-      body: 'A trial showcase of the same component, but wrapped in our cooler blue-steel palette instead of a generic demo look.',
+      body: 'This section is now built as a proper pinned scroll scene: the main image stays in focus while scroll input is spent on the animation before the footer is allowed in.',
     },
   }[lang]
 

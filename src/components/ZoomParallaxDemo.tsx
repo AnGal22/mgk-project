@@ -12,12 +12,12 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
     hr: {
       eyebrow: 'Vizualni test',
       title: 'Zoom parallax u MGK paleti',
-      body: 'Ova verzija zaključava scroll samo pri prvom prolazu prema dolje, troši wheel/touch input na animaciju i onda te pušta dalje bez ponovnog zarobljavanja kad se vraćaš gore.',
+      body: 'Ova verzija pokušava zaključati page scroll dok si u sekciji, ali i dalje interno trošiti wheel/touch input na animaciju prije nego te pusti dalje.',
     },
     en: {
       eyebrow: 'Visual test',
       title: 'Zoom parallax in MGK palette',
-      body: 'This version locks scroll only on the first downward pass, spends wheel/touch input on the animation, then releases you forward without trapping you again on the way back up.',
+      body: 'This version tries to lock page scroll while the section is active, but still consume wheel/touch input as internal animation progress before releasing you forward.',
     },
   }[lang]
 

@@ -153,14 +153,15 @@ function App() {
     const id = setTimeout(() => setHeroCanVisible(true), 500)
     const idPate = setTimeout(() => setHeroPateCanVisible(true), 900)
     const idTin = setTimeout(() => setHeroTinCanVisible(true), 1250)
-    const idCap = setTimeout(() => setHeroCapVisible(true), 1650)
-    const idWineCap = setTimeout(() => setHeroWineCapVisible(true), 2050)
+    const idCap = setTimeout(() => {
+      setHeroCapVisible(true)
+      setHeroWineCapVisible(true)
+    }, 1650)
     return () => {
       clearTimeout(id)
       clearTimeout(idPate)
       clearTimeout(idTin)
       clearTimeout(idCap)
-      clearTimeout(idWineCap)
     }
   }, [isCmsRoute, isAppLoading])
 
@@ -273,15 +274,15 @@ function App() {
           <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="cap.png" className={`hidden md:block w-[19%] fixed bottom-0 left-[68%] translate-y-[-60px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="wine_cap.png" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-200px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="cap.webp" className={`hidden md:block w-[19%] fixed bottom-0 left-[68%] translate-y-[-60px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-200px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
 
           <div className="absolute bottom-22 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden pointer-events-none">
             <img src="home-pate-can.webp" className={`w-28 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
             <img src="home-can.webp" className={`w-32 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
             <img src="home-tin-can.webp" className={`w-24 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="cap.png" className={`absolute right-10 bottom-10 w-18 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="wine_cap.png" className={`absolute right-2 bottom-24 w-20 rotate-[-22deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="cap.webp" className={`absolute right-10 bottom-10 w-18 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="wine_cap.webp" className={`absolute right-2 bottom-24 w-20 rotate-[-22deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
           </div>
         </section>
 

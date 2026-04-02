@@ -85,20 +85,21 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
       <div className="relative">
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-linear-to-b from-[#b7d5ea] via-[#b7d5ea]/50 to-transparent" />
         <ZoomParallax images={images} />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-[#e8f5ff] via-[#d9ebf8]/80 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-linear-to-t from-[#bdd9ed]/35 via-[#c9e1f1]/18 to-transparent" />
       </div>
 
       <div className="mx-auto w-full max-w-6xl px-6 pb-20 pt-10 md:pt-14 md:pb-24">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 top-[calc(52vh+100svh)] bg-[linear-gradient(180deg,rgba(183,213,234,0)_0%,rgba(183,213,234,0.28)_18%,rgba(183,213,234,0.52)_100%)]" />
         <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr]">
-          <aside className="rounded-[2rem] border border-white/45 bg-white/60 p-6 shadow-[0_24px_60px_rgba(37,82,123,0.12)] backdrop-blur md:p-8">
+          <aside className="rounded-[2rem] border border-[#9ec4df]/45 bg-[linear-gradient(180deg,rgba(226,240,249,0.74),rgba(209,229,243,0.62))] p-6 shadow-[0_24px_60px_rgba(37,82,123,0.10)] backdrop-blur md:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#3f6f96]">{copy.eyebrow}</p>
             <h3 className="mt-4 text-3xl font-bold leading-tight text-[#13466b] md:text-4xl">{copy.title}</h3>
-            <div className="mt-6 inline-flex rounded-full border border-[#7fb1d3]/40 bg-[#e8f5ff] px-4 py-2 text-sm font-medium text-[#23537b] shadow-sm">
+            <div className="mt-6 inline-flex rounded-full border border-[#7fb1d3]/35 bg-[rgba(232,245,255,0.72)] px-4 py-2 text-sm font-medium text-[#23537b] shadow-sm">
               {copy.featureLabel}
             </div>
           </aside>
 
-          <div className="rounded-[2rem] border border-white/45 bg-white/72 p-6 shadow-[0_24px_60px_rgba(37,82,123,0.14)] backdrop-blur md:p-8">
+          <div className="rounded-[2rem] border border-[#9ec4df]/45 bg-[linear-gradient(180deg,rgba(220,236,247,0.72),rgba(203,226,241,0.62))] p-6 shadow-[0_24px_60px_rgba(37,82,123,0.12)] backdrop-blur md:p-8">
             <div className="space-y-6 text-[15px] leading-7 text-[#356287] md:text-base md:leading-8">
               {copy.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>

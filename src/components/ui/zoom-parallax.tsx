@@ -12,16 +12,6 @@ interface ZoomParallaxProps {
   images: Image[]
 }
 
-const layoutClasses = [
-  '[&>div]:!top-1/2 [&>div]:!left-1/2 [&>div]:!-translate-x-1/2 [&>div]:!-translate-y-1/2 [&>div]:!h-[38vh] [&>div]:!w-[42vw] md:[&>div]:!h-[48vh] md:[&>div]:!w-[34vw]',
-  '[&>div]:!top-[18%] [&>div]:!left-[68%] [&>div]:!h-[22vh] [&>div]:!w-[24vw] md:[&>div]:!h-[30vh] md:[&>div]:!w-[26vw]',
-  '[&>div]:!top-[16%] [&>div]:!left-[10%] [&>div]:!h-[24vh] [&>div]:!w-[22vw] md:[&>div]:!h-[34vh] md:[&>div]:!w-[18vw]',
-  '[&>div]:!top-[58%] [&>div]:!left-[72%] [&>div]:!h-[20vh] [&>div]:!w-[20vw] md:[&>div]:!h-[24vh] md:[&>div]:!w-[20vw]',
-  '[&>div]:!top-[60%] [&>div]:!left-[8%] [&>div]:!h-[20vh] [&>div]:!w-[18vw] md:[&>div]:!h-[24vh] md:[&>div]:!w-[16vw]',
-  '[&>div]:!top-[72%] [&>div]:!left-[36%] [&>div]:!h-[16vh] [&>div]:!w-[16vw] md:[&>div]:!h-[20vh] md:[&>div]:!w-[14vw]',
-  '[&>div]:!top-[28%] [&>div]:!left-[38%] [&>div]:!h-[14vh] [&>div]:!w-[14vw] md:[&>div]:!h-[18vh] md:[&>div]:!w-[12vw]',
-]
-
 export function ZoomParallax({ images }: ZoomParallaxProps) {
   const container = useRef<HTMLDivElement | null>(null)
   const { scrollYProgress } = useScroll({
@@ -41,11 +31,14 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
       <div className="sticky top-0 h-screen overflow-hidden">
         {images.map(({ src, alt }, index) => {
           const scale = scales[index % scales.length]
-          const layout = layoutClasses[index % layoutClasses.length]
 
           return (
-            <motion.div key={index} style={{ scale }} className={`absolute top-0 flex h-full w-full items-center justify-center ${layout}`}>
-              <div className="relative overflow-hidden rounded-3xl border border-white/20 bg-slate-900/40 shadow-2xl">
+            <motion.div
+              key={index}
+              style={{ scale }}
+              className={`absolute top-0 flex h-full w-full items-center justify-center ${index === 1 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''} ${index === 2 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''} ${index === 3 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''} ${index === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''} ${index === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''} ${index === 6 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''}`}
+            >
+              <div className="relative h-[25vh] w-[25vw] overflow-hidden rounded-3xl border border-white/20 shadow-2xl">
                 <img src={src || '/placeholder.svg'} alt={alt || `Parallax image ${index + 1}`} className="h-full w-full object-cover" />
               </div>
             </motion.div>

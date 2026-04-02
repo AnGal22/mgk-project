@@ -241,7 +241,7 @@ function App() {
         <ItemNavBar lang={lang} products={products} mobile />
       </div>
 
-      <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center">
+      <div className="pt-20 min-h-screen w-full flex flex-col items-center">
         <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
           <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">

@@ -5,8 +5,6 @@ import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
 import Contact from './components/Contact.tsx'
 import ContactPage from './components/ContactPage.tsx'
-import info from './info.json'
-import localProducts from './products.json'
 import CmsPanel from './components/CmsPanel.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ProductsData } from './types/products.ts'
@@ -18,8 +16,12 @@ function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
   const isContactRoute = window.location.pathname === '/contact'
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
-  const [products, setProducts] = useState<ProductsData>(localProducts as ProductsData)
-  const [siteInfo, setSiteInfo] = useState<SiteInfo>(info as SiteInfo)
+  const [products, setProducts] = useState<ProductsData>({})
+  const [siteInfo, setSiteInfo] = useState<SiteInfo>({
+    title_desc: { hr: '', en: '' },
+    description: { hr: '', en: '' },
+    contact: { address: '', phone: '', location: '', email: '', certificates: '' },
+  })
   const [showItemNav, setShowItemNav] = useState(false)
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)

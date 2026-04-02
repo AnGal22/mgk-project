@@ -76,7 +76,7 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
   ]
 
   return (
-    <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-[linear-gradient(180deg,#edf6fd_0%,#d9ebf8_35%,#b7d5ea_100%)] text-slate-900">
+    <section className="relative left-1/2 w-screen -translate-x-1/2 bg-[linear-gradient(180deg,#edf6fd_0%,#d9ebf8_35%,#b7d5ea_100%)] text-slate-900">
       <div className="relative flex h-[46vh] items-center justify-center px-6 text-center md:h-[52vh]">
         <div
           aria-hidden="true"

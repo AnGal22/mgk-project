@@ -4,7 +4,19 @@ type LithographySectionProps = {
   lang: 'hr' | 'en'
 }
 
-const lithographyImages = [
+const images = [
+  {
+    src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Modern architecture building',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Urban cityscape at sunset',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=800&fit=crop&crop=entropy&auto=format&q=80',
+    alt: 'Abstract geometric pattern',
+  },
   {
     src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
     alt: 'Mountain landscape',
@@ -21,47 +33,34 @@ const lithographyImages = [
     src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
     alt: 'Forest trees and sunlight',
   },
-  {
-    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
-    alt: 'Warm print texture inspiration',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=1280&h=720&fit=crop&crop=entropy&auto=format&q=80',
-    alt: 'Soft industrial landscape inspiration',
-  },
 ]
 
 const LithographySection = ({ lang }: LithographySectionProps) => {
   const copy = {
     hr: {
       eyebrow: 'Litografija',
-      title: 'Tisak i dorada ambalaže koji ostavljaju dojam na polici',
-      body: 'Od osnovnih grafičkih rješenja do serijske litografije, MGK-pack može podržati vizualni identitet proizvoda kroz precizan tisak, usklađene boje i konzistentnu završnu obradu.',
-      note: 'Kasnije ovdje samo zamijeni slike u nizu `lithographyImages` s finalnim vizualima koje želiš koristiti.',
+      title: 'Tisak i dorada ambalaže',
+      body: 'Pregled litografije, tiska i vizualnog dojma ambalaže prije kontakt sekcije.',
     },
     en: {
       eyebrow: 'Lithography',
-      title: 'Printing and finishing that makes packaging stand out on shelf',
-      body: 'From initial artwork support to serial lithography, MGK-pack can support the visual identity of the product through precise print execution, color consistency and reliable finishing.',
-      note: 'Later, just replace the entries in `lithographyImages` with the final visuals you want to use here.',
+      title: 'Printing and packaging finishing',
+      body: 'A visual lithography and print showcase placed before the contact footer.',
     },
   }[lang]
 
   return (
     <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
-      <div className="mx-auto w-full max-w-6xl px-6 pt-20 pb-8 text-center md:pt-24">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-300">{copy.eyebrow}</p>
-        <h2 className="mx-auto mt-3 max-w-4xl text-3xl font-black tracking-tight md:text-5xl">{copy.title}</h2>
-        <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">{copy.body}</p>
-      </div>
-
-      <ZoomParallax images={lithographyImages} />
-
-      <div className="mx-auto w-full max-w-5xl px-6 pb-16 text-center">
-        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-slate-300 backdrop-blur-sm md:text-base">
-          {copy.note}
+      <div className="relative flex h-[36vh] items-center justify-center px-6 text-center md:h-[42vh]">
+        <div className="pointer-events-none absolute -top-1/2 left-1/2 h-[120vmin] w-[120vmin] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.12),transparent_50%)] blur-[30px]" />
+        <div className="relative z-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-300">{copy.eyebrow}</p>
+          <h2 className="mt-3 text-center text-4xl font-bold md:text-5xl">{copy.title}</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">{copy.body}</p>
         </div>
       </div>
+      <ZoomParallax images={images} />
+      <div className="h-[28vh] bg-slate-950" />
     </section>
   )
 }

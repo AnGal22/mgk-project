@@ -6,6 +6,7 @@ import Cans from './components/cans.tsx'
 import Contact from './components/Contact.tsx'
 import ContactPage from './components/ContactPage.tsx'
 import CmsPanel from './components/CmsPanel.tsx'
+import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ProductsData } from './types/products.ts'
 import { fetchProducts, fetchSiteInfo, type SiteInfo } from './lib/api.ts'
@@ -22,6 +23,7 @@ function App() {
     description: { hr: '', en: '' },
     contact: { address: '', phone: '', location: '', email: '', certificates: '' },
   })
+  const [isAppLoading, setIsAppLoading] = useState(true)
   const [showItemNav, setShowItemNav] = useState(false)
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
@@ -78,10 +80,24 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (isCmsRoute) return
+    if (isCmsRoute) {
+      setIsAppLoading(false)
+      return
+    }
 
-    fetchProducts().then(setProducts).catch(() => {})
-    fetchSiteInfo().then(setSiteInfo).catch(() => {})
+    setIsAppLoading(true)
+    Promise.allSettled([fetchProducts(), fetchSiteInfo()])
+      .then(([productsResult, infoResult]) => {
+        if (productsResult.status === 'fulfilled') {
+          setProducts(productsResult.value)
+        }
+        if (infoResult.status === 'fulfilled') {
+          setSiteInfo(infoResult.value)
+        }
+      })
+      .finally(() => {
+        setIsAppLoading(false)
+      })
   }, [isCmsRoute])
 
   useEffect(() => {
@@ -171,6 +187,10 @@ function App() {
 
   if (isCmsRoute) {
     return <CmsPanel />
+  }
+
+  if (isAppLoading) {
+    return <AppLoadingScreen dark={isContactRoute} label={isContactRoute ? 'Učitavanje kontakt stranice...' : 'Učitavanje stranice...'} />
   }
 
   if (isContactRoute) {

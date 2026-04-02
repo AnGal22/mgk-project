@@ -156,7 +156,9 @@ function App() {
   }, [isCmsRoute, isAppLoading])
 
   useEffect(() => {
-    if (isCmsRoute || !statsRef.current) return
+    if (isCmsRoute || isAppLoading || !statsRef.current) return
+
+    setStatsInView(false)
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -165,12 +167,12 @@ function App() {
           observer.disconnect()
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.2 }
     )
 
     observer.observe(statsRef.current)
     return () => observer.disconnect()
-  }, [isCmsRoute])
+  }, [isCmsRoute, isAppLoading])
 
   useEffect(() => {
     if (!statsInView) return

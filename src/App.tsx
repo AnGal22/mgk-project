@@ -5,9 +5,9 @@ import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
 import Contact from './components/Contact.tsx'
 import ContactPage from './components/ContactPage.tsx'
-import info from './info.json'
-import localProducts from './products.json'
+import ZoomParallaxDemo from './components/ZoomParallaxDemo.tsx'
 import CmsPanel from './components/CmsPanel.tsx'
+import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ProductsData } from './types/products.ts'
 import { fetchProducts, fetchSiteInfo, type SiteInfo } from './lib/api.ts'
@@ -18,14 +18,22 @@ function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
   const isContactRoute = window.location.pathname === '/contact'
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
-  const [products, setProducts] = useState<ProductsData>(localProducts as ProductsData)
-  const [siteInfo, setSiteInfo] = useState<SiteInfo>(info as SiteInfo)
+  const [products, setProducts] = useState<ProductsData>({})
+  const [siteInfo, setSiteInfo] = useState<SiteInfo>({
+    title_desc: { hr: '', en: '' },
+    description: { hr: '', en: '' },
+    contact: { address: '', phone: '', location: '', email: '', certificates: '' },
+  })
+  const [isAppLoading, setIsAppLoading] = useState(true)
   const [showItemNav, setShowItemNav] = useState(false)
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
+  const [heroCapVisible, setHeroCapVisible] = useState(false)
+  const [heroWineCapVisible, setHeroWineCapVisible] = useState(false)
   const [statsInView, setStatsInView] = useState(false)
   const [animatedStats, setAnimatedStats] = useState<number[]>([0, 0, 0, 0])
+  const [isZoomParallaxLocked, setIsZoomParallaxLocked] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
   const statsRef = useRef<HTMLElement | null>(null)
 
@@ -76,10 +84,24 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (isCmsRoute) return
+    if (isCmsRoute) {
+      setIsAppLoading(false)
+      return
+    }
 
-    fetchProducts().then(setProducts).catch(() => {})
-    fetchSiteInfo().then(setSiteInfo).catch(() => {})
+    setIsAppLoading(true)
+    Promise.allSettled([fetchProducts(), fetchSiteInfo()])
+      .then(([productsResult, infoResult]) => {
+        if (productsResult.status === 'fulfilled') {
+          setProducts(productsResult.value)
+        }
+        if (infoResult.status === 'fulfilled') {
+          setSiteInfo(infoResult.value)
+        }
+      })
+      .finally(() => {
+        setIsAppLoading(false)
+      })
   }, [isCmsRoute])
 
   useEffect(() => {
@@ -121,20 +143,33 @@ function App() {
   }, [products, isCmsRoute])
 
   useEffect(() => {
-    if (isCmsRoute) return
+    if (isCmsRoute || isAppLoading) return
 
-    const id = setTimeout(() => setHeroCanVisible(true), 300)
-    const idPate = setTimeout(() => setHeroPateCanVisible(true), 650)
-    const idTin = setTimeout(() => setHeroTinCanVisible(true), 900)
+    setHeroCanVisible(false)
+    setHeroPateCanVisible(false)
+    setHeroTinCanVisible(false)
+    setHeroCapVisible(false)
+    setHeroWineCapVisible(false)
+
+    const id = setTimeout(() => setHeroCanVisible(true), 500)
+    const idPate = setTimeout(() => setHeroPateCanVisible(true), 900)
+    const idTin = setTimeout(() => setHeroTinCanVisible(true), 1250)
+    const idCap = setTimeout(() => {
+      setHeroCapVisible(true)
+      setHeroWineCapVisible(true)
+    }, 1650)
     return () => {
       clearTimeout(id)
       clearTimeout(idPate)
       clearTimeout(idTin)
+      clearTimeout(idCap)
     }
-  }, [isCmsRoute])
+  }, [isCmsRoute, isAppLoading])
 
   useEffect(() => {
-    if (isCmsRoute || !statsRef.current) return
+    if (isCmsRoute || isAppLoading || !statsRef.current) return
+
+    setStatsInView(false)
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -143,12 +178,12 @@ function App() {
           observer.disconnect()
         }
       },
-      { threshold: 0.35 }
+      { threshold: 0.2 }
     )
 
     observer.observe(statsRef.current)
     return () => observer.disconnect()
-  }, [isCmsRoute])
+  }, [isCmsRoute, isAppLoading])
 
   useEffect(() => {
     if (!statsInView) return
@@ -167,13 +202,27 @@ function App() {
     requestAnimationFrame(tick)
   }, [statsInView, lang])
 
+  useEffect(() => {
+    const onZoomParallaxLock = (event: Event) => {
+      const customEvent = event as CustomEvent<{ locked?: boolean }>
+      setIsZoomParallaxLocked(Boolean(customEvent.detail?.locked))
+    }
+
+    window.addEventListener('zoom-parallax-lock', onZoomParallaxLock as EventListener)
+    return () => window.removeEventListener('zoom-parallax-lock', onZoomParallaxLock as EventListener)
+  }, [])
+
   if (isCmsRoute) {
     return <CmsPanel />
   }
 
+  if (isAppLoading) {
+    return <AppLoadingScreen dark={isContactRoute} label={isContactRoute ? 'Učitavanje kontakt stranice...' : 'Učitavanje stranice...'} />
+  }
+
   if (isContactRoute) {
     return (
-      <div className="min-h-screen bg-slate-950">
+      <div className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)]">
         <Navbar lang={lang} products={products} />
         <ContactPage lang={lang} info={siteInfo.contact} />
         <div className="fixed bottom-6 right-6">
@@ -187,14 +236,14 @@ function App() {
 
   return (
     <div className="bg-[url(/bg1.webp)]">
-      <Navbar lang={lang} products={products} />
+      {!isZoomParallaxLocked && <Navbar lang={lang} products={products} />}
       <div
         className="fixed top-20 left-0 z-50 hidden h-[80vh] lg:block"
         style={{
-          transform: showItemNav ? 'translateX(0)' : 'translateX(-100%)',
-          opacity: showItemNav ? 1 : 0,
+          transform: showItemNav && !isZoomParallaxLocked ? 'translateX(0)' : 'translateX(-100%)',
+          opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,
           transition: 'transform 400ms ease, opacity 400ms ease',
-          pointerEvents: showItemNav ? 'auto' : 'none',
+          pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
         }}
       >
         <ItemNavBar lang={lang} products={products} />
@@ -203,16 +252,16 @@ function App() {
       <div
         className="fixed right-3 left-3 z-50 md:hidden"
         style={{
-          bottom: showItemNav ? '72px' : '-180px',
-          opacity: showItemNav ? 1 : 0,
+          bottom: showItemNav && !isZoomParallaxLocked ? '72px' : '-180px',
+          opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,
           transition: 'bottom 350ms ease, opacity 300ms ease',
-          pointerEvents: showItemNav ? 'auto' : 'none',
+          pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
         }}
       >
         <ItemNavBar lang={lang} products={products} mobile />
       </div>
 
-      <div className="pt-20 min-h-screen w-full flex flex-col items-center justify-center">
+      <div className="pt-20 min-h-screen w-full flex flex-col items-center">
         <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
           <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
@@ -236,11 +285,15 @@ function App() {
           <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="cap.webp" className={`hidden md:block w-[19%] fixed bottom-0 left-[68%] translate-y-[-60px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-200px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
 
           <div className="absolute bottom-22 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden pointer-events-none">
             <img src="home-pate-can.webp" className={`w-28 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
             <img src="home-can.webp" className={`w-32 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
             <img src="home-tin-can.webp" className={`w-24 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="cap.webp" className={`absolute right-10 bottom-10 w-18 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="wine_cap.webp" className={`absolute right-2 bottom-24 w-20 rotate-[-22deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
           </div>
         </section>
 
@@ -267,6 +320,7 @@ function App() {
             {index < entries.length - 1 && <Cans />}
           </Fragment>
         ))}
+        <ZoomParallaxDemo lang={lang} />
         <Contact lang={lang} info={siteInfo.contact} />
       </div>
 

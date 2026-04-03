@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent, FormEvent } from 'react'
 import { fetchProducts, fetchSiteInfo, getCmsSession, loginCms, logoutCms, saveProducts, saveSiteInfo, uploadCmsImage } from '../lib/api'
+import AppLoadingScreen from './ui/AppLoadingScreen'
 import type { SiteInfo } from '../lib/api'
 import type { ProductCategory, ProductsData } from '../types/products'
 
@@ -328,7 +329,7 @@ const CmsPanel = () => {
     setStatus('Odjavljen.')
   }
 
-  if (isLoading) return <div className="p-8 text-slate-700">Učitavanje CMS-a...</div>
+  if (isLoading) return <AppLoadingScreen label="Učitavanje CMS-a..." />
 
   if (!isAuthenticated) {
     return (

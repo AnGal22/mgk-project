@@ -27,6 +27,9 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
       success: 'Upit je uspješno poslan.',
       error: 'Dogodila se greška pri slanju upita.',
       contactBlock: 'Kontakt podaci',
+      address: 'Adresa',
+      location: 'Lokacija',
+      certificates: 'Certifikati',
     },
     en: {
       eyebrow: 'Contact & inquiries',
@@ -42,6 +45,9 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
       success: 'Inquiry sent successfully.',
       error: 'An error occurred while sending the inquiry.',
       contactBlock: 'Contact details',
+      address: 'Address',
+      location: 'Location',
+      certificates: 'Certificates',
     },
   }[lang]
 
@@ -75,52 +81,56 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 pt-28 pb-12 text-white md:px-6">
-      <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-        <section className="rounded-3xl border border-slate-800 bg-linear-to-br from-slate-900 to-slate-950 p-8 shadow-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-300">{text.eyebrow}</p>
-          <h1 className="mt-3 text-4xl font-black tracking-tight text-white md:text-5xl">{text.title}</h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">{text.desc}</p>
+    <main className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)] px-4 pt-28 pb-14 text-slate-800 md:px-6">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+        <section className="rounded-3xl border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(232,243,251,0.9))] p-8 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#4f83ab]">{text.eyebrow}</p>
+          <h1 className="mt-3 text-4xl font-black tracking-tight text-[#173f63] md:text-5xl">{text.title}</h1>
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-[#4d6f8e]">{text.desc}</p>
 
-          <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{text.contactBlock}</p>
-            <div className="mt-4 grid gap-4 text-sm text-slate-200 md:grid-cols-2">
-              <div><span className="block text-slate-400">Adresa</span><span>{info.address}</span></div>
-              <div><span className="block text-slate-400">Telefon</span><span>{info.phone}</span></div>
-              <div><span className="block text-slate-400">Lokacija</span><span>{info.location}</span></div>
-              <div><span className="block text-slate-400">E-mail</span><span>{info.email}</span></div>
+          <div className="mt-8 rounded-2xl border border-[#cfe0ee] bg-white/70 p-6 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6d8aa3]">{text.contactBlock}</p>
+            <div className="mt-4 grid gap-4 text-sm text-[#355a79] md:grid-cols-2">
+              <div><span className="block text-[#7a95ad]">{text.address}</span><span>{info.address}</span></div>
+              <div><span className="block text-[#7a95ad]">{text.phone}</span><span>{info.phone}</span></div>
+              <div><span className="block text-[#7a95ad]">{text.location}</span><span>{info.location}</span></div>
+              <div><span className="block text-[#7a95ad]">{text.email}</span><span>{info.email}</span></div>
+            </div>
+            <div className="mt-4 text-sm text-[#355a79]">
+              <span className="block text-[#7a95ad]">{text.certificates}</span>
+              <span>{info.certificates}</span>
             </div>
           </div>
         </section>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl md:p-8">
+        <section className="rounded-3xl border border-[#c7dff0] bg-white/92 p-6 shadow-[0_24px_70px_rgba(70,118,163,0.12)] backdrop-blur md:p-8">
           <form className="space-y-4" onSubmit={onSubmit}>
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block text-sm font-medium text-[#476b89]">
               <span className="mb-1 block">{text.company}</span>
-              <input className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} required />
+              <input className="w-full rounded-xl border border-[#c8dceb] bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-[#66aee8] focus:ring-4 focus:ring-[#3ca2fa]/12" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} required />
             </label>
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block text-sm font-medium text-[#476b89]">
               <span className="mb-1 block">{text.name}</span>
-              <input className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+              <input className="w-full rounded-xl border border-[#c8dceb] bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-[#66aee8] focus:ring-4 focus:ring-[#3ca2fa]/12" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
             </label>
             <div className="grid gap-4 md:grid-cols-2">
-              <label className="block text-sm font-medium text-slate-700">
+              <label className="block text-sm font-medium text-[#476b89]">
                 <span className="mb-1 block">{text.email}</span>
-                <input type="email" className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+                <input type="email" className="w-full rounded-xl border border-[#c8dceb] bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-[#66aee8] focus:ring-4 focus:ring-[#3ca2fa]/12" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
               </label>
-              <label className="block text-sm font-medium text-slate-700">
+              <label className="block text-sm font-medium text-[#476b89]">
                 <span className="mb-1 block">{text.phone}</span>
-                <input className="w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                <input className="w-full rounded-xl border border-[#c8dceb] bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-[#66aee8] focus:ring-4 focus:ring-[#3ca2fa]/12" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
               </label>
             </div>
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block text-sm font-medium text-[#476b89]">
               <span className="mb-1 block">{text.message}</span>
-              <textarea className="min-h-40 w-full rounded-xl border border-slate-300 px-4 py-3 text-slate-900" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required />
+              <textarea className="min-h-40 w-full rounded-xl border border-[#c8dceb] bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-[#66aee8] focus:ring-4 focus:ring-[#3ca2fa]/12" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} required />
             </label>
-            <button className="w-full rounded-xl bg-sky-600 px-5 py-3 text-sm font-bold tracking-wide text-white transition hover:bg-sky-700 disabled:opacity-60" disabled={isSubmitting}>
+            <button className="w-full rounded-xl bg-[#3ca2fa] px-5 py-3 text-sm font-bold tracking-wide text-white transition hover:bg-[#2f92e7] disabled:opacity-60" disabled={isSubmitting}>
               {isSubmitting ? text.sending : text.submit}
             </button>
-            {status && <p className="text-sm text-slate-600">{status}</p>}
+            {status && <p className="text-sm text-[#547590]">{status}</p>}
           </form>
         </section>
       </div>

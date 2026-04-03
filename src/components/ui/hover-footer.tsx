@@ -20,7 +20,7 @@ export const FooterBackgroundGradient = () => {
     <div
       className="absolute inset-0 z-0"
       style={{
-        background: 'radial-gradient(125% 125% at 50% 10%, rgba(7,11,18,0.92) 48%, rgba(60,162,250,0.22) 100%)',
+        background: 'radial-gradient(140% 140% at 50% 0%, rgba(245,250,255,0.96) 0%, rgba(223,238,250,0.96) 42%, rgba(187,217,239,0.92) 100%)',
       }}
     />
   )
@@ -59,7 +59,7 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
   return (
     <footer
       id="contact"
-      className="relative mt-10 w-full overflow-hidden border-y border-white/10 bg-[#0F1720]/88 text-slate-200 shadow-[0_-8px_40px_rgba(0,0,0,0.18)]"
+      className="relative mt-0 w-full overflow-hidden border-t border-[#c7dff0] bg-[#eaf4fb] text-slate-700 shadow-[0_-8px_30px_rgba(74,126,171,0.08)]"
     >
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-4 py-8 md:px-6 md:py-10">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-10">
@@ -69,12 +69,12 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
                 <ArrowUpRight className="h-5 w-5 text-[#79c7ff]" />
               </div>
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#79c7ff]">Industrial packaging</p>
-                <span className="text-lg font-black tracking-tight text-white md:text-xl">MGK-PACK</span>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#4d82aa]">Industrial packaging</p>
+                <span className="text-lg font-black tracking-tight text-[#163f63] md:text-xl">MGK-PACK</span>
               </div>
             </div>
 
-            <p className="max-w-sm text-sm leading-relaxed text-slate-300">{copy.brandText}</p>
+            <p className="max-w-sm text-sm leading-relaxed text-[#466b8c]">{copy.brandText}</p>
 
             <a
               href="/contact"
@@ -85,18 +85,18 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
           </div>
 
           <div>
-            <h4 className="mb-4 text-base font-semibold text-white md:text-lg">{copy.contactTitle}</h4>
+            <h4 className="mb-4 text-base font-semibold text-[#163f63] md:text-lg">{copy.contactTitle}</h4>
             <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {copy.contactItems.map((item, index) => {
                 const Icon = item.icon
                 return (
-                  <li key={`${item.text}-${index}`} className="rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-slate-300">
+                  <li key={`${item.text}-${index}`} className="rounded-xl border border-[#c9dceb] bg-white/70 p-3 text-sm text-[#355a79] shadow-sm">
                     <div className="flex items-start gap-3">
                       <Icon size={18} className="mt-0.5 shrink-0 text-[#3ca2fa]" />
                       <div className="min-w-0">
-                        <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500">{item.label}</p>
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-[#6f8da8]">{item.label}</p>
                         {item.href ? (
-                          <a href={item.href} className="break-words transition-colors hover:text-[#79c7ff]">
+                          <a href={item.href} className="break-words transition-colors hover:text-[#2f8fe5]">
                             {item.text}
                           </a>
                         ) : (
@@ -111,8 +111,8 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
           </div>
         </div>
 
-        <div className="mt-6 border-t border-white/10 pt-4">
-          <p className="text-center text-xs text-slate-400 md:text-left md:text-sm">
+        <div className="mt-5 border-t border-[#c9dceb] pt-4">
+          <p className="text-center text-xs text-[#6b86a0] md:text-left md:text-sm">
             &copy; {new Date().getFullYear()} MGK-PACK. {copy.copyright}
           </p>
         </div>

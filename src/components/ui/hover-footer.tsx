@@ -2,16 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
-import {
-  Mail,
-  Phone,
-  MapPin,
-  ArrowUpRight,
-  Globe,
-  Factory,
-  Package,
-  BadgeCheck,
-} from 'lucide-react'
+import { Mail, Phone, MapPin, ArrowUpRight, Globe, BadgeCheck } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -103,8 +94,8 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
-        className="fill-transparent stroke-white/30 font-[helvetica] text-7xl font-bold"
-        style={{ opacity: hovered ? 0.7 : 0 }}
+        className="fill-transparent stroke-white/20 font-[helvetica] text-6xl font-bold"
+        style={{ opacity: hovered ? 0.65 : 0 }}
       >
         {text}
       </text>
@@ -115,7 +106,7 @@ export const TextHoverEffect = ({
         textAnchor="middle"
         dominantBaseline="middle"
         strokeWidth="0.3"
-        className="fill-transparent stroke-[#3ca2fa] font-[helvetica] text-7xl font-bold"
+        className="fill-transparent stroke-[#3ca2fa] font-[helvetica] text-6xl font-bold"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{ strokeDashoffset: 0, strokeDasharray: 1000 }}
         transition={{ duration: 4, ease: 'easeInOut' }}
@@ -131,7 +122,7 @@ export const TextHoverEffect = ({
         stroke="url(#textGradient)"
         strokeWidth="0.3"
         mask="url(#textMask)"
-        className="fill-transparent font-[helvetica] text-7xl font-bold"
+        className="fill-transparent font-[helvetica] text-6xl font-bold"
       >
         {text}
       </text>
@@ -153,20 +144,9 @@ export const FooterBackgroundGradient = () => {
 const HoverFooter = ({ lang, info }: HoverFooterProps) => {
   const copy = {
     hr: {
-      brandText: 'Metalna ambalaža za ozbiljnu proizvodnju.',
-      sectionA: 'MGK-PACK',
-      sectionALinks: [
-        { label: 'Početna', href: '#home-hero' },
-        { label: 'Proizvodi', href: '#proizvodi' },
-        { label: 'Kontakt', href: '#contact' },
-      ],
-      sectionB: 'Kontakt i podrška',
-      sectionBLinks: [
-        { label: 'Pošalji upit', href: '/contact', pulse: true },
-        { label: 'Email', href: `mailto:${info.email}` },
-        { label: 'Nazovi nas', href: `tel:${info.phone.replace(/\s+/g, '')}` },
-      ],
+      brandText: 'Kontakt informacije i direktan upit.',
       contactTitle: 'Kontakt podaci',
+      buttonLabel: 'Pošalji upit',
       contactItems: [
         { icon: MapPin, label: 'Adresa', text: info.address },
         { icon: Phone, label: 'Mobitel', text: info.phone, href: `tel:${info.phone.replace(/\s+/g, '')}` },
@@ -177,20 +157,9 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
       copyright: 'Sva prava pridržana.',
     },
     en: {
-      brandText: 'Metal packaging built for serious production.',
-      sectionA: 'MGK-PACK',
-      sectionALinks: [
-        { label: 'Home', href: '#home-hero' },
-        { label: 'Products', href: '#proizvodi' },
-        { label: 'Contact', href: '#contact' },
-      ],
-      sectionB: 'Contact & support',
-      sectionBLinks: [
-        { label: 'Send inquiry', href: '/contact', pulse: true },
-        { label: 'Email', href: `mailto:${info.email}` },
-        { label: 'Call us', href: `tel:${info.phone.replace(/\s+/g, '')}` },
-      ],
+      brandText: 'Contact details and a direct inquiry CTA.',
       contactTitle: 'Contact details',
+      buttonLabel: 'Send inquiry',
       contactItems: [
         { icon: MapPin, label: 'Address', text: info.address },
         { icon: Phone, label: 'Mobile', text: info.phone, href: `tel:${info.phone.replace(/\s+/g, '')}` },
@@ -202,76 +171,53 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
     },
   }[lang]
 
-  const socialLinks = [
-    { icon: Globe, label: 'Website', href: '/' },
-    { icon: Factory, label: 'Production', href: '#proizvodi' },
-    { icon: Package, label: 'Packaging', href: '#proizvodi' },
-  ]
-
   return (
     <footer
       id="contact"
       className="relative mx-4 mb-8 overflow-hidden rounded-[2rem] border border-white/10 bg-[#0F1720]/80 text-slate-200 shadow-[0_30px_120px_rgba(0,0,0,0.35)] md:mx-8"
     >
-      <div className="relative z-10 mx-auto max-w-7xl p-8 md:p-12 lg:p-14">
-        <div className="grid grid-cols-1 gap-10 pb-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-14">
-          <div className="flex flex-col space-y-4">
+      <div className="relative z-10 mx-auto max-w-6xl p-8 md:p-12 lg:p-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
+          <div className="flex flex-col space-y-5">
             <div className="flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#3ca2fa]/15 ring-1 ring-inset ring-[#3ca2fa]/40">
-                <ArrowUpRight className="h-6 w-6 text-[#79c7ff]" />
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#3ca2fa]/15 ring-1 ring-inset ring-[#3ca2fa]/40">
+                <ArrowUpRight className="h-5 w-5 text-[#79c7ff]" />
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#79c7ff]">Industrial packaging</p>
-                <span className="text-2xl font-black tracking-tight text-white">MGK-PACK</span>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#79c7ff]">Industrial packaging</p>
+                <span className="text-xl font-black tracking-tight text-white md:text-2xl">MGK-PACK</span>
               </div>
             </div>
+
             <p className="max-w-sm text-sm leading-relaxed text-slate-300">{copy.brandText}</p>
+
+            <a
+              href="/contact"
+              className="inline-flex w-full items-center justify-center rounded-2xl bg-[#3ca2fa] px-6 py-4 text-base font-bold text-white shadow-lg shadow-[#3ca2fa]/25 transition hover:bg-[#2c92ec] md:w-auto md:min-w-56"
+            >
+              {copy.buttonLabel}
+            </a>
           </div>
 
           <div>
-            <h4 className="mb-5 text-lg font-semibold text-white">{copy.sectionA}</h4>
-            <ul className="space-y-3">
-              {copy.sectionALinks.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className="text-slate-300 transition-colors hover:text-[#79c7ff]">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-5 text-lg font-semibold text-white">{copy.sectionB}</h4>
-            <ul className="space-y-3">
-              {copy.sectionBLinks.map((link) => (
-                <li key={link.label} className="relative">
-                  <a href={link.href} className="inline-flex items-center gap-2 text-slate-300 transition-colors hover:text-[#79c7ff]">
-                    {link.label}
-                  </a>
-                  {link.pulse ? <span className="absolute top-1/2 ml-2 inline-block h-2 w-2 -translate-y-1/2 rounded-full bg-[#3ca2fa] animate-pulse" /> : null}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-5 text-lg font-semibold text-white">{copy.contactTitle}</h4>
-            <ul className="space-y-4">
+            <h4 className="mb-6 text-lg font-semibold text-white">{copy.contactTitle}</h4>
+            <ul className="grid gap-4 md:grid-cols-2">
               {copy.contactItems.map((item, index) => {
                 const Icon = item.icon
                 return (
-                  <li key={`${item.text}-${index}`} className="flex items-start gap-3 text-sm text-slate-300">
-                    <Icon size={18} className="mt-0.5 shrink-0 text-[#3ca2fa]" />
-                    <div className="min-w-0">
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">{item.label}</p>
-                      {item.href ? (
-                        <a href={item.href} className="transition-colors hover:text-[#79c7ff]">
-                          {item.text}
-                        </a>
-                      ) : (
-                        <span>{item.text}</span>
-                      )}
+                  <li key={`${item.text}-${index}`} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
+                    <div className="flex items-start gap-3">
+                      <Icon size={18} className="mt-0.5 shrink-0 text-[#3ca2fa]" />
+                      <div className="min-w-0">
+                        <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500">{item.label}</p>
+                        {item.href ? (
+                          <a href={item.href} className="break-words transition-colors hover:text-[#79c7ff]">
+                            {item.text}
+                          </a>
+                        ) : (
+                          <span className="break-words">{item.text}</span>
+                        )}
+                      </div>
                     </div>
                   </li>
                 )
@@ -282,22 +228,12 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
 
         <hr className="my-8 border-t border-white/10" />
 
-        <div className="flex flex-col items-center justify-between gap-4 text-sm md:flex-row">
-          <div className="flex space-x-5 text-slate-400">
-            {socialLinks.map(({ icon: Icon, label, href }) => (
-              <a key={label} href={href} aria-label={label} className="transition-colors hover:text-[#79c7ff]">
-                <Icon size={20} />
-              </a>
-            ))}
-          </div>
-
-          <p className="text-center text-slate-400 md:text-left">
-            &copy; {new Date().getFullYear()} MGK-PACK. {copy.copyright}
-          </p>
-        </div>
+        <p className="text-center text-sm text-slate-400 md:text-left">
+          &copy; {new Date().getFullYear()} MGK-PACK. {copy.copyright}
+        </p>
       </div>
 
-      <div className="hidden h-[24rem] -mt-32 -mb-24 lg:flex">
+      <div className="hidden h-[18rem] -mt-20 -mb-14 lg:flex">
         <TextHoverEffect text="MGK-PACK" className="z-10" />
       </div>
 

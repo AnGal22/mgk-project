@@ -222,7 +222,7 @@ function App() {
 
   if (isContactRoute) {
     return (
-      <div className="min-h-screen bg-slate-950">
+      <div className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)]">
         <Navbar lang={lang} products={products} />
         <ContactPage lang={lang} info={siteInfo.contact} />
         <div className="fixed bottom-6 right-6">

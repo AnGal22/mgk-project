@@ -8,6 +8,7 @@ import ContactPage from './components/ContactPage.tsx'
 import ZoomParallaxDemo from './components/ZoomParallaxDemo.tsx'
 import CmsPanel from './components/CmsPanel.tsx'
 import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
+import StatsDefault from './components/ui/stats-default.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ProductsData } from './types/products.ts'
 import { fetchProducts, fetchSiteInfo, type SiteInfo } from './lib/api.ts'
@@ -31,11 +32,8 @@ function App() {
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
   const [heroCapVisible, setHeroCapVisible] = useState(false)
   const [heroWineCapVisible, setHeroWineCapVisible] = useState(false)
-  const [statsInView, setStatsInView] = useState(false)
-  const [animatedStats, setAnimatedStats] = useState<number[]>([0, 0, 0, 0])
   const [isZoomParallaxLocked, setIsZoomParallaxLocked] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
-  const statsRef = useRef<HTMLElement | null>(null)
 
   const uiText = {
     hr: {
@@ -49,6 +47,8 @@ function App() {
       quoteCta: 'Zatrazi ponudu',
       productsCta: 'Pogledaj proizvode',
       statsTitle: 'Brojevi koji govore za nas',
+      statsDescription: 'Više od pola stoljeća industrijskog iskustva pretvoreno je u konkretne proizvodne rezultate, izvoznu širinu i pouzdanu isporuku.',
+      statsIntro: 'Od domaće proizvodnje do međunarodnih tržišta, gradimo sustav koji kupcima daje stabilnost, fleksibilnost i kvalitetu u velikim serijama.',
       stats: [
         { target: 30, suffix: '+', label: 'Godina iskustva' },
         { target: 40, suffix: '+', label: 'Tržišta izvoza' },
@@ -67,6 +67,8 @@ function App() {
       quoteCta: 'Request a quote',
       productsCta: 'View products',
       statsTitle: 'Numbers that build trust',
+      statsDescription: 'More than half a century of industrial experience has been turned into measurable production output, export reach and dependable delivery.',
+      statsIntro: 'From local manufacturing to international markets, we build a system that gives customers stability, flexibility and quality at scale.',
       stats: [
         { target: 30, suffix: '+', label: 'Years of experience' },
         { target: 40, suffix: '+', label: 'Export markets' },
@@ -167,42 +169,6 @@ function App() {
   }, [isCmsRoute, isAppLoading])
 
   useEffect(() => {
-    if (isCmsRoute || isAppLoading || !statsRef.current) return
-
-    setStatsInView(false)
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setStatsInView(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.2 }
-    )
-
-    observer.observe(statsRef.current)
-    return () => observer.disconnect()
-  }, [isCmsRoute, isAppLoading])
-
-  useEffect(() => {
-    if (!statsInView) return
-
-    const duration = 1400
-    const start = performance.now()
-    const stats = uiText[lang].stats
-
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setAnimatedStats(stats.map((stat) => Math.round(stat.target * eased)))
-      if (progress < 1) requestAnimationFrame(tick)
-    }
-
-    requestAnimationFrame(tick)
-  }, [statsInView, lang])
-
-  useEffect(() => {
     const onZoomParallaxLock = (event: Event) => {
       const customEvent = event as CustomEvent<{ locked?: boolean }>
       setIsZoomParallaxLocked(Boolean(customEvent.detail?.locked))
@@ -297,22 +263,14 @@ function App() {
           </div>
         </section>
 
-        <section ref={statsRef} className="relative z-10 -mt-10 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
-          <div className="rounded-2xl border border-white/30 bg-white/92 p-5 shadow-2xl backdrop-blur md:p-7">
-            <h2 className="mb-4 text-xl font-bold text-slate-900 md:text-2xl">{uiText[lang].statsTitle}</h2>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {uiText[lang].stats.map((stat, index) => (
-                <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-                  <p className="text-2xl font-extrabold text-blue-700 md:text-3xl">
-                    {animatedStats[index] ?? 0}
-                    {stat.suffix ?? ''}
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-slate-600 md:text-sm">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <div className="relative z-10 -mt-10 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
+          <StatsDefault
+            title={uiText[lang].statsTitle}
+            description={uiText[lang].statsDescription}
+            intro={uiText[lang].statsIntro}
+            stats={uiText[lang].stats}
+          />
+        </div>
 
         {Object.entries(products).map(([key], index, entries) => (
           <Fragment key={key}>

@@ -24,17 +24,24 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
     onNavigate?.()
   }
 
+  const goToQualityControlPage = () => {
+    window.location.href = '/quality-control'
+    onNavigate?.()
+  }
+
   const labels = {
     hr: {
       home: 'Početna',
       about: 'O nama',
       services: 'Proizvodi',
+      quality: 'Kontrola kvalitete',
       contact: 'Kontakt'
     },
     en: {
       home: 'Home',
       about: 'About',
       services: 'Products',
+      quality: 'Quality Control',
       contact: 'Contact'
     }
   }
@@ -50,6 +57,9 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
         </button>
         <button onClick={() => firstProductId && scrollToSection(firstProductId)} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
           {labels[lang].services}
+        </button>
+        <button onClick={goToQualityControlPage} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
+          {labels[lang].quality}
         </button>
         <button onClick={goToContactPage} className="rounded-xl px-4 py-3 text-left text-base font-medium text-slate-800 transition-colors hover:bg-slate-100">
           {labels[lang].contact}
@@ -68,6 +78,9 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
       </button>
       <button onClick={() => firstProductId && scrollToSection(firstProductId)} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
         {labels[lang].services}
+      </button>
+      <button onClick={goToQualityControlPage} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
+        {labels[lang].quality}
       </button>
       <button onClick={goToContactPage} className="cursor-pointer transition-transform duration-200 ease-out hover:scale-110">
         {labels[lang].contact}

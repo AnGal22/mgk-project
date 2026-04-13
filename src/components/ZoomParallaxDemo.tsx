@@ -12,7 +12,7 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
     hr: {
       eyebrow: 'Limotisak',
       title: 'Tisak i zaštita metalne ambalaže',
-      body: 'Ova sekcija spaja kontrolirani vizualni ulaz s konkretnim pregledom naših mogućnosti u limotisku, lakiranju i grafičkoj pripremi.',
+      body: 'Ova sekcija spaja kontrolirani vizualni ulaz s konkretnim pregledom naših mogućnosti u limotisku, lakiranju i grafičkoj pripremi, uz dvosmjerni scroll lock koji dopušta i povratak gore.',
       featureLabel: 'Više od 50 godina iskustva',
       paragraphs: [
         'Više od pola stoljeća iskustva u tisku lima povezano s modernom opremom za tisak i lakiranje čine nas vodećom litografskom tvornicom u regiji. Naša najveća snaga visoka je kvaliteta tiska i zaštite limenki, zatvarača i ostale metalne ambalaže lakom te fleksibilnost pri ispunjavanju zahtjeva naših kupaca. Našim proizvodnim linijama u mogućnosti smo pružiti usluge tiska i lakiranja na pokositrenom, kromiranom i aluminijskom limu debljina od 0,155 mm ili više.',
@@ -23,7 +23,7 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
     en: {
       eyebrow: 'Sheet metal printing',
       title: 'Printing and protection for metal packaging',
-      body: 'This section now pairs the controlled visual entry with a concrete overview of our lithography, lacquering and graphic preparation capabilities.',
+      body: 'This section now pairs the controlled visual entry with a concrete overview of our lithography, lacquering and graphic preparation capabilities, with a two-way scroll lock that also lets the user exit upward.',
       featureLabel: 'More than 50 years of experience',
       paragraphs: [
         'More than half a century of experience in sheet metal printing with modern printing and lacquering equipment make us the leading lithographic factory in the region. Our strength lies in the high quality of print and lacquer protection of cans, caps and other metal packaging, and the flexibility at meeting our customers\' requests. Through our production lines we are able to offer the services of printing and lacquering on the tin-, chrome- and aluminium-coated sheet metal of the thickness of 0,155 mm or more.',
@@ -35,19 +35,19 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
 
   const images = [
     {
-      src: '/cap_povrce.png',
+      src: '/cap_povrce.webp',
       alt: 'Printed vegetable cap design',
     },
     {
-      src: '/caps_unbranded.png',
+      src: '/caps_unbranded.webp',
       alt: 'Unbranded caps layout',
     },
     {
-      src: '/caps_unbranded2.png',
+      src: '/caps_unbranded2.webp',
       alt: 'Alternative unbranded caps layout',
     },
     {
-      src: '/cap_unbranded.png',
+      src: '/cap_unbranded.webp',
       alt: 'Single unbranded cap design',
     },
   ]

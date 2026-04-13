@@ -8,6 +8,7 @@ import ContactPage from './components/ContactPage.tsx'
 import ZoomParallaxDemo from './components/ZoomParallaxDemo.tsx'
 import CmsPanel from './components/CmsPanel.tsx'
 import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
+import StatsDefault from './components/ui/stats-default.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import type { ProductsData } from './types/products.ts'
 import { fetchProducts, fetchSiteInfo, type SiteInfo } from './lib/api.ts'
@@ -31,11 +32,8 @@ function App() {
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
   const [heroCapVisible, setHeroCapVisible] = useState(false)
   const [heroWineCapVisible, setHeroWineCapVisible] = useState(false)
-  const [statsInView, setStatsInView] = useState(false)
-  const [animatedStats, setAnimatedStats] = useState<number[]>([0, 0, 0, 0])
   const [isZoomParallaxLocked, setIsZoomParallaxLocked] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
-  const statsRef = useRef<HTMLElement | null>(null)
 
   const uiText = {
     hr: {
@@ -49,6 +47,8 @@ function App() {
       quoteCta: 'Zatrazi ponudu',
       productsCta: 'Pogledaj proizvode',
       statsTitle: 'Brojevi koji govore za nas',
+      statsDescription: 'Više od pola stoljeća industrijskog iskustva pretvoreno je u konkretne proizvodne rezultate, izvoznu širinu i pouzdanu isporuku.',
+      statsIntro: 'Od domaće proizvodnje do međunarodnih tržišta, gradimo sustav koji kupcima daje stabilnost, fleksibilnost i kvalitetu u velikim serijama.',
       stats: [
         { target: 30, suffix: '+', label: 'Godina iskustva' },
         { target: 40, suffix: '+', label: 'Tržišta izvoza' },
@@ -67,6 +67,8 @@ function App() {
       quoteCta: 'Request a quote',
       productsCta: 'View products',
       statsTitle: 'Numbers that build trust',
+      statsDescription: 'More than half a century of industrial experience has been turned into measurable production output, export reach and dependable delivery.',
+      statsIntro: 'From local manufacturing to international markets, we build a system that gives customers stability, flexibility and quality at scale.',
       stats: [
         { target: 30, suffix: '+', label: 'Years of experience' },
         { target: 40, suffix: '+', label: 'Export markets' },
@@ -167,42 +169,6 @@ function App() {
   }, [isCmsRoute, isAppLoading])
 
   useEffect(() => {
-    if (isCmsRoute || isAppLoading || !statsRef.current) return
-
-    setStatsInView(false)
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setStatsInView(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.2 }
-    )
-
-    observer.observe(statsRef.current)
-    return () => observer.disconnect()
-  }, [isCmsRoute, isAppLoading])
-
-  useEffect(() => {
-    if (!statsInView) return
-
-    const duration = 1400
-    const start = performance.now()
-    const stats = uiText[lang].stats
-
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setAnimatedStats(stats.map((stat) => Math.round(stat.target * eased)))
-      if (progress < 1) requestAnimationFrame(tick)
-    }
-
-    requestAnimationFrame(tick)
-  }, [statsInView, lang])
-
-  useEffect(() => {
     const onZoomParallaxLock = (event: Event) => {
       const customEvent = event as CustomEvent<{ locked?: boolean }>
       setIsZoomParallaxLocked(Boolean(customEvent.detail?.locked))
@@ -285,34 +251,26 @@ function App() {
           <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="cap.webp" className={`hidden md:block w-[19%] fixed bottom-0 left-[68%] translate-y-[-60px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="cap.webp" className={`hidden md:block w-[23%] fixed bottom-0 left-[66.5%] translate-y-[-70px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
           <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-200px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
 
-          <div className="absolute bottom-22 left-1/2 z-10 flex w-full max-w-sm -translate-x-1/2 items-end justify-center gap-2 px-4 md:hidden pointer-events-none">
-            <img src="home-pate-can.webp" className={`w-28 rotate-12 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="home-can.webp" className={`w-32 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="home-tin-can.webp" className={`w-24 -rotate-6 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="cap.webp" className={`absolute right-10 bottom-10 w-18 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="wine_cap.webp" className={`absolute right-2 bottom-24 w-20 rotate-[-22deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
+          <div className="absolute inset-x-0 bottom-8 z-10 mx-auto h-[250px] w-full max-w-[360px] px-4 md:hidden pointer-events-none">
+            <img src="home-pate-can.webp" className={`absolute bottom-2 left-0 w-[118px] rotate-[10deg] animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-can.webp" className={`absolute bottom-0 left-1/2 z-10 w-[154px] -translate-x-1/2 scale-x-[-1] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-tin-can.webp" className={`absolute bottom-5 right-1 w-[100px] rotate-[-8deg] animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="cap.webp" className={`absolute bottom-[112px] left-[14px] z-20 w-[92px] rotate-[-18deg] animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="wine_cap.webp" className={`absolute bottom-[128px] right-[12px] z-20 w-[84px] rotate-[-24deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
           </div>
         </section>
 
-        <section ref={statsRef} className="relative z-10 -mt-10 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
-          <div className="rounded-2xl border border-white/30 bg-white/92 p-5 shadow-2xl backdrop-blur md:p-7">
-            <h2 className="mb-4 text-xl font-bold text-slate-900 md:text-2xl">{uiText[lang].statsTitle}</h2>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {uiText[lang].stats.map((stat, index) => (
-                <div key={stat.label} className="rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm">
-                  <p className="text-2xl font-extrabold text-blue-700 md:text-3xl">
-                    {animatedStats[index] ?? 0}
-                    {stat.suffix ?? ''}
-                  </p>
-                  <p className="mt-1 text-xs font-medium text-slate-600 md:text-sm">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <div className="relative z-10 -mt-10 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
+          <StatsDefault
+            title={uiText[lang].statsTitle}
+            description={uiText[lang].statsDescription}
+            intro={uiText[lang].statsIntro}
+            stats={uiText[lang].stats}
+          />
+        </div>
 
         {Object.entries(products).map(([key], index, entries) => (
           <Fragment key={key}>

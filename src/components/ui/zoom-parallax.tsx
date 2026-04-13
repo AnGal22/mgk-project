@@ -85,7 +85,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 
     holdScrollPosition()
 
-    const releaseLock = () => {
+    const releaseLockDown = () => {
       setActiveLock(false)
       document.body.style.overflow = ''
       if (rafId.current != null) {
@@ -97,13 +97,31 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
       }
     }
 
+    const releaseLockUp = () => {
+      setActiveLock(false)
+      document.body.style.overflow = ''
+      if (rafId.current != null) {
+        cancelAnimationFrame(rafId.current)
+        rafId.current = null
+      }
+      if (lockedScrollY.current != null) {
+        window.scrollTo(0, Math.max(lockedScrollY.current - Math.round(window.innerHeight * 0.08), 0))
+      }
+    }
+
     const applyDelta = (deltaY: number) => {
       const current = progress.get()
       const next = clamp(current + deltaY * 0.00052, 0, 1)
       progress.set(next)
 
       if (next >= 1 && deltaY > 0) {
-        releaseLock()
+        releaseLockDown()
+        return
+      }
+
+      if (next <= 0.06 && deltaY < 0) {
+        progress.set(0)
+        releaseLockUp()
       }
     }
 

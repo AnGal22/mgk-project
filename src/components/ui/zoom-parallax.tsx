@@ -111,7 +111,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 
     const applyDelta = (deltaY: number) => {
       const current = progress.get()
-      const next = clamp(current + deltaY * 0.00095, 0, 1)
+      const next = clamp(current + deltaY * 0.00145, 0, 1)
       progress.set(next)
 
       if (next >= 1 && deltaY > 0) {

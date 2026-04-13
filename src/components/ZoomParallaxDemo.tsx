@@ -35,19 +35,19 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
 
   const images = [
     {
-      src: '/cap_povrce.png',
+      src: '/cap_povrce.webp',
       alt: 'Printed vegetable cap design',
     },
     {
-      src: '/caps_unbranded.png',
+      src: '/caps_unbranded.webp',
       alt: 'Unbranded caps layout',
     },
     {
-      src: '/caps_unbranded2.png',
+      src: '/caps_unbranded2.webp',
       alt: 'Alternative unbranded caps layout',
     },
     {
-      src: '/cap_unbranded.png',
+      src: '/cap_unbranded.webp',
       alt: 'Single unbranded cap design',
     },
   ]

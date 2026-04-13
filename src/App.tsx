@@ -5,6 +5,7 @@ import ItemNavBar from './components/ItemNavBar.tsx'
 import Cans from './components/cans.tsx'
 import Contact from './components/Contact.tsx'
 import ContactPage from './components/ContactPage.tsx'
+import QualityControlPage from './components/QualityControlPage.tsx'
 import ZoomParallaxDemo from './components/ZoomParallaxDemo.tsx'
 import CmsPanel from './components/CmsPanel.tsx'
 import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
@@ -18,6 +19,7 @@ type StatItem = { target: number; suffix?: string; label: string }
 function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
   const isContactRoute = window.location.pathname === '/contact'
+  const isQualityControlRoute = window.location.pathname === '/quality-control'
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
   const [products, setProducts] = useState<ProductsData>({})
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
@@ -183,14 +185,14 @@ function App() {
   }
 
   if (isAppLoading) {
-    return <AppLoadingScreen dark={isContactRoute} label={isContactRoute ? 'Učitavanje kontakt stranice...' : 'Učitavanje stranice...'} />
+    return <AppLoadingScreen dark={isContactRoute || isQualityControlRoute} label={isContactRoute ? 'Učitavanje kontakt stranice...' : isQualityControlRoute ? 'Učitavanje stranice kontrole kvalitete...' : 'Učitavanje stranice...'} />
   }
 
-  if (isContactRoute) {
+  if (isContactRoute || isQualityControlRoute) {
     return (
       <div className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)]">
         <Navbar lang={lang} products={products} />
-        <ContactPage lang={lang} info={siteInfo.contact} />
+        {isContactRoute ? <ContactPage lang={lang} info={siteInfo.contact} /> : <QualityControlPage lang={lang} />}
         <div className="fixed bottom-6 right-6">
           <button className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110" onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}>
             {lang === 'hr' ? 'English' : 'Hrvatski'}

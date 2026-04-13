@@ -8,7 +8,8 @@
     "dev:api": "node server/index.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "migrate:supabase:webp": "node scripts/migrate-supabase-images-to-webp.mjs"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",

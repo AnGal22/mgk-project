@@ -1,4 +1,5 @@
 import { verifyAuthFromRequest } from './_lib/auth.js'
+import { convertImageBufferToWebp } from './_lib/image-webp.js'
 import { writeImageAsset } from './_lib/storage.js'
 
 const MAX_UPLOAD_BYTES = 5 * 1024 * 1024
@@ -37,7 +38,8 @@ export default async function handler(req, res) {
     }
 
     const buffer = Buffer.from(base64, 'base64')
-    const url = await writeImageAsset({ fileName, contentType, buffer })
+    const webpImage = await convertImageBufferToWebp({ fileName, contentType, buffer })
+    const url = await writeImageAsset(webpImage)
     return res.status(200).json({ url })
   } catch (error) {
     return res.status(500).json({ error: error instanceof Error ? error.message : 'Greška pri uploadu slike' })

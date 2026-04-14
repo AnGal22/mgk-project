@@ -108,15 +108,6 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
                 )}
               </div>
             </div>
-            <div className="rounded-2xl border border-[#cfe0ee] bg-white/70 p-6 shadow-sm flex items-center justify-center">
-              <img
-                src="/ISO 9001 certification logo close-up.webp"
-                alt="ISO 9001 certification"
-                className="h-24 w-auto object-contain md:h-28"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
           </div>
         </section>
 

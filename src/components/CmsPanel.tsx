@@ -30,6 +30,8 @@ const defaultSiteInfo: SiteInfo = {
     phone: '',
     location: '',
     email: '',
+    email2: '',
+    email3: '',
     certificates: '',
   },
 }
@@ -589,6 +591,8 @@ const CmsPanel = () => {
               <label className="text-sm"><span className="mb-1 block font-medium">Mobitel</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.phone} onChange={(e) => updateContactField('phone', e.target.value)} /></label>
               <label className="text-sm"><span className="mb-1 block font-medium">Lokacija</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.location} onChange={(e) => updateContactField('location', e.target.value)} /></label>
               <label className="text-sm"><span className="mb-1 block font-medium">E-mail</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email} onChange={(e) => updateContactField('email', e.target.value)} /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">E-mail 2</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email2} onChange={(e) => updateContactField('email2', e.target.value)} /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">E-mail 3</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email3} onChange={(e) => updateContactField('email3', e.target.value)} /></label>
             </div>
             <label className="mt-3 block text-sm"><span className="mb-1 block font-medium">Certifikati</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.certificates} onChange={(e) => updateContactField('certificates', e.target.value)} /></label>
             {infoStatus && <p className="mt-3 whitespace-pre-line break-words text-sm text-slate-700">{infoStatus}</p>}

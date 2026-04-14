@@ -26,7 +26,7 @@ function App() {
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
     title_desc: { hr: '', en: '' },
     description: { hr: '', en: '' },
-    contact: { address: '', phone: '', location: '', email: '', certificates: '' },
+    contact: { address: '', phone: '', location: '', email: '', email2: '', email3: '', certificates: '' },
   })
   const [isAppLoading, setIsAppLoading] = useState(true)
   const [showItemNav, setShowItemNav] = useState(false)

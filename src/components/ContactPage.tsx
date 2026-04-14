@@ -7,6 +7,8 @@ type ContactPageProps = {
     phone: string
     location: string
     email: string
+    email2: string
+    email3: string
     certificates: string
   }
 }
@@ -95,10 +97,18 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
               <div><span className="block text-[#7a95ad]">{text.phone}</span><span>{info.phone}</span></div>
               <div><span className="block text-[#7a95ad]">{text.location}</span><span>{info.location}</span></div>
               <div><span className="block text-[#7a95ad]">{text.email}</span><span>{info.email}</span></div>
+              {info.email2 && <div><span className="block text-[#7a95ad]">{text.email} 2</span><span>{info.email2}</span></div>}
+              {info.email3 && <div><span className="block text-[#7a95ad]">{text.email} 3</span><span>{info.email3}</span></div>}
             </div>
             <div className="mt-4 text-sm text-[#355a79]">
               <span className="block text-[#7a95ad]">{text.certificates}</span>
-              <span>{info.certificates}</span>
+              <img
+                src="/ISO 9001 certification logo close-up.webp"
+                alt="ISO 9001 certification"
+                className="mt-2 h-20 w-auto object-contain"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           </div>
         </section>

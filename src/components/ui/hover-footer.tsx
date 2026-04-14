@@ -109,7 +109,7 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
                 {copy.contactItems.map((item, index) => {
                   const Icon = item.icon
                   return (
-                    <li key={`${item.text}-${index}`} className="rounded-xl border border-[#c9dceb] bg-white/70 p-3 text-sm text-[#355a79] shadow-sm">
+                    <li key={`${item.text}-${index}`} className={`rounded-xl border border-[#c9dceb] bg-white/70 p-3 text-sm text-[#355a79] shadow-sm ${item.label === 'Prodaja' || item.label === 'Sales' ? 'sm:col-span-2' : ''}`}>
                       <div className="flex items-start gap-3">
                         <Icon size={18} className="mt-0.5 shrink-0 text-[#3ca2fa]" />
                         <div className="min-w-0">

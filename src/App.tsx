@@ -190,20 +190,15 @@ function App() {
   if (isContactRoute || isQualityControlRoute) {
     return (
       <div className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)]">
-        <Navbar lang={lang} products={products} />
+        <Navbar lang={lang} products={products} onToggleLanguage={() => setLang(lang === 'hr' ? 'en' : 'hr')} />
         {isContactRoute ? <ContactPage lang={lang} info={siteInfo.contact} /> : <QualityControlPage lang={lang} />}
-        <div className="fixed bottom-6 right-6">
-          <button className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110" onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}>
-            {lang === 'hr' ? 'English' : 'Hrvatski'}
-          </button>
-        </div>
       </div>
     )
   }
 
   return (
     <div className="bg-[url(/bg1.webp)]">
-      {!isZoomParallaxLocked && <Navbar lang={lang} products={products} />}
+      {!isZoomParallaxLocked && <Navbar lang={lang} products={products} onToggleLanguage={() => setLang(lang === 'hr' ? 'en' : 'hr')} />}
       <div
         className="fixed top-20 left-0 z-50 hidden h-[80vh] lg:block"
         style={{
@@ -249,7 +244,7 @@ function App() {
           <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="cap.webp" className={`hidden md:block w-[23%] fixed bottom-0 left-[66.5%] translate-y-[-70px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="cap.webp" className={`hidden md:block w-[29%] fixed bottom-0 left-[61%] translate-y-[-40px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
           <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-200px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
 
           <div className="absolute inset-x-0 bottom-8 z-10 mx-auto h-[250px] w-full max-w-[360px] px-4 md:hidden pointer-events-none">
@@ -280,11 +275,6 @@ function App() {
         <Contact lang={lang} info={siteInfo.contact} />
       </div>
 
-      <div className="fixed bottom-6 right-6">
-        <button className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110" onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}>
-          {lang === 'hr' ? 'English' : 'Hrvatski'}
-        </button>
-      </div>
     </div>
   )
 }

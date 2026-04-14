@@ -5,11 +5,12 @@ import Links from './Links.tsx'
 import type { ProductsData } from '../types/products.ts'
 
 type NavbarProps = {
-  lang: 'hr' | 'en';
-  products: ProductsData;
+  lang: 'hr' | 'en'
+  products: ProductsData
+  onToggleLanguage: () => void
 }
 
-const Navbar = ({ lang, products }: NavbarProps) => {
+const Navbar = ({ lang, products, onToggleLanguage }: NavbarProps) => {
   const [isVisible, setIsVisible] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -51,7 +52,7 @@ const Navbar = ({ lang, products }: NavbarProps) => {
   return (
     <>
       <nav className={`fixed w-full bg-white/20 backdrop-blur-md shadow-md transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="flex w-full flex-wrap items-center justify-end px-3 py-1 sm:justify-around">
+        <div className="flex w-full flex-wrap items-center justify-between px-3 py-2">
           <Links lang={lang} products={products} />
 
           <button
@@ -68,6 +69,14 @@ const Navbar = ({ lang, products }: NavbarProps) => {
               loading="lazy"
               decoding="async"
             />
+          </button>
+
+          <button
+            type="button"
+            className="rounded-full bg-[#123d63] px-5 py-2.5 text-[1.05rem] font-semibold text-white shadow-md transition-transform duration-200 ease-out hover:scale-105 hover:bg-[#0e3150]"
+            onClick={onToggleLanguage}
+          >
+            {lang === 'hr' ? 'English' : 'Hrvatski'}
           </button>
         </div>
       </nav>

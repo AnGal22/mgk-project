@@ -11,6 +11,7 @@ import CmsPanel from './components/CmsPanel.tsx'
 import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
 import StatsDefault from './components/ui/stats-default.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { normalizeProductOrders, sortProductEntries } from './lib/products-order.ts'
 import type { ProductsData } from './types/products.ts'
 import { fetchProducts, fetchSiteInfo, type SiteInfo } from './lib/api.ts'
 
@@ -97,7 +98,7 @@ function App() {
     Promise.allSettled([fetchProducts(), fetchSiteInfo()])
       .then(([productsResult, infoResult]) => {
         if (productsResult.status === 'fulfilled') {
-          setProducts(productsResult.value)
+          setProducts(normalizeProductOrders(productsResult.value))
         }
         if (infoResult.status === 'fulfilled') {
           setSiteInfo(infoResult.value)
@@ -111,7 +112,7 @@ function App() {
   useEffect(() => {
     if (isCmsRoute) return
 
-    const firstSectionId = Object.keys(products)[0]
+    const firstSectionId = sortProductEntries(products)[0]?.[0]
     if (!firstSectionId) return
 
     const showWhenFirstSectionTopIsAt = 0.25
@@ -274,7 +275,7 @@ function App() {
           />
         </div>
 
-        {Object.entries(products).map(([key], index, entries) => (
+        {sortProductEntries(products).map(([key], index, entries) => (
           <Fragment key={key}>
             <Section keyName={key} products={products} lang={lang} onInViewChange={handleSectionInViewChange} />
             {index < entries.length - 1 && <Cans />}

@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent, FormEvent } from 'react'
 import { fetchProducts, fetchSiteInfo, getCmsSession, loginCms, logoutCms, saveProducts, saveSiteInfo, uploadCmsImage } from '../lib/api'
+import { normalizeProductOrders, sortProductEntries } from '../lib/products-order'
 import AppLoadingScreen from './ui/AppLoadingScreen'
 import type { SiteInfo } from '../lib/api'
 import type { ProductCategory, ProductsData } from '../types/products'
 
 const createEmptyProduct = (): ProductCategory => ({
+  order: 0,
   name: { hr: '', en: '' },
   short_description: { hr: '', en: '' },
   description: { hr: '', en: '' },
@@ -59,8 +61,9 @@ const CmsPanel = () => {
 
         setIsAuthenticated(true)
         const [data, info] = await Promise.all([fetchProducts(), fetchSiteInfo()])
-        const firstKey = Object.keys(data)[0] || ''
-        setProducts(data)
+        const normalizedProducts = normalizeProductOrders(data)
+        const firstKey = sortProductEntries(normalizedProducts)[0]?.[0] || ''
+        setProducts(normalizedProducts)
         setSiteInfo(info)
         setSelectedKey(firstKey)
       } catch (error) {
@@ -80,8 +83,9 @@ const CmsPanel = () => {
     try {
       await loginCms({ username, password })
       const [data, info] = await Promise.all([fetchProducts(), fetchSiteInfo()])
-      const firstKey = Object.keys(data)[0] || ''
-      setProducts(data)
+      const normalizedProducts = normalizeProductOrders(data)
+      const firstKey = sortProductEntries(normalizedProducts)[0]?.[0] || ''
+      setProducts(normalizedProducts)
       setSiteInfo(info)
       setSelectedKey(firstKey)
       setIsAuthenticated(true)
@@ -228,7 +232,13 @@ const CmsPanel = () => {
       return
     }
 
-    setProducts((current) => ({ ...current, [cleanKey]: createEmptyProduct() }))
+    setProducts((current) => normalizeProductOrders({
+      ...current,
+      [cleanKey]: {
+        ...createEmptyProduct(),
+        order: Object.keys(current).length,
+      },
+    }))
     setSelectedKey(cleanKey)
     setNewKey('')
     setStatus(`Dodan novi proizvod: ${cleanKey}`)
@@ -241,29 +251,45 @@ const CmsPanel = () => {
     setProducts((current) => {
       const next = { ...current }
       delete next[selectedKey]
-      const nextFirst = Object.keys(next)[0] || ''
+      const normalized = normalizeProductOrders(next)
+      const nextFirst = sortProductEntries(normalized)[0]?.[0] || ''
       setSelectedKey(nextFirst)
-      return next
+      return normalized
     })
     setStatus(`Obrisan proizvod: ${selectedKey}`)
   }
 
-  const onMoveProduct = (direction: 'up' | 'down', keyToMove: string) => {
-    setProducts((current) => {
-      const entries = Object.entries(current)
-      const index = entries.findIndex(([key]) => key === keyToMove)
-      if (index === -1) return current
+  const onMoveProduct = async (direction: 'up' | 'down', keyToMove: string) => {
+    const entries = sortProductEntries(products)
+    const index = entries.findIndex(([key]) => key === keyToMove)
+    if (index === -1) return
 
-      const targetIndex = direction === 'up' ? index - 1 : index + 1
-      if (targetIndex < 0 || targetIndex >= entries.length) return current
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+    if (targetIndex < 0 || targetIndex >= entries.length) return
 
-      const reordered = [...entries]
-      const [moved] = reordered.splice(index, 1)
-      reordered.splice(targetIndex, 0, moved)
-      return Object.fromEntries(reordered)
-    })
+    const reordered = [...entries]
+    const [moved] = reordered.splice(index, 1)
+    reordered.splice(targetIndex, 0, moved)
 
-    setStatus(direction === 'up' ? `Pomaknut gore: ${keyToMove}` : `Pomaknut dolje: ${keyToMove}`)
+    const nextProducts = Object.fromEntries(
+      reordered.map(([key, product], nextIndex) => [
+        key,
+        {
+          ...product,
+          order: nextIndex,
+        },
+      ])
+    ) as ProductsData
+
+    setProducts(nextProducts)
+    setStatus('Spremam novi redoslijed proizvoda...')
+
+    try {
+      await saveProducts(nextProducts)
+      setStatus(direction === 'up' ? `Redoslijed spremljen: ${keyToMove} pomaknut gore ✅` : `Redoslijed spremljen: ${keyToMove} pomaknut dolje ✅`)
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Greška pri spremanju redoslijeda proizvoda')
+    }
   }
 
   const handleFileUpload = async (file: File, target: 'background' | 'icon' | 'schema') => {
@@ -363,7 +389,7 @@ const CmsPanel = () => {
     )
   }
 
-  const productEntries = Object.entries(products)
+  const productEntries = sortProductEntries(products)
 
   return (
     <main className="mx-auto mt-6 w-full max-w-7xl overflow-x-hidden p-3 sm:p-4">

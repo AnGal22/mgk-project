@@ -51,8 +51,8 @@ const Navbar = ({ lang, products, onToggleLanguage }: NavbarProps) => {
 
   return (
     <>
-      <nav className={`fixed w-full border-b border-white/30 bg-[rgba(234,244,251,0.82)] backdrop-blur-xl shadow-[0_10px_30px_rgba(23,63,99,0.12)] transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="flex min-h-[76px] w-full flex-wrap items-center justify-between px-4 py-3 md:px-5">
+      <nav className={`fixed w-full border-b border-white/30 bg-[rgba(234,244,251,0.88)] backdrop-blur-xl shadow-[0_10px_30px_rgba(23,63,99,0.14)] transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="flex min-h-[84px] w-full flex-wrap items-center justify-between px-4 py-4 md:px-5">
           <Links lang={lang} products={products} />
 
           <button

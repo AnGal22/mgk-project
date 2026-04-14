@@ -42,7 +42,7 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
         },
         {
           title: 'Izlazna kontrola',
-          body: 'Finalni proizvodi prolaze završnu izlaznu kontrolu, u kojoj se provodi klasifikacija grešaka i provjerava funkcionalnost ambalaže na temelju rezultata testova. Kao ključni dio procesne i izlazne kontrole, redovito se provode testovi sterilizacije u laboratorijskim uvjetima kako bi se simulirali stvarni uvjeti obrade kod krajnjeg kupca i potvrdila termokemijska otpornost primijenjenih lakova na sadržaj.',
+          body: 'Finalni proizvodi prolaze završnu izlaznu kontrolu, u kojoj se provodi klasifikacija grešaka i provjerava funkcionalnost ambalaže na temelju rezultata testova. Kao ključni dio procesne i izlazne kontrole, redovito se provode testovi sterilizacije u laboratorijskim uvjetima kako bi se simulirali stvarni uvjeti obrade kod krajnjeg kupca i potvrdila termokemijska otpornost primijenjenih lakova na sadržaj. Cilj je osigurati da ambalaža zadrži funkcionalnost i estetska svojstva čak i pod ekstremnim utjecajem temperature i agresivnog sadržaja. Svi rezultati ispitivanja dokumentiraju se u izlaznim zapisima, čime se osigurava potpuna sljedivost procesa.',
         },
       ],
       isoTitle: 'ISO 9001:2015',
@@ -87,7 +87,7 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
         },
         {
           title: 'Final inspection',
-          body: 'Finished products undergo final outgoing inspection, where defect classification and packaging functionality are checked on the basis of test results. As a key part of process and final inspection, sterilization tests are regularly performed under laboratory conditions in order to simulate real processing conditions at the customer’s site and confirm the thermo-chemical resistance of the applied lacquers.',
+          body: 'Finished products undergo final outgoing inspection, where defect classification and packaging functionality are checked on the basis of test results. As a key part of process and final inspection, sterilization tests are regularly performed under laboratory conditions in order to simulate real processing conditions at the customer’s site and confirm the thermo-chemical resistance of the applied lacquers. The goal is to ensure that the packaging retains both functionality and aesthetic quality even under extreme temperature exposure and aggressive contents. All test results are documented in outgoing quality records, ensuring full process traceability.',
         },
       ],
       isoTitle: 'ISO 9001:2015',
@@ -103,23 +103,6 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#4f83ab]">{text.eyebrow}</p>
           <h1 className="mt-3 max-w-4xl text-4xl font-black tracking-tight text-[#173f63] md:text-5xl">{text.title}</h1>
           <p className="mt-5 max-w-4xl text-base leading-relaxed text-[#4d6f8e] md:text-lg">{text.intro}</p>
-        </section>
-
-        <section className="grid gap-5 lg:grid-cols-2">
-          {text.processBlocks.map((block) => (
-            <article key={block.title} className="rounded-[2rem] border border-[#c7dff0] bg-white/80 p-6 shadow-[0_20px_50px_rgba(70,118,163,0.10)] backdrop-blur md:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.processTitle}</p>
-              <h2 className="mt-3 text-2xl font-bold text-[#173f63] md:text-3xl">{block.title}</h2>
-              <p className="mt-4 text-sm leading-7 text-[#4d6f8e] md:text-base">{block.body}</p>
-              <ul className="mt-6 space-y-4">
-                {block.points.map((point) => (
-                  <li key={point} className="rounded-2xl border border-[#d6e5f1] bg-[#f8fcff] p-4 text-sm leading-7 text-[#355a79] md:text-base">
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
         </section>
 
         <section className="rounded-[2rem] border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(232,243,251,0.92))] p-8 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur md:p-10">
@@ -142,6 +125,23 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
               </article>
             ))}
           </div>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-2">
+          {text.processBlocks.map((block) => (
+            <article key={block.title} className="rounded-[2rem] border border-[#c7dff0] bg-white/80 p-6 shadow-[0_20px_50px_rgba(70,118,163,0.10)] backdrop-blur md:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.processTitle}</p>
+              <h2 className="mt-3 text-2xl font-bold text-[#173f63] md:text-3xl">{block.title}</h2>
+              <p className="mt-4 text-sm leading-7 text-[#4d6f8e] md:text-base">{block.body}</p>
+              <ul className="mt-6 space-y-4">
+                {block.points.map((point) => (
+                  <li key={point} className="rounded-2xl border border-[#d6e5f1] bg-[#f8fcff] p-4 text-sm leading-7 text-[#355a79] md:text-base">
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">

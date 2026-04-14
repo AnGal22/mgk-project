@@ -96,7 +96,7 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
                 <div><span className="block text-[#7a95ad]">{text.address}</span><span>{info.address}</span></div>
                 <div><span className="block text-[#7a95ad]">{text.phone}</span><span>{info.phone}</span></div>
                 <div><span className="block text-[#7a95ad]">{text.location}</span><span>{info.location}</span></div>
-                <div><span className="block text-[#7a95ad]">{text.email}</span><span>{info.email}</span></div>
+                <div className="md:col-span-2"><span className="block text-[#7a95ad]">{text.email}</span><span className="break-words">{info.email}</span></div>
                 {(info.email2 || info.email3) && (
                   <div className="md:col-span-2">
                     <span className="block text-[#7a95ad]">{text.sales}</span>

@@ -232,20 +232,17 @@ function App() {
         <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
           <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
-              <p className="hero-title">MGK-pack d.d.</p>
-              <h1 className="hero-eyebrow">{uiText[lang].heroTitle}</h1>
+              <img
+                src="logo-kukuljanovo.webp"
+                alt="MGK Pack logo"
+                className="hero-title mb-4 w-[clamp(16.95rem,45vw,27.75rem)]"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              
               <h1 className="hero-desc-title">{uiText[lang].aboutTitle}</h1>
               <p className="hero-desc">{uiText[lang].aboutDescription}</p>
-              <div className="hero-metrics">
-                <div>
-                  <p className="hero-metric-title">{uiText[lang].qualityTitle}</p>
-                  <p className="hero-metric-sub">{uiText[lang].qualitySub}</p>
-                </div>
-                <div>
-                  <p className="hero-metric-title">{uiText[lang].deliveryTitle}</p>
-                  <p className="hero-metric-sub">{uiText[lang].deliverySub}</p>
-                </div>
-              </div>
             </div>
           </div>
 

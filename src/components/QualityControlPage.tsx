@@ -5,6 +5,7 @@ type QualityControlPageProps = {
 const QualityControlPage = ({ lang }: QualityControlPageProps) => {
   const text = {
     hr: {
+      cert: 'certifikat',
       eyebrow: 'Kontrola kvalitete',
       title: 'Kontrola kvalitete',
       intro:
@@ -50,6 +51,7 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
         'Cjelokupni sustav upravljanja i proizvodne logike društva MGK-pack certificiran je prema međunarodnoj normi ISO 9001:2015. To jamči da su svi procesi – od nabave sirovine do isporuke finalne ambalaže – strogo standardizirani, mjerljivi i podložni kontinuiranom unaprjeđenju.',
     },
     en: {
+      cert: 'certification',
       eyebrow: 'Quality Control',
       title: 'Quality Control',
       intro:
@@ -100,14 +102,13 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
     <main className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)] px-4 pt-28 pb-16 text-slate-800 md:px-6 md:pt-32">
       <div className="mx-auto max-w-6xl space-y-6 md:space-y-8">
         <section className="rounded-[2rem] border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(232,243,251,0.9))] p-8 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur md:p-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#4f83ab]">{text.eyebrow}</p>
           <h1 className="mt-3 max-w-4xl text-4xl font-black tracking-tight text-[#173f63] md:text-5xl">{text.title}</h1>
           <p className="mt-5 max-w-4xl text-base leading-relaxed text-[#4d6f8e] md:text-lg">{text.intro}</p>
         </section>
 
         <section className="rounded-[2rem] border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(232,243,251,0.92))] p-8 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur md:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.qualityTitle}</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-[#173f63] md:text-4xl">{text.qualityTitle}</h2>
+          
+          
 
           <div className="mt-8 grid gap-4 md:gap-5">
             {text.qualityPoints.map((item, index) => (
@@ -128,15 +129,13 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
 
         <section className="grid gap-5 lg:grid-cols-2">
           <div className="lg:col-span-2 rounded-[2rem] border border-[#c7dff0] bg-white/80 p-6 shadow-[0_20px_50px_rgba(70,118,163,0.10)] backdrop-blur md:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.processTitle}</p>
             <h2 className="mt-3 text-3xl font-black tracking-tight text-[#173f63] md:text-4xl">{text.processTitle}</h2>
             <p className="mt-4 max-w-4xl text-base leading-relaxed text-[#4d6f8e] md:text-lg">{text.processIntro}</p>
           </div>
           {text.processBlocks.map((block) => (
             <article key={block.title} className="rounded-[2rem] border border-[#c7dff0] bg-white/80 p-6 shadow-[0_20px_50px_rgba(70,118,163,0.10)] backdrop-blur md:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.processTitle}</p>
               <h2 className="mt-3 text-2xl font-bold text-[#173f63] md:text-3xl">{block.title}</h2>
-              <p className="mt-4 text-sm leading-7 text-[#4d6f8e] md:text-base">{block.body}</p>
+             
               <ul className="mt-6 space-y-4">
                 {block.points.map((point) => (
                   <li key={point} className="rounded-2xl border border-[#d6e5f1] bg-[#f8fcff] p-4 text-sm leading-7 text-[#355a79] md:text-base">
@@ -150,7 +149,7 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
 
         <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-[2rem] border border-[#c7dff0] bg-white/80 p-8 shadow-[0_20px_50px_rgba(70,118,163,0.10)] backdrop-blur md:p-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">Certification</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.cert}</p>
             <h2 className="mt-3 text-3xl font-black tracking-tight text-[#173f63] md:text-4xl">{text.isoTitle}</h2>
             <p className="mt-4 text-base leading-relaxed text-[#4d6f8e] md:text-lg">{text.isoBody}</p>
           </div>

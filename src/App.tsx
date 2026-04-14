@@ -53,10 +53,9 @@ function App() {
       statsDescription: 'Više od pola stoljeća industrijskog iskustva pretvoreno je u konkretne proizvodne rezultate, izvoznu širinu i pouzdanu isporuku.',
       statsIntro: 'Od domaće proizvodnje do međunarodnih tržišta, gradimo sustav koji kupcima daje stabilnost, fleksibilnost i kvalitetu u velikim serijama.',
       stats: [
-        { target: 30, suffix: '+', label: 'Godina iskustva' },
-        { target: 40, suffix: '+', label: 'Tržišta izvoza' },
+        { target: 75, suffix: '+', label: 'Godina iskustva' },
+        { target: 10, suffix: '+', label: 'Tržišta izvoza' },
         { target: 120, suffix: 'M+', label: 'Komada godišnje' },
-        { target: 3, label: 'Proizvodna pogona' },
       ] as StatItem[],
     },
     en: {
@@ -73,10 +72,9 @@ function App() {
       statsDescription: 'More than half a century of industrial experience has been turned into measurable production output, export reach and dependable delivery.',
       statsIntro: 'From local manufacturing to international markets, we build a system that gives customers stability, flexibility and quality at scale.',
       stats: [
-        { target: 30, suffix: '+', label: 'Years of experience' },
-        { target: 40, suffix: '+', label: 'Export markets' },
+        { target: 75, suffix: '+', label: 'Years of experience' },
+        { target: 10, suffix: '+', label: 'Export markets' },
         { target: 120, suffix: 'M+', label: 'Units yearly' },
-        { target: 3, label: 'Production plants' },
       ] as StatItem[],
     },
   }

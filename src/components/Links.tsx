@@ -11,10 +11,13 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
   const firstProductId = Object.keys(products)[0]
 
   const scrollToSection = (id: string) => {
-    if (window.location.pathname === '/contact') {
-      window.location.href = `/${id === 'home-hero' ? '' : `#${id}`}`
+    const isHomeRoute = window.location.pathname === '/'
+
+    if (!isHomeRoute) {
+      window.location.href = id === 'home-hero' ? '/' : `/#${id}`
       return
     }
+
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     onNavigate?.()
   }

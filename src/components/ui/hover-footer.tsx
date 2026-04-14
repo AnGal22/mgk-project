@@ -44,8 +44,7 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
               {
                 icon: Mail,
                 label: 'Prodaja',
-                text: [info.email2, info.email3].filter(Boolean).join(' • '),
-                href: info.email2 ? `mailto:${info.email2}` : info.email3 ? `mailto:${info.email3}` : undefined,
+                text: [info.email2, info.email3].filter(Boolean).join('\n'),
               },
             ]
           : []),
@@ -66,8 +65,7 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
               {
                 icon: Mail,
                 label: 'Sales',
-                text: [info.email2, info.email3].filter(Boolean).join(' • '),
-                href: info.email2 ? `mailto:${info.email2}` : info.email3 ? `mailto:${info.email3}` : undefined,
+                text: [info.email2, info.email3].filter(Boolean).join('\n'),
               },
             ]
           : []),
@@ -117,9 +115,15 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
                         <div className="min-w-0">
                           <p className="text-[10px] uppercase tracking-[0.18em] text-[#6f8da8]">{item.label}</p>
                           {item.href ? (
-                            <a href={item.href} className="break-words transition-colors hover:text-[#2f8fe5]">
+                            <a href={item.href} className="break-words transition-colors hover:text-[#2f8fe5] whitespace-pre-line">
                               {item.text}
                             </a>
+                          ) : item.label === 'Prodaja' || item.label === 'Sales' ? (
+                            <div className="flex flex-col gap-1 whitespace-normal break-words">
+                              {item.text.split('\n').map((line) => (
+                                <span key={line}>{line}</span>
+                              ))}
+                            </div>
                           ) : (
                             <span className="break-words">{item.text}</span>
                           )}
@@ -129,7 +133,7 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
                   )
                 })}
               </ul>
-              <div className="rounded-xl border border-[#c9dceb] bg-white/70 p-4 shadow-sm flex items-center justify-center">
+              <div className="p-2 flex items-center justify-center">
                 <img
                   src="/ISO 9001 certification logo close-up.webp"
                   alt="ISO 9001 certification"

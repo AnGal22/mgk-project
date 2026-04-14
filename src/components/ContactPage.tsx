@@ -18,7 +18,7 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
     hr: {
       eyebrow: 'Kontakt i upiti',
       title: 'Pošaljite upit direktno kroz formu',
-      desc: 'Ako trebate ponudu, tehničke informacije ili želite razgovor o suradnji, ispunite formu i javit ćemo vam se.',
+      desc: 'Ako trebate ponudu, tehničke informacije ili želite razgovor o suradnji, ispunite obrazac i javit ćemo vam se.',
       company: 'Naziv tvrtke',
       name: 'Ime i prezime',
       email: 'E-mail',
@@ -86,8 +86,7 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
     <main className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)] px-4 pt-28 pb-14 text-slate-800 md:px-6">
       <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.08fr_0.92fr]">
         <section className="rounded-3xl border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(232,243,251,0.9))] p-8 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#4f83ab]">{text.eyebrow}</p>
-          <h1 className="mt-3 text-4xl font-black tracking-tight text-[#173f63] md:text-5xl">{text.title}</h1>
+          <p className="mt-3 text-4xl font-black tracking-tight text-[#173f63] md:text-5xl">{text.eyebrow}</p>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-[#4d6f8e]">{text.desc}</p>
 
           <div className="mt-8 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">

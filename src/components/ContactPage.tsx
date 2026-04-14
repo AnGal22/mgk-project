@@ -22,6 +22,7 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
       company: 'Naziv tvrtke',
       name: 'Ime i prezime',
       email: 'E-mail',
+      sales: 'Prodaja',
       phone: 'Telefon',
       message: 'Poruka',
       submit: 'Pošalji upit',
@@ -31,7 +32,6 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
       contactBlock: 'Kontakt podaci',
       address: 'Adresa',
       location: 'Lokacija',
-      certificates: 'Certifikati',
     },
     en: {
       eyebrow: 'Contact & inquiries',
@@ -40,6 +40,7 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
       company: 'Company name',
       name: 'Full name',
       email: 'E-mail',
+      sales: 'Sales',
       phone: 'Phone',
       message: 'Message',
       submit: 'Send inquiry',
@@ -49,7 +50,6 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
       contactBlock: 'Contact details',
       address: 'Address',
       location: 'Location',
-      certificates: 'Certificates',
     },
   }[lang]
 
@@ -84,28 +84,36 @@ const ContactPage = ({ lang, info }: ContactPageProps) => {
 
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)] px-4 pt-28 pb-14 text-slate-800 md:px-6">
-      <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.02fr_0.98fr]">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[1.08fr_0.92fr]">
         <section className="rounded-3xl border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(232,243,251,0.9))] p-8 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#4f83ab]">{text.eyebrow}</p>
           <h1 className="mt-3 text-4xl font-black tracking-tight text-[#173f63] md:text-5xl">{text.title}</h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-[#4d6f8e]">{text.desc}</p>
 
-          <div className="mt-8 rounded-2xl border border-[#cfe0ee] bg-white/70 p-6 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6d8aa3]">{text.contactBlock}</p>
-            <div className="mt-4 grid gap-4 text-sm text-[#355a79] md:grid-cols-2">
-              <div><span className="block text-[#7a95ad]">{text.address}</span><span>{info.address}</span></div>
-              <div><span className="block text-[#7a95ad]">{text.phone}</span><span>{info.phone}</span></div>
-              <div><span className="block text-[#7a95ad]">{text.location}</span><span>{info.location}</span></div>
-              <div><span className="block text-[#7a95ad]">{text.email}</span><span>{info.email}</span></div>
-              {info.email2 && <div><span className="block text-[#7a95ad]">{text.email} 2</span><span>{info.email2}</span></div>}
-              {info.email3 && <div><span className="block text-[#7a95ad]">{text.email} 3</span><span>{info.email3}</span></div>}
+          <div className="mt-8 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+            <div className="rounded-2xl border border-[#cfe0ee] bg-white/70 p-6 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6d8aa3]">{text.contactBlock}</p>
+              <div className="mt-4 grid gap-4 text-sm text-[#355a79] md:grid-cols-2">
+                <div><span className="block text-[#7a95ad]">{text.address}</span><span>{info.address}</span></div>
+                <div><span className="block text-[#7a95ad]">{text.phone}</span><span>{info.phone}</span></div>
+                <div><span className="block text-[#7a95ad]">{text.location}</span><span>{info.location}</span></div>
+                <div><span className="block text-[#7a95ad]">{text.email}</span><span>{info.email}</span></div>
+                {(info.email2 || info.email3) && (
+                  <div className="md:col-span-2">
+                    <span className="block text-[#7a95ad]">{text.sales}</span>
+                    <div className="mt-1 flex flex-col gap-1">
+                      {info.email2 && <span>{info.email2}</span>}
+                      {info.email3 && <span>{info.email3}</span>}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="mt-4 text-sm text-[#355a79]">
-              <span className="block text-[#7a95ad]">{text.certificates}</span>
+            <div className="rounded-2xl border border-[#cfe0ee] bg-white/70 p-6 shadow-sm flex items-center justify-center">
               <img
                 src="/ISO 9001 certification logo close-up.webp"
                 alt="ISO 9001 certification"
-                className="mt-2 h-20 w-auto object-contain"
+                className="h-24 w-auto object-contain md:h-28"
                 loading="lazy"
                 decoding="async"
               />

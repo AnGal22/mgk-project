@@ -39,8 +39,16 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
         { icon: Phone, label: 'Mobitel', text: info.phone, href: `tel:${info.phone.replace(/\s+/g, '')}` },
         { icon: Globe, label: 'Lokacija', text: info.location },
         { icon: Mail, label: 'E-mail', text: info.email, href: `mailto:${info.email}` },
-        ...(info.email2 ? [{ icon: Mail, label: 'E-mail 2', text: info.email2, href: `mailto:${info.email2}` }] : []),
-        ...(info.email3 ? [{ icon: Mail, label: 'E-mail 3', text: info.email3, href: `mailto:${info.email3}` }] : []),
+        ...(info.email2 || info.email3
+          ? [
+              {
+                icon: Mail,
+                label: 'Prodaja',
+                text: [info.email2, info.email3].filter(Boolean).join(' • '),
+                href: info.email2 ? `mailto:${info.email2}` : info.email3 ? `mailto:${info.email3}` : undefined,
+              },
+            ]
+          : []),
       ],
       copyright: 'Sva prava pridržana.',
     },
@@ -53,8 +61,16 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
         { icon: Phone, label: 'Mobile', text: info.phone, href: `tel:${info.phone.replace(/\s+/g, '')}` },
         { icon: Globe, label: 'Location', text: info.location },
         { icon: Mail, label: 'E-mail', text: info.email, href: `mailto:${info.email}` },
-        ...(info.email2 ? [{ icon: Mail, label: 'E-mail 2', text: info.email2, href: `mailto:${info.email2}` }] : []),
-        ...(info.email3 ? [{ icon: Mail, label: 'E-mail 3', text: info.email3, href: `mailto:${info.email3}` }] : []),
+        ...(info.email2 || info.email3
+          ? [
+              {
+                icon: Mail,
+                label: 'Sales',
+                text: [info.email2, info.email3].filter(Boolean).join(' • '),
+                href: info.email2 ? `mailto:${info.email2}` : info.email3 ? `mailto:${info.email3}` : undefined,
+              },
+            ]
+          : []),
       ],
       copyright: 'All rights reserved.',
     },
@@ -113,12 +129,11 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
                   )
                 })}
               </ul>
-              <div className="rounded-xl border border-[#c9dceb] bg-white/70 p-4 shadow-sm">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-[#6f8da8]">{lang === 'hr' ? 'Certifikat' : 'Certificate'}</p>
+              <div className="rounded-xl border border-[#c9dceb] bg-white/70 p-4 shadow-sm flex items-center justify-center">
                 <img
                   src="/ISO 9001 certification logo close-up.webp"
                   alt="ISO 9001 certification"
-                  className="mt-3 h-24 w-auto object-contain"
+                  className="h-24 w-auto object-contain"
                   loading="lazy"
                   decoding="async"
                 />

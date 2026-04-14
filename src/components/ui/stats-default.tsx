@@ -34,7 +34,6 @@ export default function StatsDefault({ title, description, intro, stats }: Stats
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-6xl space-y-8 px-6 md:space-y-12">
         <div className="relative z-10 max-w-3xl space-y-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#5e88a9]">MGK in numbers</p>
           <h2 className="text-4xl font-medium tracking-tight text-[#183f63] lg:text-5xl">{title}</h2>
           <p className="max-w-2xl text-base leading-relaxed text-[#4d6f8e]">
             {description} <span className="font-medium text-[#234f77]">{intro}</span>
@@ -43,7 +42,6 @@ export default function StatsDefault({ title, description, intro, stats }: Stats
 
         <div className="grid gap-6 md:grid-cols-[1.05fr_0.95fr] md:gap-12 lg:gap-20">
           <div>
-            <p className="max-w-xl text-base leading-relaxed text-[#557693]">{intro}</p>
             <div className="mb-12 mt-12 grid grid-cols-2 gap-4 md:mb-0 md:gap-6">
               {stats.map((stat, index) => (
                 <div key={stat.label} className="space-y-3 rounded-2xl border border-white/35 bg-white/52 p-5 shadow-[0_18px_40px_rgba(44,86,124,0.08)] backdrop-blur-sm">

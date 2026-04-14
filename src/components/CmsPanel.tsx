@@ -594,7 +594,6 @@ const CmsPanel = () => {
               <label className="text-sm"><span className="mb-1 block font-medium">E-mail 2</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email2} onChange={(e) => updateContactField('email2', e.target.value)} /></label>
               <label className="text-sm"><span className="mb-1 block font-medium">E-mail 3</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email3} onChange={(e) => updateContactField('email3', e.target.value)} /></label>
             </div>
-            <label className="mt-3 block text-sm"><span className="mb-1 block font-medium">Certifikati</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.certificates} onChange={(e) => updateContactField('certificates', e.target.value)} /></label>
             {infoStatus && <p className="mt-3 whitespace-pre-line break-words text-sm text-slate-700">{infoStatus}</p>}
           </div>
         </section>

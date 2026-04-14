@@ -39,8 +39,15 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
         { icon: Phone, label: 'Mobitel', text: info.phone, href: `tel:${info.phone.replace(/\s+/g, '')}` },
         { icon: Globe, label: 'Lokacija', text: info.location },
         { icon: Mail, label: 'E-mail', text: info.email, href: `mailto:${info.email}` },
-        ...(info.email2 ? [{ icon: Mail, label: 'E-mail 2', text: info.email2, href: `mailto:${info.email2}` }] : []),
-        ...(info.email3 ? [{ icon: Mail, label: 'E-mail 3', text: info.email3, href: `mailto:${info.email3}` }] : []),
+        ...(info.email2 || info.email3
+          ? [
+              {
+                icon: Mail,
+                label: 'Prodaja',
+                text: [info.email2, info.email3].filter(Boolean).join('\n'),
+              },
+            ]
+          : []),
       ],
       copyright: 'Sva prava pridržana.',
     },
@@ -53,8 +60,15 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
         { icon: Phone, label: 'Mobile', text: info.phone, href: `tel:${info.phone.replace(/\s+/g, '')}` },
         { icon: Globe, label: 'Location', text: info.location },
         { icon: Mail, label: 'E-mail', text: info.email, href: `mailto:${info.email}` },
-        ...(info.email2 ? [{ icon: Mail, label: 'E-mail 2', text: info.email2, href: `mailto:${info.email2}` }] : []),
-        ...(info.email3 ? [{ icon: Mail, label: 'E-mail 3', text: info.email3, href: `mailto:${info.email3}` }] : []),
+        ...(info.email2 || info.email3
+          ? [
+              {
+                icon: Mail,
+                label: 'Sales',
+                text: [info.email2, info.email3].filter(Boolean).join('\n'),
+              },
+            ]
+          : []),
       ],
       copyright: 'All rights reserved.',
     },
@@ -95,15 +109,21 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
                 {copy.contactItems.map((item, index) => {
                   const Icon = item.icon
                   return (
-                    <li key={`${item.text}-${index}`} className="rounded-xl border border-[#c9dceb] bg-white/70 p-3 text-sm text-[#355a79] shadow-sm">
+                    <li key={`${item.text}-${index}`} className={`rounded-xl border border-[#c9dceb] bg-white/70 p-3 text-sm text-[#355a79] shadow-sm ${item.label === 'Prodaja' || item.label === 'Sales' ? 'sm:col-span-2' : ''}`}>
                       <div className="flex items-start gap-3">
                         <Icon size={18} className="mt-0.5 shrink-0 text-[#3ca2fa]" />
                         <div className="min-w-0">
                           <p className="text-[10px] uppercase tracking-[0.18em] text-[#6f8da8]">{item.label}</p>
                           {item.href ? (
-                            <a href={item.href} className="break-words transition-colors hover:text-[#2f8fe5]">
+                            <a href={item.href} className="break-words transition-colors hover:text-[#2f8fe5] whitespace-pre-line">
                               {item.text}
                             </a>
+                          ) : item.label === 'Prodaja' || item.label === 'Sales' ? (
+                            <div className="flex flex-col gap-1 whitespace-normal break-words">
+                              {item.text.split('\n').map((line) => (
+                                <span key={line}>{line}</span>
+                              ))}
+                            </div>
                           ) : (
                             <span className="break-words">{item.text}</span>
                           )}
@@ -113,12 +133,11 @@ const HoverFooter = ({ lang, info }: HoverFooterProps) => {
                   )
                 })}
               </ul>
-              <div className="rounded-xl border border-[#c9dceb] bg-white/70 p-4 shadow-sm">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-[#6f8da8]">{lang === 'hr' ? 'Certifikat' : 'Certificate'}</p>
+              <div className="p-2 flex items-center justify-center">
                 <img
                   src="/ISO 9001 certification logo close-up.webp"
                   alt="ISO 9001 certification"
-                  className="mt-3 h-24 w-auto object-contain"
+                  className="h-24 w-auto object-contain"
                   loading="lazy"
                   decoding="async"
                 />

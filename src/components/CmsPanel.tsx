@@ -248,6 +248,24 @@ const CmsPanel = () => {
     setStatus(`Obrisan proizvod: ${selectedKey}`)
   }
 
+  const onMoveProduct = (direction: 'up' | 'down', keyToMove: string) => {
+    setProducts((current) => {
+      const entries = Object.entries(current)
+      const index = entries.findIndex(([key]) => key === keyToMove)
+      if (index === -1) return current
+
+      const targetIndex = direction === 'up' ? index - 1 : index + 1
+      if (targetIndex < 0 || targetIndex >= entries.length) return current
+
+      const reordered = [...entries]
+      const [moved] = reordered.splice(index, 1)
+      reordered.splice(targetIndex, 0, moved)
+      return Object.fromEntries(reordered)
+    })
+
+    setStatus(direction === 'up' ? `Pomaknut gore: ${keyToMove}` : `Pomaknut dolje: ${keyToMove}`)
+  }
+
   const handleFileUpload = async (file: File, target: 'background' | 'icon' | 'schema') => {
     setIsUploading(true)
     const targetLabel = target === 'background' ? 'background sliku' : target === 'icon' ? 'ikonu' : 'schema sliku'
@@ -371,11 +389,33 @@ const CmsPanel = () => {
           </div>
           <div className="space-y-2">
             {productEntries.map(([key, product], index) => (
-              <button key={key} className={`w-full rounded-xl border p-3 text-left transition ${selectedKey === key ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'}`} onClick={() => setSelectedKey(key)}>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Konzerva {index + 1}</p>
-                <p className="font-medium text-slate-800">{product.name.hr || key}</p>
-                <p className="mt-1 truncate text-xs text-slate-500">{key}</p>
-              </button>
+              <div key={key} className={`w-full rounded-xl border p-3 transition ${selectedKey === key ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'}`}>
+                <div className="flex items-start gap-2">
+                  <button className="min-w-0 flex-1 text-left" onClick={() => setSelectedKey(key)}>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Konzerva {index + 1}</p>
+                    <p className="font-medium text-slate-800">{product.name.hr || key}</p>
+                    <p className="mt-1 truncate text-xs text-slate-500">{key}</p>
+                  </button>
+                  <div className="flex shrink-0 flex-col gap-1">
+                    <button
+                      type="button"
+                      className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                      onClick={() => onMoveProduct('up', key)}
+                      disabled={index === 0}
+                    >
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                      onClick={() => onMoveProduct('down', key)}
+                      disabled={index === productEntries.length - 1}
+                    >
+                      ↓
+                    </button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </aside>

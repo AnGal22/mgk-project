@@ -1,3 +1,4 @@
+import { sortProductEntries } from '../lib/products-order'
 import type { ProductsData } from '../types/products'
 
 type ItemNavBarProps = {
@@ -7,7 +8,7 @@ type ItemNavBarProps = {
 }
 
 const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
-  const entries = Object.entries(products)
+  const entries = sortProductEntries(products)
   const itemCount = entries.length
 
   if (mobile) {

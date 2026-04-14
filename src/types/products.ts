@@ -4,6 +4,7 @@ export type LangText = {
 }
 
 export type ProductCategory = {
+  order?: number
   name: LangText
   short_description?: LangText
   description: LangText

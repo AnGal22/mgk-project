@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ChangeEvent, DragEvent, FormEvent } from 'react'
 import { fetchProducts, fetchSiteInfo, getCmsSession, loginCms, logoutCms, saveProducts, saveSiteInfo, uploadCmsImage } from '../lib/api'
+import { normalizeProductOrders, sortProductEntries } from '../lib/products-order'
 import AppLoadingScreen from './ui/AppLoadingScreen'
 import type { SiteInfo } from '../lib/api'
 import type { ProductCategory, ProductsData } from '../types/products'
 
 const createEmptyProduct = (): ProductCategory => ({
+  order: 0,
   name: { hr: '', en: '' },
   short_description: { hr: '', en: '' },
   description: { hr: '', en: '' },
@@ -28,6 +30,8 @@ const defaultSiteInfo: SiteInfo = {
     phone: '',
     location: '',
     email: '',
+    email2: '',
+    email3: '',
     certificates: '',
   },
 }
@@ -59,8 +63,9 @@ const CmsPanel = () => {
 
         setIsAuthenticated(true)
         const [data, info] = await Promise.all([fetchProducts(), fetchSiteInfo()])
-        const firstKey = Object.keys(data)[0] || ''
-        setProducts(data)
+        const normalizedProducts = normalizeProductOrders(data)
+        const firstKey = sortProductEntries(normalizedProducts)[0]?.[0] || ''
+        setProducts(normalizedProducts)
         setSiteInfo(info)
         setSelectedKey(firstKey)
       } catch (error) {
@@ -80,8 +85,9 @@ const CmsPanel = () => {
     try {
       await loginCms({ username, password })
       const [data, info] = await Promise.all([fetchProducts(), fetchSiteInfo()])
-      const firstKey = Object.keys(data)[0] || ''
-      setProducts(data)
+      const normalizedProducts = normalizeProductOrders(data)
+      const firstKey = sortProductEntries(normalizedProducts)[0]?.[0] || ''
+      setProducts(normalizedProducts)
       setSiteInfo(info)
       setSelectedKey(firstKey)
       setIsAuthenticated(true)
@@ -228,7 +234,13 @@ const CmsPanel = () => {
       return
     }
 
-    setProducts((current) => ({ ...current, [cleanKey]: createEmptyProduct() }))
+    setProducts((current) => normalizeProductOrders({
+      ...current,
+      [cleanKey]: {
+        ...createEmptyProduct(),
+        order: Object.keys(current).length,
+      },
+    }))
     setSelectedKey(cleanKey)
     setNewKey('')
     setStatus(`Dodan novi proizvod: ${cleanKey}`)
@@ -241,11 +253,45 @@ const CmsPanel = () => {
     setProducts((current) => {
       const next = { ...current }
       delete next[selectedKey]
-      const nextFirst = Object.keys(next)[0] || ''
+      const normalized = normalizeProductOrders(next)
+      const nextFirst = sortProductEntries(normalized)[0]?.[0] || ''
       setSelectedKey(nextFirst)
-      return next
+      return normalized
     })
     setStatus(`Obrisan proizvod: ${selectedKey}`)
+  }
+
+  const onMoveProduct = async (direction: 'up' | 'down', keyToMove: string) => {
+    const entries = sortProductEntries(products)
+    const index = entries.findIndex(([key]) => key === keyToMove)
+    if (index === -1) return
+
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+    if (targetIndex < 0 || targetIndex >= entries.length) return
+
+    const reordered = [...entries]
+    const [moved] = reordered.splice(index, 1)
+    reordered.splice(targetIndex, 0, moved)
+
+    const nextProducts = Object.fromEntries(
+      reordered.map(([key, product], nextIndex) => [
+        key,
+        {
+          ...product,
+          order: nextIndex,
+        },
+      ])
+    ) as ProductsData
+
+    setProducts(nextProducts)
+    setStatus('Spremam novi redoslijed proizvoda...')
+
+    try {
+      await saveProducts(nextProducts)
+      setStatus(direction === 'up' ? `Redoslijed spremljen: ${keyToMove} pomaknut gore ✅` : `Redoslijed spremljen: ${keyToMove} pomaknut dolje ✅`)
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Greška pri spremanju redoslijeda proizvoda')
+    }
   }
 
   const handleFileUpload = async (file: File, target: 'background' | 'icon' | 'schema') => {
@@ -345,7 +391,7 @@ const CmsPanel = () => {
     )
   }
 
-  const productEntries = Object.entries(products)
+  const productEntries = sortProductEntries(products)
 
   return (
     <main className="mx-auto mt-6 w-full max-w-7xl overflow-x-hidden p-3 sm:p-4">
@@ -371,11 +417,33 @@ const CmsPanel = () => {
           </div>
           <div className="space-y-2">
             {productEntries.map(([key, product], index) => (
-              <button key={key} className={`w-full rounded-xl border p-3 text-left transition ${selectedKey === key ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'}`} onClick={() => setSelectedKey(key)}>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Konzerva {index + 1}</p>
-                <p className="font-medium text-slate-800">{product.name.hr || key}</p>
-                <p className="mt-1 truncate text-xs text-slate-500">{key}</p>
-              </button>
+              <div key={key} className={`w-full rounded-xl border p-3 transition ${selectedKey === key ? 'border-blue-500 bg-blue-50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'}`}>
+                <div className="flex items-start gap-2">
+                  <button className="min-w-0 flex-1 text-left" onClick={() => setSelectedKey(key)}>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Konzerva {index + 1}</p>
+                    <p className="font-medium text-slate-800">{product.name.hr || key}</p>
+                    <p className="mt-1 truncate text-xs text-slate-500">{key}</p>
+                  </button>
+                  <div className="flex shrink-0 flex-col gap-1">
+                    <button
+                      type="button"
+                      className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                      onClick={() => onMoveProduct('up', key)}
+                      disabled={index === 0}
+                    >
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      className="rounded-lg border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+                      onClick={() => onMoveProduct('down', key)}
+                      disabled={index === productEntries.length - 1}
+                    >
+                      ↓
+                    </button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </aside>
@@ -523,6 +591,8 @@ const CmsPanel = () => {
               <label className="text-sm"><span className="mb-1 block font-medium">Mobitel</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.phone} onChange={(e) => updateContactField('phone', e.target.value)} /></label>
               <label className="text-sm"><span className="mb-1 block font-medium">Lokacija</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.location} onChange={(e) => updateContactField('location', e.target.value)} /></label>
               <label className="text-sm"><span className="mb-1 block font-medium">E-mail</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email} onChange={(e) => updateContactField('email', e.target.value)} /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">E-mail 2</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email2} onChange={(e) => updateContactField('email2', e.target.value)} /></label>
+              <label className="text-sm"><span className="mb-1 block font-medium">E-mail 3</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.email3} onChange={(e) => updateContactField('email3', e.target.value)} /></label>
             </div>
             <label className="mt-3 block text-sm"><span className="mb-1 block font-medium">Certifikati</span><input className="min-w-0 w-full rounded-lg border border-slate-300 px-3 py-2" value={siteInfo.contact.certificates} onChange={(e) => updateContactField('certificates', e.target.value)} /></label>
             {infoStatus && <p className="mt-3 whitespace-pre-line break-words text-sm text-slate-700">{infoStatus}</p>}

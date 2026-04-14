@@ -11,6 +11,7 @@ import CmsPanel from './components/CmsPanel.tsx'
 import AppLoadingScreen from './components/ui/AppLoadingScreen.tsx'
 import StatsDefault from './components/ui/stats-default.tsx'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { normalizeProductOrders, sortProductEntries } from './lib/products-order.ts'
 import type { ProductsData } from './types/products.ts'
 import { fetchProducts, fetchSiteInfo, type SiteInfo } from './lib/api.ts'
 
@@ -25,7 +26,7 @@ function App() {
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
     title_desc: { hr: '', en: '' },
     description: { hr: '', en: '' },
-    contact: { address: '', phone: '', location: '', email: '', certificates: '' },
+    contact: { address: '', phone: '', location: '', email: '', email2: '', email3: '', certificates: '' },
   })
   const [isAppLoading, setIsAppLoading] = useState(true)
   const [showItemNav, setShowItemNav] = useState(false)
@@ -52,10 +53,9 @@ function App() {
       statsDescription: 'Više od pola stoljeća industrijskog iskustva pretvoreno je u konkretne proizvodne rezultate, izvoznu širinu i pouzdanu isporuku.',
       statsIntro: 'Od domaće proizvodnje do međunarodnih tržišta, gradimo sustav koji kupcima daje stabilnost, fleksibilnost i kvalitetu u velikim serijama.',
       stats: [
-        { target: 30, suffix: '+', label: 'Godina iskustva' },
-        { target: 40, suffix: '+', label: 'Tržišta izvoza' },
+        { target: 75, suffix: '+', label: 'Godina iskustva' },
+        { target: 10, suffix: '+', label: 'Tržišta izvoza' },
         { target: 120, suffix: 'M+', label: 'Komada godišnje' },
-        { target: 3, label: 'Proizvodna pogona' },
       ] as StatItem[],
     },
     en: {
@@ -72,10 +72,9 @@ function App() {
       statsDescription: 'More than half a century of industrial experience has been turned into measurable production output, export reach and dependable delivery.',
       statsIntro: 'From local manufacturing to international markets, we build a system that gives customers stability, flexibility and quality at scale.',
       stats: [
-        { target: 30, suffix: '+', label: 'Years of experience' },
-        { target: 40, suffix: '+', label: 'Export markets' },
+        { target: 75, suffix: '+', label: 'Years of experience' },
+        { target: 10, suffix: '+', label: 'Export markets' },
         { target: 120, suffix: 'M+', label: 'Units yearly' },
-        { target: 3, label: 'Production plants' },
       ] as StatItem[],
     },
   }
@@ -97,7 +96,7 @@ function App() {
     Promise.allSettled([fetchProducts(), fetchSiteInfo()])
       .then(([productsResult, infoResult]) => {
         if (productsResult.status === 'fulfilled') {
-          setProducts(productsResult.value)
+          setProducts(normalizeProductOrders(productsResult.value))
         }
         if (infoResult.status === 'fulfilled') {
           setSiteInfo(infoResult.value)
@@ -111,7 +110,7 @@ function App() {
   useEffect(() => {
     if (isCmsRoute) return
 
-    const firstSectionId = Object.keys(products)[0]
+    const firstSectionId = sortProductEntries(products)[0]?.[0]
     if (!firstSectionId) return
 
     const showWhenFirstSectionTopIsAt = 0.25
@@ -191,20 +190,15 @@ function App() {
   if (isContactRoute || isQualityControlRoute) {
     return (
       <div className="min-h-screen bg-[linear-gradient(180deg,#f4faff_0%,#e7f3fb_38%,#d7eaf7_100%)]">
-        <Navbar lang={lang} products={products} />
+        <Navbar lang={lang} products={products} onToggleLanguage={() => setLang(lang === 'hr' ? 'en' : 'hr')} />
         {isContactRoute ? <ContactPage lang={lang} info={siteInfo.contact} /> : <QualityControlPage lang={lang} />}
-        <div className="fixed bottom-6 right-6">
-          <button className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110" onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}>
-            {lang === 'hr' ? 'English' : 'Hrvatski'}
-          </button>
-        </div>
       </div>
     )
   }
 
   return (
     <div className="bg-[url(/bg1.webp)]">
-      {!isZoomParallaxLocked && <Navbar lang={lang} products={products} />}
+      {!isZoomParallaxLocked && <Navbar lang={lang} products={products} onToggleLanguage={() => setLang(lang === 'hr' ? 'en' : 'hr')} />}
       <div
         className="fixed top-20 left-0 z-50 hidden h-[80vh] lg:block"
         style={{
@@ -233,27 +227,24 @@ function App() {
         <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
           <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
-              <p className="hero-title">MGK-pack d.d.</p>
-              <h1 className="hero-eyebrow">{uiText[lang].heroTitle}</h1>
+              <img
+                src="logo-kukuljanovo.webp"
+                alt="MGK Pack logo"
+                className="hero-title mb-4 w-[clamp(16.95rem,45vw,27.75rem)]"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+              
               <h1 className="hero-desc-title">{uiText[lang].aboutTitle}</h1>
               <p className="hero-desc">{uiText[lang].aboutDescription}</p>
-              <div className="hero-metrics">
-                <div>
-                  <p className="hero-metric-title">{uiText[lang].qualityTitle}</p>
-                  <p className="hero-metric-sub">{uiText[lang].qualitySub}</p>
-                </div>
-                <div>
-                  <p className="hero-metric-title">{uiText[lang].deliveryTitle}</p>
-                  <p className="hero-metric-sub">{uiText[lang].deliverySub}</p>
-                </div>
-              </div>
             </div>
           </div>
 
           <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="cap.webp" className={`hidden md:block w-[23%] fixed bottom-0 left-[66.5%] translate-y-[-70px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="cap.webp" className={`hidden md:block w-[29%] fixed bottom-0 left-[61%] translate-y-[-40px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
           <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-200px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
 
           <div className="absolute inset-x-0 bottom-8 z-10 mx-auto h-[250px] w-full max-w-[360px] px-4 md:hidden pointer-events-none">
@@ -274,7 +265,7 @@ function App() {
           />
         </div>
 
-        {Object.entries(products).map(([key], index, entries) => (
+        {sortProductEntries(products).map(([key], index, entries) => (
           <Fragment key={key}>
             <Section keyName={key} products={products} lang={lang} onInViewChange={handleSectionInViewChange} />
             {index < entries.length - 1 && <Cans />}
@@ -284,11 +275,6 @@ function App() {
         <Contact lang={lang} info={siteInfo.contact} />
       </div>
 
-      <div className="fixed bottom-6 right-6">
-        <button className="bg-white text-black px-4 py-2 rounded-full shadow-md transition-transform duration-200 ease-out hover:scale-110" onClick={() => setLang(lang === 'hr' ? 'en' : 'hr')}>
-          {lang === 'hr' ? 'English' : 'Hrvatski'}
-        </button>
-      </div>
     </div>
   )
 }

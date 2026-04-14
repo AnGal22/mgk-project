@@ -56,19 +56,6 @@ export default function StatsDefault({ title, description, intro, stats }: Stats
               ))}
             </div>
           </div>
-
-          <div className="relative">
-            <blockquote className="rounded-[1.75rem] border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(232,243,251,0.9))] p-6 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur md:p-8">
-              <p className="text-lg leading-relaxed text-[#355a79] md:text-xl">
-                More than half a century of industrial know-how, export readiness and production reliability packed into measurable results.
-              </p>
-
-              <div className="mt-6 space-y-2">
-                <cite className="block text-sm font-semibold uppercase tracking-[0.18em] text-[#4f83ab] not-italic">MGK-pack d.d.</cite>
-                <p className="text-sm text-[#6d8aa3]">Industrial packaging, lithography and dependable delivery across markets.</p>
-              </div>
-            </blockquote>
-          </div>
         </div>
       </div>
     </section>

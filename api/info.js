@@ -17,6 +17,8 @@ function mapRowToSiteInfo(row) {
       phone: row?.contact_phone ?? '',
       location: row?.contact_location ?? '',
       email: row?.contact_email ?? '',
+      email2: row?.contact_email_2 ?? '',
+      email3: row?.contact_email_3 ?? '',
       certificates: row?.contact_certificates ?? '',
     },
   }
@@ -33,6 +35,8 @@ function mapSiteInfoToRow(data) {
     contact_phone: data?.contact?.phone ?? '',
     contact_location: data?.contact?.location ?? '',
     contact_email: data?.contact?.email ?? '',
+    contact_email_2: data?.contact?.email2 ?? '',
+    contact_email_3: data?.contact?.email3 ?? '',
     contact_certificates: data?.contact?.certificates ?? '',
   }
 }
@@ -47,6 +51,8 @@ function hasMeaningfulSiteInfo(row) {
       row?.contact_phone?.trim() ||
       row?.contact_location?.trim() ||
       row?.contact_email?.trim() ||
+      row?.contact_email_2?.trim() ||
+      row?.contact_email_3?.trim() ||
       row?.contact_certificates?.trim()
   )
 }

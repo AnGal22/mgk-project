@@ -6,10 +6,12 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
   const text = {
     hr: {
       eyebrow: 'Kontrola kvalitete',
-      title: 'Proizvodnja MGK-pack',
+      title: 'Kontrola kvalitete',
       intro:
+        'Cjelokupni tehnološki proces, od pripreme u pogonu Limotiska do finalizacije u pogonu Metalne ambalaže, pod stalnim je nadzorom službe Kontrole kvalitete. Sustav je postavljen prema procesnom pristupu sukladno normi ISO 9001:2015.',
+      processTitle: 'Proizvodnja MGK-pack',
+      processIntro:
         'Tehnološki proces unutar Društva strukturiran je kroz dvije primarne proizvodne cjeline: pripremnu fazu u RJ Limotisak (Pogon litografije) i završnu fazu u pogonu za proizvodnju metalne ambalaže.',
-      processTitle: 'Tehnološki proces',
       processBlocks: [
         {
           title: 'RJ Limotisak / Pogon litografije',
@@ -29,8 +31,6 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
         },
       ],
       qualityTitle: 'Kontrola kvalitete',
-      qualityIntro:
-        'Cjelokupni tehnološki proces, od pripreme u pogonu Limotiska do finalizacije u pogonu Metalne ambalaže, pod stalnim je nadzorom službe Kontrole kvalitete. Sustav je postavljen prema procesnom pristupu sukladno normi ISO 9001:2015.',
       qualityPoints: [
         {
           title: 'Ulazna kontrola i laboratorijska ispitivanja',
@@ -51,10 +51,12 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
     },
     en: {
       eyebrow: 'Quality Control',
-      title: 'MGK-pack Production',
+      title: 'Quality Control',
       intro:
+        'The entire technological process, from preparation in the lithography plant to finalization in the metal packaging plant, is under continuous supervision by the Quality Control department. The system is based on a process-oriented approach in accordance with ISO 9001:2015.',
+      processTitle: 'MGK-pack Production',
+      processIntro:
         'The technological process within the company is structured into two primary production units: the preparatory phase in the Sheet Metal Printing Department (Lithography Plant) and the final phase in the metal packaging production plant.',
-      processTitle: 'Production Process',
       processBlocks: [
         {
           title: 'Sheet Metal Printing Department / Lithography Plant',
@@ -74,8 +76,6 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
         },
       ],
       qualityTitle: 'Quality Control',
-      qualityIntro:
-        'The entire technological process, from preparation in the lithography plant to finalization in the metal packaging plant, is under continuous supervision by the Quality Control department. The system is based on a process-oriented approach in accordance with ISO 9001:2015.',
       qualityPoints: [
         {
           title: 'Incoming inspection and laboratory testing',
@@ -108,7 +108,6 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
         <section className="rounded-[2rem] border border-[#c7dff0] bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(232,243,251,0.92))] p-8 shadow-[0_24px_70px_rgba(70,118,163,0.10)] backdrop-blur md:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.qualityTitle}</p>
           <h2 className="mt-3 text-3xl font-black tracking-tight text-[#173f63] md:text-4xl">{text.qualityTitle}</h2>
-          <p className="mt-4 max-w-4xl text-base leading-relaxed text-[#4d6f8e] md:text-lg">{text.qualityIntro}</p>
 
           <div className="mt-8 grid gap-4 md:gap-5">
             {text.qualityPoints.map((item, index) => (
@@ -128,6 +127,11 @@ const QualityControlPage = ({ lang }: QualityControlPageProps) => {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-2">
+          <div className="lg:col-span-2 rounded-[2rem] border border-[#c7dff0] bg-white/80 p-6 shadow-[0_20px_50px_rgba(70,118,163,0.10)] backdrop-blur md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.processTitle}</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-[#173f63] md:text-4xl">{text.processTitle}</h2>
+            <p className="mt-4 max-w-4xl text-base leading-relaxed text-[#4d6f8e] md:text-lg">{text.processIntro}</p>
+          </div>
           {text.processBlocks.map((block) => (
             <article key={block.title} className="rounded-[2rem] border border-[#c7dff0] bg-white/80 p-6 shadow-[0_20px_50px_rgba(70,118,163,0.10)] backdrop-blur md:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#5a88ad]">{text.processTitle}</p>

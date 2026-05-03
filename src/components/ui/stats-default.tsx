@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type StatItem = {
   target: number
@@ -14,24 +14,70 @@ type StatsDefaultProps = {
 }
 
 export default function StatsDefault({ title, description, intro, stats }: StatsDefaultProps) {
+  const sectionRef = useRef<HTMLElement | null>(null)
   const [animatedStats, setAnimatedStats] = useState<number[]>(stats.map(() => 0))
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
+    setAnimatedStats(stats.map(() => 0))
+    setHasStarted(false)
+  }, [stats])
+
+  useEffect(() => {
+    if (!sectionRef.current || hasStarted) return
+
+    const sectionEl = sectionRef.current
+    const shouldStartImmediately = () => {
+      const rect = sectionEl.getBoundingClientRect()
+      return rect.top <= window.innerHeight * 1.15 && rect.bottom >= 0
+    }
+
+    if (shouldStartImmediately()) {
+      setHasStarted(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting || entry.boundingClientRect.top <= window.innerHeight * 1.15) {
+            setHasStarted(true)
+            observer.disconnect()
+          }
+        })
+      },
+      {
+        rootMargin: '0px 0px 15% 0px',
+        threshold: 0.01,
+      }
+    )
+
+    observer.observe(sectionEl)
+
+    return () => observer.disconnect()
+  }, [hasStarted, stats])
+
+  useEffect(() => {
+    if (!hasStarted) return
+
     const duration = 1400
     const start = performance.now()
+    let frameId = 0
 
     const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
       setAnimatedStats(stats.map((stat) => Math.round(stat.target * eased)))
-      if (progress < 1) requestAnimationFrame(tick)
+      if (progress < 1) frameId = requestAnimationFrame(tick)
     }
 
-    requestAnimationFrame(tick)
-  }, [stats])
+    frameId = requestAnimationFrame(tick)
+
+    return () => cancelAnimationFrame(frameId)
+  }, [hasStarted, stats])
 
   return (
-    <section className="py-16 md:py-24">
+    <section ref={sectionRef} className="py-16 md:py-24">
       <div className="mx-auto max-w-6xl space-y-8 px-6 md:space-y-12">
         <div className="relative z-10 max-w-3xl space-y-5">
           <h2 className="text-4xl font-medium tracking-tight text-[#183f63] lg:text-5xl">{title}</h2>

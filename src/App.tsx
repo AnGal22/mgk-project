@@ -21,6 +21,7 @@ function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
   const isContactRoute = window.location.pathname === '/contact'
   const isQualityControlRoute = window.location.pathname === '/quality-control'
+  const currentPath = window.location.pathname
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
   const [products, setProducts] = useState<ProductsData>({})
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
@@ -178,6 +179,44 @@ function App() {
     window.addEventListener('zoom-parallax-lock', onZoomParallaxLock as EventListener)
     return () => window.removeEventListener('zoom-parallax-lock', onZoomParallaxLock as EventListener)
   }, [])
+
+  useEffect(() => {
+    if (isCmsRoute) return
+
+    const baseUrl = 'https://mgk-pack.hr'
+    const routeMeta = isContactRoute
+      ? {
+          title: 'Kontakt | MGK Pack',
+          description: 'Kontaktirajte MGK Pack za limenu ambalažu, konzerve, twist-off zatvarače, litografiju i metal packaging upite.',
+        }
+      : isQualityControlRoute
+        ? {
+            title: 'Kontrola kvalitete | MGK Pack',
+            description: 'Saznajte kako MGK Pack provodi kontrolu kvalitete u proizvodnji limene ambalaže, litografiji i završnoj obradi metal packaging proizvoda.',
+          }
+        : {
+            title: 'MGK Pack | Limena ambalaža, konzerve i litografija',
+            description: 'MGK Pack proizvodi limenu ambalažu, konzerve, twist-off zatvarače i metal packaging rješenja za prehrambenu industriju, uz litografiju, tisak i kontrolu kvalitete.',
+          }
+
+    document.title = routeMeta.title
+
+    const setMeta = (selector: string, attribute: 'content' | 'href', value: string) => {
+      const element = document.head.querySelector(selector)
+      if (element) {
+        element.setAttribute(attribute, value)
+      }
+    }
+
+    const canonicalUrl = `${baseUrl}${currentPath === '/' ? '/' : currentPath}`
+    setMeta('meta[name="description"]', 'content', routeMeta.description)
+    setMeta('link[rel="canonical"]', 'href', canonicalUrl)
+    setMeta('meta[property="og:title"]', 'content', routeMeta.title)
+    setMeta('meta[property="og:description"]', 'content', routeMeta.description)
+    setMeta('meta[property="og:url"]', 'content', canonicalUrl)
+    setMeta('meta[name="twitter:title"]', 'content', routeMeta.title)
+    setMeta('meta[name="twitter:description"]', 'content', routeMeta.description)
+  }, [currentPath, isCmsRoute, isContactRoute, isQualityControlRoute])
 
   if (isCmsRoute) {
     return <CmsPanel />

@@ -26,23 +26,53 @@ export default function StatsDefault({ title, description, intro, stats }: Stats
   useEffect(() => {
     if (!statsGridRef.current || hasStarted) return
 
+    const gridEl = statsGridRef.current
+    const startIfVisible = () => {
+      const rect = gridEl.getBoundingClientRect()
+      const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)
+      const visibilityRatio = visibleHeight / Math.max(rect.height, 1)
+
+      if (visibleHeight > 0 && visibilityRatio >= 0.2) {
+        setHasStarted(true)
+        return true
+      }
+
+      return false
+    }
+
+    if (startIfVisible()) return
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
             setHasStarted(true)
             observer.disconnect()
           }
         })
       },
       {
-        threshold: 0.4,
+        threshold: [0, 0.2, 0.4],
       }
     )
 
-    observer.observe(statsGridRef.current)
+    const handleVisibilityCheck = () => {
+      if (startIfVisible()) {
+        observer.disconnect()
+        window.removeEventListener('scroll', handleVisibilityCheck)
+        window.removeEventListener('resize', handleVisibilityCheck)
+      }
+    }
 
-    return () => observer.disconnect()
+    observer.observe(gridEl)
+    window.addEventListener('scroll', handleVisibilityCheck, { passive: true })
+    window.addEventListener('resize', handleVisibilityCheck)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', handleVisibilityCheck)
+      window.removeEventListener('resize', handleVisibilityCheck)
+    }
   }, [hasStarted])
 
   useEffect(() => {

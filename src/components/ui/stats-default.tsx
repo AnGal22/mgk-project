@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type StatItem = {
   target: number
@@ -14,21 +14,85 @@ type StatsDefaultProps = {
 }
 
 export default function StatsDefault({ title, description, intro, stats }: StatsDefaultProps) {
+  const statsGridRef = useRef<HTMLDivElement | null>(null)
   const [animatedStats, setAnimatedStats] = useState<number[]>(stats.map(() => 0))
+  const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
+    setAnimatedStats(stats.map(() => 0))
+    setHasStarted(false)
+  }, [stats])
+
+  useEffect(() => {
+    if (!statsGridRef.current || hasStarted) return
+
+    const gridEl = statsGridRef.current
+    const startIfVisible = () => {
+      const rect = gridEl.getBoundingClientRect()
+      const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)
+      const visibilityRatio = visibleHeight / Math.max(rect.height, 1)
+
+      if (visibleHeight > 0 && visibilityRatio >= 0.2) {
+        setHasStarted(true)
+        return true
+      }
+
+      return false
+    }
+
+    if (startIfVisible()) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+            setHasStarted(true)
+            observer.disconnect()
+          }
+        })
+      },
+      {
+        threshold: [0, 0.2, 0.4],
+      }
+    )
+
+    const handleVisibilityCheck = () => {
+      if (startIfVisible()) {
+        observer.disconnect()
+        window.removeEventListener('scroll', handleVisibilityCheck)
+        window.removeEventListener('resize', handleVisibilityCheck)
+      }
+    }
+
+    observer.observe(gridEl)
+    window.addEventListener('scroll', handleVisibilityCheck, { passive: true })
+    window.addEventListener('resize', handleVisibilityCheck)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', handleVisibilityCheck)
+      window.removeEventListener('resize', handleVisibilityCheck)
+    }
+  }, [hasStarted])
+
+  useEffect(() => {
+    if (!hasStarted) return
+
     const duration = 1400
     const start = performance.now()
+    let frameId = 0
 
     const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
       setAnimatedStats(stats.map((stat) => Math.round(stat.target * eased)))
-      if (progress < 1) requestAnimationFrame(tick)
+      if (progress < 1) frameId = requestAnimationFrame(tick)
     }
 
-    requestAnimationFrame(tick)
-  }, [stats])
+    frameId = requestAnimationFrame(tick)
+
+    return () => cancelAnimationFrame(frameId)
+  }, [hasStarted, stats])
 
   return (
     <section className="py-16 md:py-24">
@@ -42,7 +106,7 @@ export default function StatsDefault({ title, description, intro, stats }: Stats
 
         <div className="grid gap-6 md:grid-cols-[1.05fr_0.95fr] md:gap-12 lg:gap-20">
           <div>
-            <div className="mb-12 mt-12 grid grid-cols-2 gap-4 md:mb-0 md:gap-6">
+            <div ref={statsGridRef} className="mb-12 mt-12 grid grid-cols-2 gap-4 md:mb-0 md:gap-6">
               {stats.map((stat, index) => (
                 <div key={stat.label} className="space-y-3 rounded-2xl border border-white/35 bg-white/52 p-5 shadow-[0_18px_40px_rgba(44,86,124,0.08)] backdrop-blur-sm">
                   <div className="bg-linear-to-r from-[#173f63] via-[#4c84ac] to-[#8ebbd8] bg-clip-text text-4xl font-bold text-transparent md:text-5xl">

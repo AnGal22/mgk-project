@@ -21,6 +21,7 @@ function App() {
   const isCmsRoute = window.location.pathname.startsWith('/cms')
   const isContactRoute = window.location.pathname === '/contact'
   const isQualityControlRoute = window.location.pathname === '/quality-control'
+  const currentPath = window.location.pathname
   const [lang, setLang] = useState<'hr' | 'en'>('hr')
   const [products, setProducts] = useState<ProductsData>({})
   const [siteInfo, setSiteInfo] = useState<SiteInfo>({
@@ -179,6 +180,44 @@ function App() {
     return () => window.removeEventListener('zoom-parallax-lock', onZoomParallaxLock as EventListener)
   }, [])
 
+  useEffect(() => {
+    if (isCmsRoute) return
+
+    const baseUrl = 'https://mgk-pack.hr'
+    const routeMeta = isContactRoute
+      ? {
+          title: 'Kontakt | MGK Pack',
+          description: 'Kontaktirajte MGK Pack za limenu ambalažu, konzerve, twist-off zatvarače, litografiju i metal packaging upite.',
+        }
+      : isQualityControlRoute
+        ? {
+            title: 'Kontrola kvalitete | MGK Pack',
+            description: 'Saznajte kako MGK Pack provodi kontrolu kvalitete u proizvodnji limene ambalaže, litografiji i završnoj obradi metal packaging proizvoda.',
+          }
+        : {
+            title: 'MGK Pack | Limena ambalaža, konzerve i litografija',
+            description: 'MGK Pack proizvodi limenu ambalažu, konzerve, twist-off zatvarače i metal packaging rješenja za prehrambenu industriju, uz litografiju, tisak i kontrolu kvalitete.',
+          }
+
+    document.title = routeMeta.title
+
+    const setMeta = (selector: string, attribute: 'content' | 'href', value: string) => {
+      const element = document.head.querySelector(selector)
+      if (element) {
+        element.setAttribute(attribute, value)
+      }
+    }
+
+    const canonicalUrl = `${baseUrl}${currentPath === '/' ? '/' : currentPath}`
+    setMeta('meta[name="description"]', 'content', routeMeta.description)
+    setMeta('link[rel="canonical"]', 'href', canonicalUrl)
+    setMeta('meta[property="og:title"]', 'content', routeMeta.title)
+    setMeta('meta[property="og:description"]', 'content', routeMeta.description)
+    setMeta('meta[property="og:url"]', 'content', canonicalUrl)
+    setMeta('meta[name="twitter:title"]', 'content', routeMeta.title)
+    setMeta('meta[name="twitter:description"]', 'content', routeMeta.description)
+  }, [currentPath, isCmsRoute, isContactRoute, isQualityControlRoute])
+
   if (isCmsRoute) {
     return <CmsPanel />
   }
@@ -245,7 +284,7 @@ function App() {
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="cap.webp" className={`hidden md:block w-[29%] fixed bottom-0 left-[61%] translate-y-[-40px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-200px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-260px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
 
           <div className="absolute inset-x-0 bottom-8 z-10 mx-auto h-[250px] w-full max-w-[360px] px-4 md:hidden pointer-events-none">
             <img src="home-pate-can.webp" className={`absolute bottom-2 left-0 w-[118px] rotate-[10deg] animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />

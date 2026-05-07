@@ -15,16 +15,18 @@ type StatsDefaultProps = {
 
 export default function StatsDefault({ title, description, intro, stats }: StatsDefaultProps) {
   const statsGridRef = useRef<HTMLDivElement | null>(null)
+  const hasCompletedRef = useRef(false)
   const [animatedStats, setAnimatedStats] = useState<number[]>(stats.map(() => 0))
   const [hasStarted, setHasStarted] = useState(false)
 
   useEffect(() => {
     setAnimatedStats(stats.map(() => 0))
     setHasStarted(false)
+    hasCompletedRef.current = false
   }, [stats])
 
   useEffect(() => {
-    if (!statsGridRef.current || hasStarted) return
+    if (!statsGridRef.current || hasStarted || hasCompletedRef.current) return
 
     const gridEl = statsGridRef.current
     const startIfVisible = () => {
@@ -86,7 +88,12 @@ export default function StatsDefault({ title, description, intro, stats }: Stats
       const progress = Math.min((now - start) / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
       setAnimatedStats(stats.map((stat) => Math.round(stat.target * eased)))
-      if (progress < 1) frameId = requestAnimationFrame(tick)
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(tick)
+      } else {
+        hasCompletedRef.current = true
+      }
     }
 
     frameId = requestAnimationFrame(tick)

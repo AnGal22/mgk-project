@@ -22,6 +22,8 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
   const touchStartY = useRef<number | null>(null)
   const lockedScrollY = useRef<number | null>(null)
   const rafId = useRef<number | null>(null)
+  const progressTargetRef = useRef(0)
+  const progressRafRef = useRef<number | null>(null)
 
   const scale4 = useTransform(progress, [0, 1], [1, 4])
   const scale5 = useTransform(progress, [0, 1], [1, 5])
@@ -70,11 +72,37 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
         cancelAnimationFrame(rafId.current)
         rafId.current = null
       }
+      if (progressRafRef.current != null) {
+        cancelAnimationFrame(progressRafRef.current)
+        progressRafRef.current = null
+      }
       return
     }
 
     window.dispatchEvent(new CustomEvent('zoom-parallax-lock', { detail: { locked: true } }))
     document.body.style.overflow = 'hidden'
+    progressTargetRef.current = progress.get()
+
+    const animateProgress = () => {
+      const current = progress.get()
+      const target = progressTargetRef.current
+      const next = current + (target - current) * 0.18
+
+      if (Math.abs(target - current) < 0.0015) {
+        progress.set(target)
+        progressRafRef.current = null
+        return
+      }
+
+      progress.set(next)
+      progressRafRef.current = window.requestAnimationFrame(animateProgress)
+    }
+
+    const ensureProgressAnimation = () => {
+      if (progressRafRef.current == null) {
+        progressRafRef.current = window.requestAnimationFrame(animateProgress)
+      }
+    }
 
     const holdScrollPosition = () => {
       if (lockedScrollY.current != null && Math.abs(window.scrollY - lockedScrollY.current) > 0) {
@@ -92,6 +120,10 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
         cancelAnimationFrame(rafId.current)
         rafId.current = null
       }
+      if (progressRafRef.current != null) {
+        cancelAnimationFrame(progressRafRef.current)
+        progressRafRef.current = null
+      }
       if (lockedScrollY.current != null) {
         window.scrollTo(0, lockedScrollY.current + Math.round(window.innerHeight * 0.18))
       }
@@ -104,22 +136,29 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
         cancelAnimationFrame(rafId.current)
         rafId.current = null
       }
+      if (progressRafRef.current != null) {
+        cancelAnimationFrame(progressRafRef.current)
+        progressRafRef.current = null
+      }
       if (lockedScrollY.current != null) {
         window.scrollTo(0, Math.max(lockedScrollY.current - Math.round(window.innerHeight * 0.08), 0))
       }
     }
 
     const applyDelta = (deltaY: number) => {
-      const current = progress.get()
-      const next = clamp(current + deltaY * 0.00145, 0, 1)
-      progress.set(next)
+      const currentTarget = progressTargetRef.current
+      const nextTarget = clamp(currentTarget + deltaY * 0.00115, 0, 1)
+      progressTargetRef.current = nextTarget
+      ensureProgressAnimation()
 
-      if (next >= 1 && deltaY > 0) {
+      if (nextTarget >= 1 && deltaY > 0) {
+        progressTargetRef.current = 1
         releaseLockDown()
         return
       }
 
-      if (next <= 0.06 && deltaY < 0) {
+      if (nextTarget <= 0.03 && deltaY < 0) {
+        progressTargetRef.current = 0
         progress.set(0)
         releaseLockUp()
       }
@@ -168,6 +207,10 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
       if (rafId.current != null) {
         cancelAnimationFrame(rafId.current)
         rafId.current = null
+      }
+      if (progressRafRef.current != null) {
+        cancelAnimationFrame(progressRafRef.current)
+        progressRafRef.current = null
       }
       window.removeEventListener('wheel', onWheel, { capture: true } as EventListenerOptions)
       window.removeEventListener('keydown', onKeyDown, { capture: true } as EventListenerOptions)

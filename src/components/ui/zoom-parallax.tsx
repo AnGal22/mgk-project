@@ -24,6 +24,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
   const rafId = useRef<number | null>(null)
   const progressTargetRef = useRef(0)
   const progressRafRef = useRef<number | null>(null)
+  const hasUnlockedOnceRef = useRef(false)
 
   const scale4 = useTransform(progress, [0, 1], [1, 4])
   const scale5 = useTransform(progress, [0, 1], [1, 5])
@@ -37,7 +38,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
   useEffect(() => {
     const updateLockState = () => {
       const el = sectionRef.current
-      if (!el || activeLock) return
+      if (!el || activeLock || hasUnlockedOnceRef.current) return
 
       const rect = el.getBoundingClientRect()
       const viewportHeight = window.innerHeight
@@ -114,6 +115,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
     holdScrollPosition()
 
     const releaseLockDown = () => {
+      hasUnlockedOnceRef.current = true
       setActiveLock(false)
       document.body.style.overflow = ''
       if (rafId.current != null) {

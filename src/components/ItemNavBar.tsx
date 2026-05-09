@@ -22,7 +22,7 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
               onClick={() => document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             >
               <img
-                className="mx-auto h-auto w-[clamp(8.8rem,36vw,10.8rem)] object-contain"
+                className="mx-auto h-auto w-[clamp(13.2rem,54vw,16.2rem)] object-contain"
                 src={product.icon.url}
                 alt={product.icon.alt[lang]}
               />

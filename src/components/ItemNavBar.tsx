@@ -13,7 +13,7 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
 
   if (mobile) {
     return (
-      <nav className="w-full rounded-2xl border border-white/20 bg-white/28 px-2 py-2 shadow-lg backdrop-blur-md">
+      <nav className="w-full rounded-2xl border border-white/10 bg-transparent px-2 py-2 shadow-none backdrop-blur-0">
         <div className="flex items-center justify-between gap-1">
           {entries.map(([key, product]) => (
             <button

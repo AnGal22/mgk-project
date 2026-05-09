@@ -251,7 +251,7 @@ function App() {
       </div>
 
       <div
-        className="fixed right-3 left-3 z-50 md:hidden"
+        className="fixed right-3 left-3 z-50 md:hidden bg-transparent"
         style={{
           bottom: showItemNav && !isZoomParallaxLocked ? '42px' : '-180px',
           opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,

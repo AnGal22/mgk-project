@@ -4,11 +4,13 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
+  background: linear-gradient(180deg, #e8f5ff 0%, #cde7f8 45%, #b9d8ee 100%);
 }
 
 #root {
   width: 100%;
   overflow-x: hidden;
+  background: transparent;
 }
 
 @keyframes appear{

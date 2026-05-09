@@ -13,11 +13,11 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
 
   if (mobile) {
     return (
-      <nav className="w-full rounded-2xl border border-white/10 bg-transparent px-2 py-2 shadow-none backdrop-blur-0">
+      <nav className="w-full rounded-2xl border-0 bg-transparent px-2 py-2 shadow-none outline-none ring-0 backdrop-blur-0">
         <div className="flex items-center justify-between gap-1">
           {entries.map(([key, product]) => (
             <button
-              className="min-w-[4rem] flex-1 cursor-pointer rounded-xl px-0.5 py-1 transition-transform duration-200 ease-out hover:scale-105"
+              className="min-w-[4rem] flex-1 cursor-pointer rounded-xl border-0 bg-transparent px-0.5 py-1 outline-none ring-0 transition-transform duration-200 ease-out hover:scale-105"
               key={key}
               onClick={() => document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             >

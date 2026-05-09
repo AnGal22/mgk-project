@@ -13,16 +13,16 @@ const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
 
   if (mobile) {
     return (
-      <nav className="w-full rounded-2xl border border-slate-200/80 bg-white/95 px-2.5 py-2.5 shadow-lg backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-1.5">
+      <nav className="w-full rounded-2xl border border-white/20 bg-white/28 px-2 py-2 shadow-lg backdrop-blur-md">
+        <div className="flex items-center justify-between gap-1">
           {entries.map(([key, product]) => (
             <button
-              className="min-w-[3.35rem] flex-1 cursor-pointer rounded-xl px-1 py-1.5 transition-transform duration-200 ease-out hover:scale-105"
+              className="min-w-[4rem] flex-1 cursor-pointer rounded-xl px-0.5 py-1 transition-transform duration-200 ease-out hover:scale-105"
               key={key}
               onClick={() => document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
             >
               <img
-                className="mx-auto h-auto w-[clamp(5.4rem,22vw,7.1rem)] object-contain"
+                className="mx-auto h-auto w-[clamp(8.8rem,36vw,10.8rem)] object-contain"
                 src={product.icon.url}
                 alt={product.icon.alt[lang]}
               />

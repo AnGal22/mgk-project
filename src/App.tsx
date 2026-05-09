@@ -253,7 +253,7 @@ function App() {
       <div
         className="fixed right-3 left-3 z-50 md:hidden bg-transparent"
         style={{
-          bottom: showItemNav && !isZoomParallaxLocked ? 'max(10px, env(safe-area-inset-bottom))' : '-180px',
+          bottom: showItemNav && !isZoomParallaxLocked ? '42px' : '-180px',
           opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,
           transition: 'bottom 350ms ease, opacity 300ms ease',
           pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
@@ -262,8 +262,8 @@ function App() {
         <ItemNavBar lang={lang} products={products} mobile />
       </div>
 
-      <div className="pt-20 min-h-[100dvh] w-full flex flex-col items-center">
-        <section id="home-hero" className="hero-bg min-h-[100svh] md:min-h-[100dvh] w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
+      <div className="pt-20 min-h-screen w-full flex flex-col items-center">
+        <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative left-1/2 -translate-x-1/2 overflow-hidden">
           <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
               <img

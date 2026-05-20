@@ -34,7 +34,6 @@ function App() {
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
-  const [heroCapVisible, setHeroCapVisible] = useState(false)
   const [heroWineCapVisible, setHeroWineCapVisible] = useState(false)
   const [isZoomParallaxLocked, setIsZoomParallaxLocked] = useState(false)
   const visibleSectionsRef = useRef<Set<string>>(new Set())
@@ -152,14 +151,12 @@ function App() {
     setHeroCanVisible(false)
     setHeroPateCanVisible(false)
     setHeroTinCanVisible(false)
-    setHeroCapVisible(false)
     setHeroWineCapVisible(false)
 
     const id = setTimeout(() => setHeroCanVisible(true), 500)
     const idPate = setTimeout(() => setHeroPateCanVisible(true), 900)
     const idTin = setTimeout(() => setHeroTinCanVisible(true), 1250)
     const idCap = setTimeout(() => {
-      setHeroCapVisible(true)
       setHeroWineCapVisible(true)
     }, 1650)
     return () => {
@@ -251,9 +248,9 @@ function App() {
       </div>
 
       <div
-        className="fixed right-3 left-3 z-50 md:hidden"
+        className="fixed right-3 left-3 z-50 md:hidden bg-transparent"
         style={{
-          bottom: showItemNav && !isZoomParallaxLocked ? '72px' : '-180px',
+          bottom: showItemNav && !isZoomParallaxLocked ? '42px' : '-180px',
           opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,
           transition: 'bottom 350ms ease, opacity 300ms ease',
           pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
@@ -283,17 +280,15 @@ function App() {
           <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="cap.webp" className={`hidden md:block w-[29%] fixed bottom-0 left-[61%] translate-y-[-40px] rotate-340 animate-slideInLeftText ${heroCapVisible ? 'is-in-view' : ''}`} alt="cap" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="wine_cap.webp" className={`hidden md:block w-[20%] fixed bottom-0 left-[85%] translate-y-[-260px] rotate-290 animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
 
-          <div className="absolute inset-x-0 bottom-6 z-10 mx-auto h-[310px] w-full max-w-[380px] px-3 md:hidden pointer-events-none overflow-hidden">
-            <img src="home-pate-can.webp" className={`absolute bottom-[22px] left-[-4px] z-10 w-[138px] rotate-[14deg] animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="home-can.webp" className={`absolute bottom-[-6px] left-1/2 z-20 w-[188px] -translate-x-1/2 scale-x-[-1] rotate-[8deg] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="wine_cap.webp" className={`absolute right-[-6px] bottom-[34px] z-10 w-[118px] rotate-[-26deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
+          <div className="absolute inset-x-0 bottom-6 z-10 mx-auto h-[310px] w-full max-w-[580px] px-3 md:hidden pointer-events-none overflow-hidden">
+            <img src="home-pate-can.webp" className={`absolute bottom-[-72px] right-1/2 z-10 w-[458px] rotate-[14deg] animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="home-can.webp" className={`absolute bottom-[-70px] left-1/1 z-20 w-[498px] -translate-x-1/2 scale-x-[-1] rotate-[8deg] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+            <img src="wine_cap.webp" className={`absolute right-1/3 bottom-[-30px] z-10 w-[158px] rotate-[-50deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
           </div>
         </section>
 
-        <div className="relative z-10 -mt-10 w-full max-w-6xl px-4 pb-10 md:-mt-18 md:px-6">
+        <div className="relative z-10 -mt-10 w-full max-w-6xl px-4 md:-mt-18 md:px-6">
           <StatsDefault
             title={uiText[lang].statsTitle}
             description={uiText[lang].statsDescription}

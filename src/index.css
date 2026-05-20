@@ -4,11 +4,13 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
+  background: transparent;
 }
 
 #root {
   width: 100%;
   overflow-x: hidden;
+  background: transparent;
 }
 
 @keyframes appear{

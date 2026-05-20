@@ -102,16 +102,16 @@ export default function StatsDefault({ title, description, intro, stats }: Stats
   }, [hasStarted, stats])
 
   return (
-    <section className="py-16 md:py-24">
-      <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/30 bg-[#d8ebf8] shadow-[0_28px_70px_rgba(38,79,115,0.16)]">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/rijeka-counter-bg.webp')" }}
-          />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(244,250,255,0.54)_0%,rgba(227,241,250,0.34)_42%,rgba(212,232,245,0.5)_100%)]" />
+    <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-16 md:py-24">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/rijeka-counter-bg.webp')" }}
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(244,250,255,0.54)_0%,rgba(227,241,250,0.34)_42%,rgba(212,232,245,0.5)_100%)]" />
 
-          <div className="relative z-10 space-y-8 px-6 py-8 md:space-y-12 md:px-10 md:py-12">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 md:px-6">
+        <div className="relative overflow-hidden rounded-[2rem] border border-transparent bg-white/15 shadow-[0_28px_70px_rgba(38,79,115,0.16)] backdrop-blur-[1px]">
+          <div className="space-y-8 px-6 py-8 md:space-y-12 md:px-10 md:py-12">
             <div className="max-w-3xl space-y-5">
               <h2 className="text-4xl font-medium tracking-tight text-[#183f63] lg:text-5xl">{title}</h2>
               <p className="max-w-2xl text-base leading-relaxed text-[#335f84]">

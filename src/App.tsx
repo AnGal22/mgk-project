@@ -279,7 +279,7 @@ function App() {
 
           <img src="home-tin-can.webp" className={`hidden md:block w-[35%] fixed bottom-0 left-[65%] translate-y-[-450px] rotate-340 animate-slideInRightText ${heroTinCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-          <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-0 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
+          <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-20 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
 
           <div className="absolute inset-x-0 bottom-6 z-10 mx-auto h-[310px] w-full max-w-[580px] px-3 md:hidden pointer-events-none overflow-hidden">
             <img src="home-pate-can.webp" className={`absolute bottom-[-72px] right-1/2 z-10 w-[458px] rotate-[14deg] animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />

@@ -199,8 +199,8 @@ function App() {
             description: 'Saznajte kako MGK Pack provodi kontrolu kvalitete u proizvodnji limene ambalaže, litografiji i završnoj obradi metal packaging proizvoda.',
           }
         : {
-            title: 'MGK Pack | Limena ambalaža, konzerve i litografija',
-            description: 'MGK Pack proizvodi limenu ambalažu, konzerve, twist-off zatvarače i metal packaging rješenja za prehrambenu industriju, uz litografiju, tisak i kontrolu kvalitete.',
+            title: 'MGK Pack | Limena ambalaža, limenke, twist off poklopci, ukrasne kapice za vino i litografija',
+            description: 'MGK-pack proizvodi limenu ambalažu, limenke, twist off poklopce, ukrasne kapice za vino i metal packaging rješenja za prehrambenu industriju, uz litografiju, tisak i kontrolu kvalitete.',
           }
 
     document.title = routeMeta.title

@@ -35,6 +35,7 @@ function App() {
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
   const [isZoomParallaxLocked, setIsZoomParallaxLocked] = useState(false)
+  const [activeItemNavKey, setActiveItemNavKey] = useState<string>('')
   const visibleSectionsRef = useRef<Set<string>>(new Set())
 
   const uiText = {
@@ -83,7 +84,11 @@ function App() {
     if (inView) next.add(keyName)
     else next.delete(keyName)
     visibleSectionsRef.current = next
-  }, [])
+
+    const orderedKeys = sortProductEntries(products).map(([productKey]) => productKey)
+    const firstVisibleKey = orderedKeys.find((productKey) => next.has(productKey)) ?? orderedKeys[0] ?? ''
+    setActiveItemNavKey(firstVisibleKey)
+  }, [products])
 
   useEffect(() => {
     if (isCmsRoute) {
@@ -143,6 +148,11 @@ function App() {
       window.removeEventListener('resize', updateItemNavVisibility)
     }
   }, [products, isCmsRoute])
+
+  useEffect(() => {
+    const firstKey = sortProductEntries(products)[0]?.[0] ?? ''
+    if (firstKey) setActiveItemNavKey(firstKey)
+  }, [products])
 
   useEffect(() => {
     if (isCmsRoute || isAppLoading) return
@@ -253,7 +263,7 @@ function App() {
           pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
         }}
       >
-        <ItemNavBar lang={lang} products={products} mobile />
+        <ItemNavBar lang={lang} products={products} mobile activeValue={activeItemNavKey} />
       </div>
 
       <div className="pt-20 min-h-screen w-full flex flex-col items-center">

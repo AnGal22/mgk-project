@@ -39,16 +39,20 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
       alt: 'Printed vegetable cap design',
     },
     {
-      src: '/caps_unbranded.webp',
-      alt: 'Unbranded caps layout',
-    },
-    {
       src: '/caps_unbranded2.webp',
       alt: 'Alternative unbranded caps layout',
     },
     {
       src: '/cap_unbranded.webp',
       alt: 'Single unbranded cap design',
+    },
+    {
+      src: '/cap_honeycomb.webp',
+      alt: 'Decorative honeycomb metal cap design',
+    },
+    {
+      src: '/cap_fruit_plate.webp',
+      alt: 'Fruit-themed round plate cap design',
     },
   ]
 

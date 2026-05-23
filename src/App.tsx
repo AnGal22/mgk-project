@@ -266,8 +266,12 @@ function App() {
         <ItemNavBar lang={lang} products={products} mobile activeValue={activeItemNavKey} />
       </div>
 
-      <div className="pt-20 min-h-screen w-full flex flex-col items-center">
-        <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative z-20 left-1/2 -translate-x-1/2 overflow-visible md:overflow-hidden">
+      <div className="min-h-screen w-full flex flex-col items-center">
+        <section
+          id="home-hero"
+          className="hero-bg min-h-[100svh] md:min-h-screen w-screen text-white flex items-center justify-center relative z-20 left-1/2 -translate-x-1/2 overflow-visible md:overflow-hidden"
+          style={{ paddingTop: 'calc(env(safe-area-inset-top) + 5rem)', paddingBottom: 'env(safe-area-inset-bottom)' }}
+        >
           <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
               <img

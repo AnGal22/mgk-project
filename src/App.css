@@ -159,9 +159,11 @@
 }
 .hero-bg {
   background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.015) 24%, rgba(17, 62, 95, 0.02) 52%, rgba(255, 255, 255, 0.015) 76%, rgba(255, 255, 255, 0.05) 100%),
     radial-gradient(620px 420px at 15% 25%, rgba(132, 191, 231, 0.85), transparent 62%),
     radial-gradient(760px 540px at 85% 72%, rgba(176, 214, 239, 0.75), transparent 66%),
     linear-gradient(180deg, #e8f5ff 0%, #cde7f8 45%, #b9d8ee 100%);
+  background-color: #d6eaf8;
   position: relative;
   overflow: visible;
 }

@@ -34,8 +34,8 @@ function App() {
   const [heroCanVisible, setHeroCanVisible] = useState(false)
   const [heroPateCanVisible, setHeroPateCanVisible] = useState(false)
   const [heroTinCanVisible, setHeroTinCanVisible] = useState(false)
-  const [heroWineCapVisible, setHeroWineCapVisible] = useState(false)
   const [isZoomParallaxLocked, setIsZoomParallaxLocked] = useState(false)
+  const [activeItemNavKey, setActiveItemNavKey] = useState<string>('')
   const visibleSectionsRef = useRef<Set<string>>(new Set())
 
   const uiText = {
@@ -84,7 +84,11 @@ function App() {
     if (inView) next.add(keyName)
     else next.delete(keyName)
     visibleSectionsRef.current = next
-  }, [])
+
+    const orderedKeys = sortProductEntries(products).map(([productKey]) => productKey)
+    const firstVisibleKey = orderedKeys.find((productKey) => next.has(productKey)) ?? orderedKeys[0] ?? ''
+    setActiveItemNavKey(firstVisibleKey)
+  }, [products])
 
   useEffect(() => {
     if (isCmsRoute) {
@@ -146,18 +150,21 @@ function App() {
   }, [products, isCmsRoute])
 
   useEffect(() => {
+    const firstKey = sortProductEntries(products)[0]?.[0] ?? ''
+    if (firstKey) setActiveItemNavKey(firstKey)
+  }, [products])
+
+  useEffect(() => {
     if (isCmsRoute || isAppLoading) return
 
     setHeroCanVisible(false)
     setHeroPateCanVisible(false)
     setHeroTinCanVisible(false)
-    setHeroWineCapVisible(false)
 
     const id = setTimeout(() => setHeroCanVisible(true), 500)
     const idPate = setTimeout(() => setHeroPateCanVisible(true), 900)
     const idTin = setTimeout(() => setHeroTinCanVisible(true), 1250)
     const idCap = setTimeout(() => {
-      setHeroWineCapVisible(true)
     }, 1650)
     return () => {
       clearTimeout(id)
@@ -248,7 +255,7 @@ function App() {
       </div>
 
       <div
-        className="fixed right-3 left-3 z-50 md:hidden bg-transparent"
+        className="fixed right-3 left-3 z-50 lg:hidden bg-transparent"
         style={{
           bottom: showItemNav && !isZoomParallaxLocked ? '42px' : '-180px',
           opacity: showItemNav && !isZoomParallaxLocked ? 1 : 0,
@@ -256,11 +263,15 @@ function App() {
           pointerEvents: showItemNav && !isZoomParallaxLocked ? 'auto' : 'none',
         }}
       >
-        <ItemNavBar lang={lang} products={products} mobile />
+        <ItemNavBar lang={lang} products={products} mobile activeValue={activeItemNavKey} />
       </div>
 
-      <div className="pt-20 min-h-screen w-full flex flex-col items-center">
-        <section id="home-hero" className="hero-bg min-h-[88svh] md:min-h-screen w-screen text-white flex items-center justify-center relative z-20 left-1/2 -translate-x-1/2 overflow-hidden">
+      <div className="min-h-screen w-full flex flex-col items-center">
+        <section
+          id="home-hero"
+          className="hero-bg min-h-[100svh] md:min-h-screen w-screen text-white flex items-center justify-center relative z-20 left-1/2 -translate-x-1/2 overflow-visible md:overflow-hidden"
+          style={{ paddingTop: 'calc(env(safe-area-inset-top) + 5rem)', paddingBottom: 'env(safe-area-inset-bottom)' }}
+        >
           <div className="hero-grid relative z-10 w-full max-w-6xl px-6 pt-16 pb-64 md:pb-28 md:py-16">
             <div className="hero-text slide-in-left relative z-10">
               <img
@@ -281,10 +292,9 @@ function App() {
           <img src="home-pate-can.webp" className={`hidden md:block w-[49%] fixed bottom-0 left-[37%] translate-y-[-150px] rotate-45 animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
           <img src="home-can.webp" className={`hidden md:block fixed bottom-0 left-[55%] w-[70%] md:left-[69%] md:w-[49%] scale-x-[-1] translate-y-[20%] pointer-events-none select-none animate-slideInLeftText z-20 ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
 
-          <div className="absolute inset-x-0 bottom-6 z-10 mx-auto h-[310px] w-full max-w-[580px] px-3 md:hidden pointer-events-none overflow-hidden">
+          <div className="absolute inset-x-0 bottom-0 z-10 mx-auto h-[350px] w-full max-w-[580px] px-3 md:hidden pointer-events-none overflow-visible">
             <img src="home-pate-can.webp" className={`absolute bottom-[-72px] right-1/2 z-10 w-[458px] rotate-[14deg] animate-slideInLeftText ${heroPateCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
             <img src="home-can.webp" className={`absolute bottom-[-70px] left-1/1 z-20 w-[498px] -translate-x-1/2 scale-x-[-1] rotate-[8deg] animate-slideInLeftText ${heroCanVisible ? 'is-in-view' : ''}`} alt="can" loading="eager" fetchPriority="high" decoding="async" />
-            <img src="wine_cap.webp" className={`absolute right-1/3 bottom-[-30px] z-10 w-[158px] rotate-[-50deg] animate-slideInRightText ${heroWineCapVisible ? 'is-in-view' : ''}`} alt="wine cap" loading="eager" fetchPriority="high" decoding="async" />
           </div>
         </section>
 

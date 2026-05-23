@@ -4,13 +4,13 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
-  background: transparent;
+  background: linear-gradient(180deg, #e8f5ff 0%, #cde7f8 45%, #b9d8ee 100%);
 }
 
 #root {
   width: 100%;
   overflow-x: hidden;
-  background: transparent;
+  background: linear-gradient(180deg, #e8f5ff 0%, #cde7f8 45%, #b9d8ee 100%);
 }
 
 @keyframes appear{
@@ -43,6 +43,17 @@ body {
     to{
         opacity: 1;
         transform: translateX(0px);
+    }
+}
+
+@keyframes menuPopIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 }
 

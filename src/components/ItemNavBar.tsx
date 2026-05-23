@@ -1,35 +1,31 @@
 import { sortProductEntries } from '../lib/products-order'
 import type { ProductsData } from '../types/products'
+import { NotchNav } from './ui/notch-nav'
 
 type ItemNavBarProps = {
   lang: 'hr' | 'en'
   products: ProductsData
   mobile?: boolean
+  activeValue?: string
 }
 
-const ItemNavBar = ({ lang, products, mobile = false }: ItemNavBarProps) => {
+const ItemNavBar = ({ lang, products, mobile = false, activeValue }: ItemNavBarProps) => {
   const entries = sortProductEntries(products)
   const itemCount = entries.length
 
   if (mobile) {
     return (
-      <nav className="w-full rounded-2xl border-0 bg-transparent px-2 py-2 shadow-none outline-none ring-0 backdrop-blur-0">
-        <div className="flex items-center justify-between gap-1">
-          {entries.map(([key, product]) => (
-            <button
-              className="min-w-[4rem] flex-1 cursor-pointer rounded-xl border-0 bg-transparent px-0.5 py-1 outline-none ring-0 transition-transform duration-200 ease-out hover:scale-105"
-              key={key}
-              onClick={() => document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            >
-              <img
-                className="mx-auto h-auto w-[clamp(13.2rem,54vw,16.2rem)] object-contain"
-                src={product.icon.url}
-                alt={product.icon.alt[lang]}
-              />
-            </button>
-          ))}
-        </div>
-      </nav>
+      <NotchNav
+        className="max-w-[min(92vw,34rem)]"
+        items={entries.map(([key, product]) => ({
+          value: key,
+          label: product.name[lang],
+          iconSrc: product.icon.url,
+          iconAlt: product.icon.alt[lang],
+        }))}
+        value={activeValue}
+        onValueChange={(next) => document.getElementById(next)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+      />
     )
   }
 

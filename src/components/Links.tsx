@@ -50,23 +50,26 @@ const Links = ({ lang, products, mobile = false, onNavigate }: LinksProps) => {
   }
 
   if (mobile) {
+    const mobileItems = [
+      { label: labels[lang].home, onClick: () => scrollToSection('home-hero') },
+      { label: labels[lang].about, onClick: () => scrollToSection('home-hero') },
+      { label: labels[lang].services, onClick: () => firstProductId && scrollToSection(firstProductId) },
+      { label: labels[lang].quality, onClick: goToQualityControlPage },
+      { label: labels[lang].contact, onClick: goToContactPage },
+    ]
+
     return (
-      <div className="flex flex-col gap-2 p-3">
-        <button onClick={() => scrollToSection('home-hero')} className="rounded-xl px-4 py-3 text-left text-[1.3rem] font-medium text-slate-800 transition-colors hover:bg-slate-100">
-          {labels[lang].home}
-        </button>
-        <button onClick={() => scrollToSection('home-hero')} className="rounded-xl px-4 py-3 text-left text-[1.3rem] font-medium text-slate-800 transition-colors hover:bg-slate-100">
-          {labels[lang].about}
-        </button>
-        <button onClick={() => firstProductId && scrollToSection(firstProductId)} className="rounded-xl px-4 py-3 text-left text-[1.3rem] font-medium text-slate-800 transition-colors hover:bg-slate-100">
-          {labels[lang].services}
-        </button>
-        <button onClick={goToQualityControlPage} className="rounded-xl px-4 py-3 text-left text-[1.3rem] font-medium text-slate-800 transition-colors hover:bg-slate-100">
-          {labels[lang].quality}
-        </button>
-        <button onClick={goToContactPage} className="rounded-xl px-4 py-3 text-left text-[1.3rem] font-medium text-slate-800 transition-colors hover:bg-slate-100">
-          {labels[lang].contact}
-        </button>
+      <div className="flex flex-col gap-1 p-1">
+        {mobileItems.map((item, index) => (
+          <button
+            key={item.label}
+            onClick={item.onClick}
+            className="relative flex items-center justify-between gap-4 rounded-md border border-transparent px-4 py-3 text-left text-sm font-medium leading-4 text-gray-700 outline-none shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] transition-all duration-150 hover:bg-gray-900 hover:text-gray-50 active:scale-[0.985] active:bg-gray-900 active:text-gray-50 active:shadow-[inset_0_2px_8px_rgba(0,0,0,0.25)]"
+          >
+            <span>{item.label}</span>
+            {index === 2 ? <span className="text-xs opacity-60">›</span> : null}
+          </button>
+        ))}
       </div>
     )
   }

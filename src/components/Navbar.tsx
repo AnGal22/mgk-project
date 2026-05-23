@@ -53,8 +53,8 @@ const Navbar = ({ lang, products, onToggleLanguage }: NavbarProps) => {
   return (
     <>
       <nav
-        className={`fixed w-full border-b border-white/30 bg-[rgba(234,244,251,0.88)] backdrop-blur-xl shadow-[0_10px_30px_rgba(23,63,99,0.14)] transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
-        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+        className={`fixed w-full border-b border-white/30 bg-[rgba(234,244,251,0.88)] backdrop-blur-xl shadow-[0_10px_30px_rgba(23,63,99,0.14)] transition-transform duration-300 z-50 md:bg-[rgba(234,244,251,0.88)] md:backdrop-blur-xl ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        style={{ paddingTop: 'env(safe-area-inset-top)', background: window.innerWidth < 768 ? 'transparent' : undefined, backdropFilter: window.innerWidth < 768 ? 'none' : undefined, WebkitBackdropFilter: window.innerWidth < 768 ? 'none' : undefined, boxShadow: window.innerWidth < 768 ? 'none' : undefined, borderBottomColor: window.innerWidth < 768 ? 'transparent' : undefined }}
       >
         <div className="flex min-h-[84px] w-full flex-wrap items-center justify-between px-4 py-4 md:px-5">
           <Links lang={lang} products={products} />

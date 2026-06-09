@@ -74,7 +74,7 @@ export default function ZoomParallaxDemo({ lang }: ZoomParallaxDemoProps) {
         </div>
       </div>
 
-      <div className="relative hidden md:block">
+      <div className="relative">
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-linear-to-b from-[#b7d5ea] via-[#b7d5ea]/50 to-transparent" />
         <ZoomParallax images={images} />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-linear-to-t from-[#bdd9ed]/35 via-[#c9e1f1]/18 to-transparent" />

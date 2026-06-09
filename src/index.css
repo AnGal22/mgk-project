@@ -147,7 +147,7 @@ body {
   width: max-content;
   will-change: transform;
   transform: translate3d(0, 0, 0);
-  animation: cans-move-right 36s linear infinite;
+  animation: cans-move-right 64s linear infinite;
   animation-fill-mode: both;
 }
 
